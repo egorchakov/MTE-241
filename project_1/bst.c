@@ -123,7 +123,7 @@ bool bst_erase( bst_t *tree, S32 val ) {
     bsn_t *visitor = tree->root;
     bsn_t* maxLST = NULL;
     bsn_t* parentOfMaxLST = NULL;
-    
+
     if (!(tree && tree->root)) return __FALSE;
 
     // Determining the target node
@@ -196,4 +196,22 @@ bool bst_erase( bst_t *tree, S32 val ) {
 	return __TRUE;
 }
 
+int main( int argc, char *argv[] ){
+
+    int i,j;
+    bst_t *tree = malloc(sizeof(tree));
+    bst_init(tree);
+    
+    for (i=0; i<100; i++) bst_insert(tree, value_array[i]);
+    printf("Before erasing | min: %d,      max: %d\n", i+1, \
+        bst_min(tree), bst_max(tree));
+        
+    for (i=0; i<5; i++){
+        for (j=0; j<20; j++) bst_erase(tree, erase_array[i][j]);
+        printf("Group %d erased | min: %d,      max: %d\n", \
+            i+1, bst_min(tree), bst_max(tree));
+    }
+
+    bst_destroy(tree);
+    return 0;
 }
