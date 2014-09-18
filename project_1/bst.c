@@ -76,8 +76,27 @@ size_t bst_size( bst_t *tree ) {
 	return (tree ? tree->size : 0);
 }
 
-bool bst_insert( bst_t *tree, S32 val ) {	
-	return __FALSE;
+bool bst_insert( bst_t *tree, S32 val ) {
+    bsn_t* new_node = bsn_create(val);
+    bsn_t* parent = NULL;
+    bsn_t* visitor = NULL;
+
+    if (!tree) return __FALSE;
+
+    if (!tree->root) tree->root = new_node;
+    else {
+        visitor = tree->root;
+        while(visitor){
+            parent = visitor;
+            visitor = (val > visitor->val) ? visitor->right : visitor->left;
+        }
+        
+        if (val > parent->val) parent->right = new_node;
+        else parent->left = new_node;
+    }
+
+    ++tree->size;
+    return __TRUE;
 }
 
 S32 bst_min( bst_t *tree ) {
