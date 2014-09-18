@@ -203,7 +203,7 @@ int main( int argc, char *argv[] ){
     bst_init(tree);
     
     for (i=0; i<100; i++) bst_insert(tree, value_array[i]);
-    printf("Before erasing | min: %d,      max: %d\n", i+1, \
+    printf("Before erasing | min: %d,      max: %d\n",\
         bst_min(tree), bst_max(tree));
         
     for (i=0; i<5; i++){
