@@ -4,6 +4,16 @@
 #include <limits.h>
 #include "bst.h"
 
+/* Macro for creating a bsn_t* */
+#define bsn_create( val ) ({                        \
+    bsn_t* tmp = malloc(sizeof(bsn_t));             \
+    if (!tmp) exit(EXIT_FAILURE);                   \
+    tmp->val = val;                                 \
+    tmp->left = NULL;                               \
+    tmp->right = NULL;                              \
+    tmp;                                            \
+})
+
 static S32 value_array[100] = {
          534, 6415,  465, 4459, 6869, 4442, 5840, 4180, 7450, 9265,
           23, 2946, 3657, 3003,   29, 8922, 2199, 6973, 2344, 1802,
