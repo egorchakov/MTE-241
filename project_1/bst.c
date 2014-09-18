@@ -100,7 +100,12 @@ bool bst_insert( bst_t *tree, S32 val ) {
 }
 
 S32 bst_min( bst_t *tree ) {
-	return 0;
+    bsn_t* visitor = NULL;
+    // Null or emptry tree ==> maximum
+    if (! (tree && tree->root)) return INT_MAX;
+    visitor = tree->root;
+    while (visitor->left) visitor = visitor->left;
+	return visitor->val;
 }
 
 S32 bst_max( bst_t *tree ) {
