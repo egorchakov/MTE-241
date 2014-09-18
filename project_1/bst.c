@@ -73,7 +73,7 @@ void bst_destroy_start_with_node( bsn_t *node ){
 }
 
 size_t bst_size( bst_t *tree ) {
-	return (tree ? tree->size : 0);
+    return (tree ? tree->size : 0);
 }
 
 bool bst_insert( bst_t *tree, S32 val ) {
@@ -105,7 +105,7 @@ S32 bst_min( bst_t *tree ) {
     if (! (tree && tree->root)) return INT_MAX;
     visitor = tree->root;
     while (visitor->left) visitor = visitor->left;
-	return visitor->val;
+    return visitor->val;
 }
 
 S32 bst_max( bst_t *tree ) {
@@ -193,7 +193,7 @@ bool bst_erase( bst_t *tree, S32 val ) {
 
     free(visitor);
     --tree->size;
-	return __TRUE;
+    return __TRUE;
 }
 
 int main( int argc, char *argv[] ){
