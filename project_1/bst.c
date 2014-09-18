@@ -118,5 +118,82 @@ S32 bst_max( bst_t *tree ) {
 }
 
 bool bst_erase( bst_t *tree, S32 val ) {
-	return __FALSE;
+    // Initialization
+    bsn_t *parent = NULL;
+    bsn_t *visitor = tree->root;
+    bsn_t* maxLST = NULL;
+    bsn_t* parentOfMaxLST = NULL;
+    
+    if (!(tree && tree->root)) return __FALSE;
+
+    // Determining the target node
+    while( visitor->val != val ){
+        parent = visitor;
+        visitor = (val > visitor->val) ? visitor->right : visitor->left;
+    }
+
+    // 0 children case
+    if (! (visitor->right || visitor->left) ){
+        // Root deletion case
+        if (visitor == tree->root) tree->root = NULL;
+        else if (parent->left == visitor) parent->left = NULL;
+        else parent->right = NULL;
+    }
+    // 1 child case 
+    // XOR expression from 
+    // https://stackoverflow.com/questions/1596668/logical-xor-operator-in-c*/
+    else if (!visitor->right != !visitor->left){
+        // Root deletion case
+        if (visitor == tree->root){
+            if (visitor->left) {
+                tree->root = visitor->left;
+                visitor->left = NULL;
+            }
+
+            else if (visitor->right){
+                tree->root = visitor->right;
+                visitor->right = NULL;
+            }
+        }
+
+        else if (parent->left == visitor){
+            parent->left = (visitor->left ? visitor->left : visitor->right);
+        }
+
+        else if (parent->right == visitor){
+            parent->right = (visitor->left ? visitor->left : visitor->right);
+        }
+    }
+
+    // 2 children case
+    else {
+        maxLST = visitor->left;
+
+        // Find max value in left subtree of visitor
+        while (maxLST->right){
+            parentOfMaxLST = maxLST;
+            maxLST = maxLST->right;
+        }
+
+        // Visitor's left child has a non-empty right subtree
+        if (parentOfMaxLST){
+            // At this point, maxLST can only have a left child or no children
+            parentOfMaxLST->right = maxLST->left;
+            maxLST->left = visitor->left;
+            maxLST->right = visitor->right;
+        }
+        // Visitor's left child has an empty right subtree, 
+        // i.e. it is the maxLST
+        else maxLST->right = visitor->right;
+
+        if (visitor == tree->root) tree->root = maxLST;
+        else if (visitor == parent->left) parent->left = maxLST;
+        else parent->right = maxLST;
+    }
+
+    free(visitor);
+    --tree->size;
+	return __TRUE;
+}
+
 }
