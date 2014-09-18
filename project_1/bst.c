@@ -58,7 +58,7 @@ void bst_destroy_start_with_node( bsn_t *node ){
 }
 
 size_t bst_size( bst_t *tree ) {
-	return 0;
+	return (tree ? tree->size : 0);
 }
 
 bool bst_insert( bst_t *tree, S32 val ) {	
