@@ -40,6 +40,11 @@ void bst_init( bst_t *tree ) {
 }
 
 void bst_destroy( bst_t *tree ) {
+    // Calling recursive delete on root node
+    bst_destroy_start_with_node(tree->root);
+    free(tree);
+}
+
 /*
  * void bst_destroy_start_with_node(bsn_t *node)
  *
