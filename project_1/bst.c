@@ -109,7 +109,12 @@ S32 bst_min( bst_t *tree ) {
 }
 
 S32 bst_max( bst_t *tree ) {
-	return 0;
+    bsn_t* visitor = NULL;
+    // Null or emptry tree ==> minimum
+    if (! (tree && tree->root)) return INT_MIN;
+    visitor = tree->root;
+    while (visitor->right) visitor = visitor->right;
+    return visitor->val;
 }
 
 bool bst_erase( bst_t *tree, S32 val ) {
