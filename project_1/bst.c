@@ -40,6 +40,21 @@ void bst_init( bst_t *tree ) {
 }
 
 void bst_destroy( bst_t *tree ) {
+/*
+ * void bst_destroy_start_with_node(bsn_t *node)
+ *
+ * Destroys a (sub-)tree recursively.
+ *
+ * Parameters:
+   bsn_t *node:
+     A pointer to an arbitrary node in a tree.
+ */
+void bst_destroy_start_with_node( bsn_t *node ){
+    if (!node) return;
+    if (node->left) bst_destroy_start_with_node(node->left);
+    if (node->right) bst_destroy_start_with_node(node->right);
+    free(node);
+    node = NULL;
 }
 
 size_t bst_size( bst_t *tree ) {
