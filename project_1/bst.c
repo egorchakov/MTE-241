@@ -35,6 +35,8 @@ static S32 erase_array[5][20] = {
     };
 
 void bst_init( bst_t *tree ) {
+    tree->root = NULL;
+    tree->size = 0;
 }
 
 void bst_destroy( bst_t *tree ) {
