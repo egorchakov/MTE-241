@@ -11,11 +11,18 @@ typedef struct memmap {
 	bool padding:1;
 } memmap_t;
 
-typedef struct memmap_alloc {
+typedef struct memmap_free {
 	S32 memmap:32;
 	short prev_free:10;
 	short next_free:10;
-} memmap_alloc_t;
+} memmap_free_t;
+
+void* get_prev_block( memmap_t const* );
+void* get_next_block( memmap_t const* );
+size_t get_block_size( memmap_t const* );
+bool get_allocated( memmap_t const* );
+void* get_prev_free( memmap_free_t const* );
+void* get_next_free( memmap_free_t const* );
 
 void *half_alloc( size_t n );
 void half_free( void* );
