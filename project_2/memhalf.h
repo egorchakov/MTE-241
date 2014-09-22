@@ -3,7 +3,7 @@
 
 #include "util.h"
 
-#define NUM_BUCKETS 16
+#define NUM_BUCKETS 10
 
 typedef struct memmap {
 	unsigned short prev_block:10;
@@ -29,8 +29,11 @@ bool get_allocated( memmap_t const* );
 void* get_prev_free( memmap_free_t const* );
 void* get_next_free( memmap_free_t const* );
 
+void memmap_free_init(memmap_free_t* const, size_t );
+void memmap_init(memmap_t* const, size_t );
+
 // Public interface
-bool half_init();
+void half_init();
 void *half_alloc( size_t n );
 void half_free( void* );
 
