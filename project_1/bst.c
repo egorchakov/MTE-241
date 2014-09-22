@@ -78,11 +78,11 @@ void bst_destroy_start_with_node( bsn_t *node ){
 /*
  *  size_t bst_size( bst_t *tree )
  *  
- *  Returns the tree size if the tree is not empty and 0 otherwise.
+ *  Returns the tree size if the tree exists and 0 otherwise.
  *  
  *  Parameters:
  *      bst_t *tree
- *          A pointer to a tree which size needs to be known.   
+ *          A pointer to a tree whose size needs to be known.   
 */
 size_t bst_size( bst_t *tree ) {
     return (tree ? tree->size : 0);
@@ -95,7 +95,7 @@ size_t bst_size( bst_t *tree ) {
  *  
  *  Parameters:
  *      bst_t *tree
- *          A pointer to a tree in which the value needs to be insterted.
+ *          A pointer to a tree into which the value needs to be insterted.
  *      
  *      S32 val
  *          Value that needs to be inserted.               
@@ -145,13 +145,13 @@ bool bst_insert( bst_t *tree, S32 val ) {
 */
 S32 bst_min( bst_t *tree ) {
     bsn_t* visitor = NULL;
-    // Null or emptry tree ==> maximum
+    // Null or empty tree ==> maximum
     if (! (tree && tree->root)) return INT_MAX;
     visitor = tree->root;
     while (visitor->left) visitor = visitor->left;
     return visitor->val;
 }
-
+inserte
 /*
  *  S32 bst_max( bst_t *tree )
  *  
@@ -164,7 +164,7 @@ S32 bst_min( bst_t *tree ) {
 */
 S32 bst_max( bst_t *tree ) {
     bsn_t* visitor = NULL;
-    // Null or emptry tree ==> minimum
+    // Null or empty tree ==> minimum
     if (! (tree && tree->root)) return INT_MIN;
     visitor = tree->root;
     while (visitor->right) visitor = visitor->right;
