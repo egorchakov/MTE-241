@@ -4,16 +4,6 @@
 #include <limits.h>
 #include "bst.h"
 
-/* Macro for creating a bsn_t* */
-#define bsn_create( val ) ({                        \
-    bsn_t* tmp = malloc(sizeof(bsn_t));             \
-    if (!tmp) exit(EXIT_FAILURE);                   \
-    tmp->val = val;                                 \
-    tmp->left = NULL;                               \
-    tmp->right = NULL;                              \
-    tmp;                                            \
-})
-
 static S32 value_array[100] = {
          534, 6415,  465, 4459, 6869, 4442, 5840, 4180, 7450, 9265,
           23, 2946, 3657, 3003,   29, 8922, 2199, 6973, 2344, 1802,
@@ -43,6 +33,16 @@ static S32 erase_array[5][20] = {
         {9265, 6973, 8169, 5388,  140, 6869, 2344, 9252, 2184, 9248,
           534, 2199, 6382, 7479, 8370, 7346, 5337, 5840, 2205, 1176}
     };
+
+
+__inline bsn_t* bsn_create( S32 val ) {
+    bsn_t* tmp = malloc(sizeof(bsn_t));             
+    if (!tmp) _sys_exit(EXIT_FAILURE);                   
+    tmp->val = val;                                 
+    tmp->left = NULL;                               
+    tmp->right = NULL;                              
+    return tmp;
+}
 
 void bst_init( bst_t *tree ) {
     tree->root = NULL;
