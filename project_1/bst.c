@@ -4,6 +4,274 @@
 #include <limits.h>
 #include "bst.h"
 
+/*********************************************************************
+ *
+ * IMPLEMENTATION
+ *
+ *********************************************************************/
+
+/*
+  __inline bsn_t* bsn_create( S32 val ) 
+
+  Creates a binary search tree  node (bsn) with a specified value.
+
+  Parameters:
+    S32 val
+        A value to be assigned to the node.
+*/
+__inline bsn_t* bsn_create( S32 val ) {
+    bsn_t* tmp = malloc(sizeof(bsn_t));             
+    if (!tmp) _sys_exit(EXIT_FAILURE);                   
+    tmp->val = val;                                 
+    tmp->left = NULL;                               
+    tmp->right = NULL;                              
+    return tmp;
+}
+
+/*
+ *  void bst_init( bst_t *tree )
+ *
+ *  Initializes a binary search tree.
+ *
+ *  Parameters:
+ *      bst_t *tree
+ *          Pointer to a tree that needs to be initialized.
+*/
+void bst_init( bst_t *tree ) {
+    tree->root = NULL;
+    tree->size = 0;
+}
+
+/*
+ *  void bst_destroy( bst_t *tree ) 
+ *
+ *  Destroys a binary search tree.
+ *
+ *  Parameters:
+ *      bst_t *tree
+ *          Pointer to a tree that needs to be destroyed.
+*/
+void bst_destroy( bst_t *tree ) {
+    // Calling recursive delete on root node
+    bst_destroy_start_with_node(tree->root);
+    free(tree);
+}
+
+/*
+ *  void bst_destroy_start_with_node( bsn_t *node )
+ *
+ *  Destroys a (sub-)tree recursively.
+ *
+ *  Parameters:
+ *      bsn_t *node
+ *          A pointer to an arbitrary node in a tree. The subtree of which this 
+ *          node is parent will be destroyed.
+ */
+void bst_destroy_start_with_node( bsn_t *node ){
+    if (!node) return;
+    if (node->left) bst_destroy_start_with_node(node->left);
+    if (node->right) bst_destroy_start_with_node(node->right);
+    free(node);
+    node = NULL;
+}
+
+/*
+ *  size_t bst_size( bst_t *tree )
+ *  
+ *  Returns the tree size if the tree is not empty and 0 otherwise.
+ *  
+ *  Parameters:
+ *      bst_t *tree
+ *          A pointer to a tree which size needs to be known.   
+*/
+size_t bst_size( bst_t *tree ) {
+    return (tree ? tree->size : 0);
+}
+
+/*
+ *  bool bst_insert( bst_t *tree, S32 val )
+ *  
+ *  Inserts a value into a tree.
+ *  
+ *  Parameters:
+ *      bst_t *tree
+ *          A pointer to a tree in which the value needs to be insterted.
+ *      
+ *      S32 val
+ *          Value that needs to be inserted.               
+*/
+bool bst_insert( bst_t *tree, S32 val ) {
+    // Initialization
+    bsn_t* new_node =  NULL;
+    bsn_t* parent = NULL;
+    bsn_t* visitor = NULL;
+    new_node = bsn_create(val);
+
+    // Non-existant tree
+    if (!tree) return __FALSE;
+
+    // Empty tree
+    if (!tree->root) tree->root = new_node;
+
+    // Tree exists and is not empty
+    else {
+        visitor = tree->root;
+
+        // Keep descending and comparing values 
+        // (current vs the one to be inserted)
+        while(visitor){
+            parent = visitor;
+            visitor = (val > visitor->val) ? visitor->right : visitor->left;
+        }
+        
+        // Decide which child should new_node be
+        if (val > parent->val) parent->right = new_node;
+        else parent->left = new_node;
+    }
+
+    ++tree->size;
+    return __TRUE;
+}
+
+/*
+ *  S32 bst_min( bst_t *tree )
+ *  
+ *  Returns the smallest value present in the tree if the tree is not empty and 
+ *  INT_MAX otherwise.
+ *  
+ *  Parameters:
+ *      bst_t *tree
+ *          A pointer to a tree in which the value needs to be insterted.
+*/
+S32 bst_min( bst_t *tree ) {
+    bsn_t* visitor = NULL;
+    // Null or emptry tree ==> maximum
+    if (! (tree && tree->root)) return INT_MAX;
+    visitor = tree->root;
+    while (visitor->left) visitor = visitor->left;
+    return visitor->val;
+}
+
+/*
+ *  S32 bst_max( bst_t *tree )
+ *  
+ *  Returns the largest value present in the tree if the tree is not empty and 
+ *  INT_MIN otherwise.
+ *  
+ *  Parameters:
+ *      bst_t *tree
+ *          A pointer to a tree in which the value needs to be insterted.
+*/
+S32 bst_max( bst_t *tree ) {
+    bsn_t* visitor = NULL;
+    // Null or emptry tree ==> minimum
+    if (! (tree && tree->root)) return INT_MIN;
+    visitor = tree->root;
+    while (visitor->right) visitor = visitor->right;
+    return visitor->val;
+}
+
+/*
+ *  bool bst_erase( bst_t *tree, S32 val )
+ *  
+ *  Deletes a value from a tree.
+ *  
+ *  Parameters:
+ *      bst_t *tree
+ *          A pointer to a tree from which the value needs to be deleted.
+ *      
+ *      S32 val
+ *          Value that needs to be deleted.               
+*/
+bool bst_erase( bst_t *tree, S32 val ) {
+    // Initialization
+    bsn_t *parent = NULL;
+    bsn_t *visitor = tree->root;
+    bsn_t* maxLST = NULL;
+    bsn_t* parentOfMaxLST = NULL;
+
+    // Empty or non-existant tree
+    if (!(tree && tree->root)) return __FALSE;
+
+    // Determining the target node
+    while( visitor->val != val ){
+        parent = visitor;
+        visitor = (val > visitor->val) ? visitor->right : visitor->left;
+    }
+
+    // 0 children case
+    if (! (visitor->right || visitor->left) ){
+        if (visitor == tree->root) tree->root = NULL;
+        else if (parent->left == visitor) parent->left = NULL;
+        else parent->right = NULL;
+    }
+    // 1 child case 
+    // XOR expression from 
+    // https://stackoverflow.com/questions/1596668/logical-xor-operator-in-c*/
+    else if (!visitor->right != !visitor->left){
+        if (visitor == tree->root){
+            if (visitor->left) {
+                tree->root = visitor->left;
+                visitor->left = NULL;
+            }
+
+            else if (visitor->right){
+                tree->root = visitor->right;
+                visitor->right = NULL;
+            }
+        }
+
+        else if (parent->left == visitor){
+            parent->left = (visitor->left ? visitor->left : visitor->right);
+        }
+
+        else if (parent->right == visitor){
+            parent->right = (visitor->left ? visitor->left : visitor->right);
+        }
+    }
+
+    // 2 children case
+    else {
+        // Find max value in left subtree of visitor
+        maxLST = visitor->left;
+        while (maxLST->right){
+            parentOfMaxLST = maxLST;
+            maxLST = maxLST->right;
+        }
+
+        // Visitor's left child has a non-empty right subtree
+        if (parentOfMaxLST){
+            // At this point, maxLST can either have a left child or no children
+            parentOfMaxLST->right = maxLST->left;
+            maxLST->left = visitor->left;
+            maxLST->right = visitor->right;
+        }
+
+        // Visitor's left child has an empty right subtree, 
+        // i.e. it is the maxLST
+        else maxLST->right = visitor->right;
+
+        if (visitor == tree->root) tree->root = maxLST;
+        else if (visitor == parent->left) parent->left = maxLST;
+        else parent->right = maxLST;
+    }
+
+    free(visitor);
+    --tree->size;
+    return __TRUE;
+}
+
+
+/*********************************************************************
+ *
+ * TESTING
+ *
+ *********************************************************************/
+
+#include <lpc17xx.h>
+#include "GLCD.h"
+#include "GLCD_Scroll.h"
+
 static S32 value_array[100] = {
          534, 6415,  465, 4459, 6869, 4442, 5840, 4180, 7450, 9265,
           23, 2946, 3657, 3003,   29, 8922, 2199, 6973, 2344, 1802,
@@ -34,170 +302,8 @@ static S32 erase_array[5][20] = {
           534, 2199, 6382, 7479, 8370, 7346, 5337, 5840, 2205, 1176}
     };
 
-
-__inline bsn_t* bsn_create( S32 val ) {
-    bsn_t* tmp = malloc(sizeof(bsn_t));             
-    if (!tmp) _sys_exit(EXIT_FAILURE);                   
-    tmp->val = val;                                 
-    tmp->left = NULL;                               
-    tmp->right = NULL;                              
-    return tmp;
-}
-
-void bst_init( bst_t *tree ) {
-    tree->root = NULL;
-    tree->size = 0;
-}
-
-void bst_destroy( bst_t *tree ) {
-    // Calling recursive delete on root node
-    bst_destroy_start_with_node(tree->root);
-    free(tree);
-}
-
-/*
- * void bst_destroy_start_with_node(bsn_t *node)
- *
- * Destroys a (sub-)tree recursively.
- *
- * Parameters:
-   bsn_t *node:
-     A pointer to an arbitrary node in a tree.
- */
-void bst_destroy_start_with_node( bsn_t *node ){
-    if (!node) return;
-    if (node->left) bst_destroy_start_with_node(node->left);
-    if (node->right) bst_destroy_start_with_node(node->right);
-    free(node);
-    node = NULL;
-}
-
-size_t bst_size( bst_t *tree ) {
-    return (tree ? tree->size : 0);
-}
-
-bool bst_insert( bst_t *tree, S32 val ) {
-    bsn_t* new_node =  NULL;
-    bsn_t* parent = NULL;
-    bsn_t* visitor = NULL;
-    new_node = bsn_create(val);
-
-    if (!tree) return __FALSE;
-
-    if (!tree->root) tree->root = new_node;
-    else {
-        visitor = tree->root;
-        while(visitor){
-            parent = visitor;
-            visitor = (val > visitor->val) ? visitor->right : visitor->left;
-        }
-        
-        if (val > parent->val) parent->right = new_node;
-        else parent->left = new_node;
-    }
-
-    ++tree->size;
-    return __TRUE;
-}
-
-S32 bst_min( bst_t *tree ) {
-    bsn_t* visitor = NULL;
-    // Null or emptry tree ==> maximum
-    if (! (tree && tree->root)) return INT_MAX;
-    visitor = tree->root;
-    while (visitor->left) visitor = visitor->left;
-    return visitor->val;
-}
-
-S32 bst_max( bst_t *tree ) {
-    bsn_t* visitor = NULL;
-    // Null or emptry tree ==> minimum
-    if (! (tree && tree->root)) return INT_MIN;
-    visitor = tree->root;
-    while (visitor->right) visitor = visitor->right;
-    return visitor->val;
-}
-
-bool bst_erase( bst_t *tree, S32 val ) {
-    // Initialization
-    bsn_t *parent = NULL;
-    bsn_t *visitor = tree->root;
-    bsn_t* maxLST = NULL;
-    bsn_t* parentOfMaxLST = NULL;
-
-    if (!(tree && tree->root)) return __FALSE;
-
-    // Determining the target node
-    while( visitor->val != val ){
-        parent = visitor;
-        visitor = (val > visitor->val) ? visitor->right : visitor->left;
-    }
-
-    // 0 children case
-    if (! (visitor->right || visitor->left) ){
-        // Root deletion case
-        if (visitor == tree->root) tree->root = NULL;
-        else if (parent->left == visitor) parent->left = NULL;
-        else parent->right = NULL;
-    }
-    // 1 child case 
-    // XOR expression from 
-    // https://stackoverflow.com/questions/1596668/logical-xor-operator-in-c*/
-    else if (!visitor->right != !visitor->left){
-        // Root deletion case
-        if (visitor == tree->root){
-            if (visitor->left) {
-                tree->root = visitor->left;
-                visitor->left = NULL;
-            }
-
-            else if (visitor->right){
-                tree->root = visitor->right;
-                visitor->right = NULL;
-            }
-        }
-
-        else if (parent->left == visitor){
-            parent->left = (visitor->left ? visitor->left : visitor->right);
-        }
-
-        else if (parent->right == visitor){
-            parent->right = (visitor->left ? visitor->left : visitor->right);
-        }
-    }
-
-    // 2 children case
-    else {
-        maxLST = visitor->left;
-
-        // Find max value in left subtree of visitor
-        while (maxLST->right){
-            parentOfMaxLST = maxLST;
-            maxLST = maxLST->right;
-        }
-
-        // Visitor's left child has a non-empty right subtree
-        if (parentOfMaxLST){
-            // At this point, maxLST can only have a left child or no children
-            parentOfMaxLST->right = maxLST->left;
-            maxLST->left = visitor->left;
-            maxLST->right = visitor->right;
-        }
-        // Visitor's left child has an empty right subtree, 
-        // i.e. it is the maxLST
-        else maxLST->right = visitor->right;
-
-        if (visitor == tree->root) tree->root = maxLST;
-        else if (visitor == parent->left) parent->left = maxLST;
-        else parent->right = maxLST;
-    }
-
-    free(visitor);
-    --tree->size;
-    return __TRUE;
-}
-
 int main( void ){
+    // Initialization
     int i,j;
     bst_t* tree = NULL;
     
@@ -208,18 +314,18 @@ int main( void ){
     tree = malloc(sizeof(bst_t));
     bst_init(tree);
     
+    // Insertion
     for (i=0; i<100; i++) bst_insert(tree, value_array[i]);
-    printf("0 | %d | %d\n",\
-            bst_min(tree), bst_max(tree));
+    printf("0 | %d,  %d\n",bst_min(tree), bst_max(tree));
             
+    // Deletion            
     for (i=0; i<5; i++){
             for (j=0; j<20; j++) bst_erase(tree, erase_array[i][j]);
-            printf("%d | %d, %d\n", \
-                    i+1, bst_min(tree), bst_max(tree));
+            printf("%d | %d, %d\n", i+1, bst_min(tree), bst_max(tree));
     }
 
+    // Destruction
     bst_destroy(tree);
-
     while ( 1 ) {
         /* An emebedded system does not terminate... */
     }
