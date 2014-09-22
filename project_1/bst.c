@@ -200,6 +200,11 @@ bool bst_erase( bst_t *tree, S32 val ) {
 int main( void ){
     int i,j;
     bst_t* tree = NULL;
+    
+    SystemInit();
+    init_scroll();
+    GLCD_Clear( Blue );
+    
     tree = malloc(sizeof(bst_t));
     bst_init(tree);
     
