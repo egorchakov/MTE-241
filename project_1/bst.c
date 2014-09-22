@@ -209,15 +209,18 @@ int main( void ){
     bst_init(tree);
     
     for (i=0; i<100; i++) bst_insert(tree, value_array[i]);
-    printf("Before erasing | min: %d,      max: %d\n",\
-        bst_min(tree), bst_max(tree));
-        
+    printf("0 | %d | %d\n",\
+            bst_min(tree), bst_max(tree));
+            
     for (i=0; i<5; i++){
-        for (j=0; j<20; j++) bst_erase(tree, erase_array[i][j]);
-        printf("Group %d erased | min: %d,      max: %d\n", \
-            i+1, bst_min(tree), bst_max(tree));
+            for (j=0; j<20; j++) bst_erase(tree, erase_array[i][j]);
+            printf("%d | %d, %d\n", \
+                    i+1, bst_min(tree), bst_max(tree));
     }
 
     bst_destroy(tree);
-    return 0;
+
+    while ( 1 ) {
+        /* An emebedded system does not terminate... */
+    }
 }
