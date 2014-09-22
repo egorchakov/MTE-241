@@ -4,6 +4,7 @@
 #include "util.h"
 
 #define NUM_BUCKETS 10
+#define MAX_MEMORY 32768
 
 typedef struct memmap {
 	unsigned short prev_block:10;

@@ -41,7 +41,9 @@ void memmap_free_init(memmap_free_t* const mmap, size_t size){
 }
 
 void half_init(){
-	rgmmap[NUM_BUCKETS - 1] = (memmap_free_t*)malloc(32768);
+	memmap_free_t* block = (memmap_free_t*)malloc(MAX_MEMORY);
+	memmap_free_init(block, MAX_MEMORY);
+	rgmmap[NUM_BUCKETS - 1] = block;
 }
 
 int main( int argc, char *argv[] ){
