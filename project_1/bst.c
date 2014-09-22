@@ -199,7 +199,8 @@ bool bst_erase( bst_t *tree, S32 val ) {
 
 int main( void ){
     int i,j;
-    bst_t *tree = malloc(sizeof(tree));
+    bst_t* tree = NULL;
+    tree = malloc(sizeof(bst_t));
     bst_init(tree);
     
     for (i=0; i<100; i++) bst_insert(tree, value_array[i]);
