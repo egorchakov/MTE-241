@@ -24,6 +24,11 @@ void* get_next_free( memmap_free_t const* mmap){
 	return (void*)mmap->next_free;
 }
 
+void half_init(){
+	//TODO: Fill stub with initializing rgmmap[16] with single memmap_free_t
+	rgmmap[NUM_BLOCKS - 1] = (memmap_free_t*)malloc(32768);
+}
+
 int main( int argc, char *argv[] ){
 	printf("%d\n", CEIL32(520));
 	printf("%d\n", CEIL32(28));
