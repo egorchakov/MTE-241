@@ -77,9 +77,10 @@ size_t bst_size( bst_t *tree ) {
 }
 
 bool bst_insert( bst_t *tree, S32 val ) {
-    bsn_t* new_node = bsn_create(val);
+    bsn_t* new_node =  NULL;
     bsn_t* parent = NULL;
     bsn_t* visitor = NULL;
+    new_node = bsn_create(val);
 
     if (!tree) return __FALSE;
 
