@@ -78,7 +78,21 @@ void* half_alloc(size_t n){
 }
 
 void half_free(void* ptr){
+	// NOT WORKING YET
+	
+	// cast the preceding 32 bytes as memmap_free_t for further operations
+	memmap_free_t* block = (memmap_free_t*) (ptr - 32);
+	((memmap_t*) block->memmap)->alloc = false;
+	
+	// which bucket to insert into?
+	S16 bucket_index = get_free_bucket_index(((memmap_t*) block->memmap)->block_size);
 
+	// prepend to the corresponding linked list
+	memmap_free_t* top_block = mprgmmap[bucket_index];
+	top_block->prev_free = block;
+	block->prev_free = NULL;
+	block->next_free = top_block;
+	mprgmmap[bucket_index] = block;
 }
 
 int main( int argc, char *argv[] ){
