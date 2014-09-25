@@ -9,10 +9,11 @@
 
 #define CEIL32(n) ((n) + (32 - (n) % 32)) 
 
+
+S16 floor_log2(size_t );
+S16 ceil_log2(size_t );
+
+S16 get_alloc_bucket_index(size_t );
+S16 get_free_bucket_index(size_t );
+
 #endif
-
-S16 floor_log2(size_t size);
-S16 ceil_log2(size_t size);
-
-S16 get_alloc_bucket_index(size_t size);
-S16 get_free_bucket_index(size_t size);
