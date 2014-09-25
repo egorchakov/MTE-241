@@ -34,7 +34,7 @@ void memmap_init(memmap_t* const mmap, size_t size){
 
 void memmap_free_init(memmap_free_t* const mmap, size_t size){
 	// memmap is the first field in memmap_free_t
-	memmap_t* memmap_alloc = (memmap_t*)(&mmap);
+	memmap_t* memmap_alloc = (memmap_t*)(mmap);
 	memmap_init(memmap_alloc, size);
 	mmap->memmap = (U32)memmap_alloc;
 	mmap->prev_free = 0;
@@ -45,18 +45,19 @@ void half_init(){
 	memmap_free_t* block = (memmap_free_t*)malloc(MAX_MEMORY);
 	memmap_free_init(block, MAX_MEMORY);
 	mprgmmap[NUM_BUCKETS - 1] = block;
+	#ifdef DEBUG_MEMORY
+	free_memory = MAX_MEMORY;
+	#endif
 }
 
 void* half_alloc(size_t n){
 	unsigned short m = CEIL32(n + HEADER_SIZE);
 	int i = 0;
 	if(m > MAX_MEMORY) return NULL;
-	while(i < NUM_BUCKETS && m > rglut[i] && mprgmmap[i] != NULL) i++; // Find first bucket with big enough blocks
-	if(i >= NUM_BUCKETS) return NULL; // Out of memory
-
+	while(i < NUM_BUCKETS - 1 && (m < rglut[i] || mprgmmap[i] == NULL)) i++; // Find first bucket with big enough blocks
+	if(mprgmmap[i] == NULL) return NULL; // Out of memory
 	memmap_free_t* mmap = mprgmmap[i];
-	memmap_t* mmap_alloc = (memmap_t*)mmap->memmap;
-
+	memmap_t* mmap_alloc = (memmap_t*)mmap;
 	void* ptr_next = get_next_free(mmap);
 
 	// Remove allocated block from LL
@@ -68,11 +69,14 @@ void* half_alloc(size_t n){
 
 	size_t mmap_size = get_block_size(mmap_alloc);
 	mmap_alloc->alloc = __TRUE;
-
 	if(mmap_size - m > 32) {
 		void* new_block = ((void*)mmap) + sizeof(memmap_free_t) + m;
 		half_free(new_block);
 	}
+
+	#ifdef DEBUG_MEMORY
+	free_memory -= (m + sizeof(memmap_t));
+	#endif
 
 	return (((void*)mmap) + sizeof(memmap_free_t));
 }
@@ -82,6 +86,10 @@ void half_free(void* ptr){
 }
 
 int main( int argc, char *argv[] ){
-	printf("%d\n", CEIL32(520));
-	printf("%d\n", CEIL32(28));
+	printf("520 -> %d\n", CEIL32(520));
+	printf("32 -> %d\n", CEIL32(32));
+
+	half_init();
+	void* dummy = half_alloc(32);
+	printf("\nFree memory: %d\n", free_memory);
 }
