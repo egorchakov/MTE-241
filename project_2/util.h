@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include "type.h"
 
-#define CEIL32(n) ((n) + (32 - (n) % 32)) 
+#define CEIL32(n) (n + (((n) % 32 == 0) ? 0 : (32 - (n) % 32))) 
 
 
 S16 floor_log2(size_t );

@@ -7,10 +7,13 @@
 #define MAX_MEMORY 32768
 #define HEADER_SIZE 32
 
+// Compile flags
+#define DEBUG_MEMORY
+
 typedef struct memmap {
-	unsigned short prev_block:10;
-	unsigned short next_block:10;
-	unsigned short block_size:10;
+	unsigned int prev_block:10;
+	unsigned int next_block:10;
+	unsigned int block_size:10;
 	bool alloc:1;
 	bool padding:1;
 } memmap_t;
@@ -21,8 +24,11 @@ typedef struct memmap_free {
 	unsigned short next_free:10;
 } memmap_free_t;
 
-memmap_free_t* mprgmmap[NUM_BUCKETS] = { NULL };
-unsigned short rglut[NUM_BUCKETS] = { 64, 128, 256, 512, 1024, 2048, 4096, 8182, 16384, 32768 };
+static memmap_free_t* mprgmmap[NUM_BUCKETS] = { NULL };
+static unsigned short rglut[NUM_BUCKETS] = { 64, 128, 256, 512, 1024, 2048, 4096, 8182, 16384, 32768 };
+#ifdef DEBUG_MEMORY
+static size_t free_memory = 0;
+#endif
 
 // Internal Helpers
 void* get_prev_block( memmap_t const* );
