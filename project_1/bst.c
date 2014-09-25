@@ -10,6 +10,8 @@
  *
  *********************************************************************/
 
+void bst_destroy_start_with_node( bsn_t* );
+
 /*
   __inline bsn_t* bsn_create( S32 val ) 
 
@@ -151,7 +153,6 @@ S32 bst_min( bst_t *tree ) {
     while (visitor->left) visitor = visitor->left;
     return visitor->val;
 }
-inserte
 /*
  *  S32 bst_max( bst_t *tree )
  *  

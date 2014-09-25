@@ -54,8 +54,8 @@ void* half_alloc(size_t n){
 	unsigned short m = CEIL32(n + HEADER_SIZE);
 	int i = 0;
 	if(m > MAX_MEMORY) return NULL;
-	while(i < NUM_BUCKETS - 1 && (m < rglut[i] || mprgmmap[i] == NULL)) i++; // Find first bucket with big enough blocks
-	if(mprgmmap[i] == NULL) return NULL; // Out of memory
+	i = get_alloc_bucket_index(m);
+	if(i >= NUM_BUCKETS || mprgmmap[i] == NULL) return NULL; // Out of memory
 	memmap_free_t* mmap = mprgmmap[i];
 	memmap_t* mmap_alloc = (memmap_t*)mmap;
 	void* ptr_next = get_next_free(mmap);
@@ -88,6 +88,8 @@ void half_free(void* ptr){
 int main( int argc, char *argv[] ){
 	printf("520 -> %d\n", CEIL32(520));
 	printf("32 -> %d\n", CEIL32(32));
+	printf("%d\n", get_alloc_bucket_index(1000));
+	printf("%d\n", get_free_bucket_index(1000));
 
 	half_init();
 	void* dummy = half_alloc(32);
