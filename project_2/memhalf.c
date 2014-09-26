@@ -56,7 +56,6 @@ void* half_alloc(size_t n){
 	if(m > MAX_MEMORY) return NULL;
 	i = get_alloc_bucket_index(m);
 	while (i<NUM_BUCKETS && mprgmmap[i] == NULL) i++;
-	if (i >= NUM_BUCKETS || mprgmmap[i] == NULL) return NULL;
 	if(i >= NUM_BUCKETS || mprgmmap[i] == NULL) return NULL; // Out of memory
 	memmap_free_t* mmap = mprgmmap[i];
 	memmap_t* mmap_alloc = (memmap_t*)mmap;
