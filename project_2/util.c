@@ -1,5 +1,6 @@
 #include "util.h"
 
+#ifdef USE_UTIL
 S16 floor_log2(size_t size){
     S16 i = 0;
     while (size >>= 1) i++;
@@ -21,3 +22,4 @@ S16 get_free_bucket_index(size_t size){
     S16 index = floor_log2(size) - 6;
     return (index >=0) ? index : 0;
 }
+#endif
