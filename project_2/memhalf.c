@@ -97,7 +97,7 @@ void* half_alloc_2(size_t requested_block_size){
 		mprgmmap[i] = next_unallocated_block;
 	}
 
-	split the block if it's larger than requested by at least 32 bytes
+	//split the block if it's larger than requested by at least 32 bytes
 	if (get_block_size((memmap_t*) selected_block->memmap) - block_size > 32){
 		split_block(selected_block, block_size);
 		// half_free(((memmap_t*) selected_block->memmap)->next_block+HEADER_SIZE);
