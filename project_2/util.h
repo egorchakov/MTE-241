@@ -8,7 +8,7 @@
 #include "type.h"
 
 #define CEIL32(n) (((n-1) >> 5) +1) << 5
-
+#define FLOOR32(n) n >> 5 << 5
 S16 floor_log2(size_t );
 S16 ceil_log2(size_t );
 
