@@ -12,6 +12,9 @@
 // Compile flags
 #define DEBUG_MEMORY
 
+// Set alignment to 4 bytes
+#pragma pack(push)
+#pragma pack(4) 
 typedef struct memmap {
 	unsigned int prev_block:10;
 	unsigned int next_block:10;
@@ -25,6 +28,7 @@ typedef struct memmap_free {
 	unsigned short prev_free:10;
 	unsigned short next_free:10;
 } memmap_free_t;
+#pragma pack(pop) 
 
 static memmap_free_t* mprgmmap[NUM_BUCKETS] = { NULL };
 static unsigned short rglut[NUM_BUCKETS] = { 64, 128, 256, 512, 1024, 2048, 4096, 8182, 16384, 32768 };
@@ -41,6 +45,13 @@ void* get_prev_free( memmap_free_t const* );
 void* get_next_free( memmap_free_t const* );
 
 void set_block_size(memmap_t*, size_t);
+
+// Temporarily move from util
+S16 floor_log2(size_t );
+S16 ceil_log2(size_t );
+
+S16 get_alloc_bucket_index(size_t );
+S16 get_free_bucket_index(size_t );
 
 void memmap_free_init(memmap_free_t* const, size_t );
 void memmap_init(memmap_t* const, size_t );
