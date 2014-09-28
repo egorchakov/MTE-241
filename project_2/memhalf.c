@@ -54,6 +54,59 @@ void half_init(){
 	#endif
 }
 
+void split_block(memmap_free_t* block, size_t required_size ){
+	if (get_block_size((memmap_t*) block->memmap) < required_size + HEADER_SIZE + 32)
+		return NULL;
+
+	size_t old_size = get_block_size((memmap_t*) block->memmap);
+	memmap_free_t* new_block = (memmap_free_t*) (block + HEADER_SIZE + required_size);
+
+	set_block_size((memmap_t*) block->memmap, required_size);
+	set_block_size((memmap_t*) new_block->memmap, old_size - required_size - HEADER_SIZE);
+
+	((memmap_t*) new_block->memmap)->prev_block = (memmap_t*) block->memmap;
+	((memmap_t*) new_block->memmap)->next_block = (memmap_t*) ((memmap_t*) block->memmap)->next_block;
+	((memmap_t*) block->memmap)->next_block = (memmap_t*) new_block->memmap;
+}
+
+void* half_alloc_2(size_t requested_block_size){
+	size_t block_size = CEIL32(requested_block_size);
+	printf("half_alloc | Will be allocated: %d\n", block_size);
+	unsigned short required_memory = block_size + HEADER_SIZE;
+	if (required_memory > MAX_MEMORY) return NULL;
+	// from which bucket to allocate?
+	int i = get_alloc_bucket_index(block_size);
+	printf("half_alloc | Starting search at bucket %d ... ", i);
+	while (i<NUM_BUCKETS && mprgmmap[i] == NULL) i++;
+
+	// no appropriate bucket found
+	if (i >= NUM_BUCKETS || mprgmmap[i] == NULL) return NULL;
+
+	printf("allocating from bucket %d\n",i );
+
+	memmap_free_t* selected_block = mprgmmap[i];
+
+	printf("half_alloc | Selected block size: %d\n", get_block_size((memmap_t*) selected_block->memmap));
+
+	void* ptr_next_unallocated_block = get_next_free(selected_block);
+
+	if (ptr_next_unallocated_block){
+		memmap_free_t* next_unallocated_block = (
+			(memmap_free_t*)(ptr_next_unallocated_block - sizeof(memmap_free_t)));
+		next_unallocated_block->prev_free = NULL;
+		mprgmmap[i] = next_unallocated_block;
+	}
+
+	split the block if it's larger than requested by at least 32 bytes
+	if (get_block_size((memmap_t*) selected_block->memmap) - block_size > 32){
+		split_block(selected_block, block_size);
+		// half_free(((memmap_t*) selected_block->memmap)->next_block+HEADER_SIZE);
+	}
+
+
+	return ((void*)selected_block) + HEADER_SIZE;
+}
+
 void* half_alloc(size_t n){
 	unsigned short m = CEIL32(n + HEADER_SIZE);
 	int i = 0;
