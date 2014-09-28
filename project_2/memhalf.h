@@ -7,6 +7,9 @@
 #define MAX_MEMORY 32768
 #define HEADER_SIZE 32
 
+// Header is 31 useful bits + 1 padding bit = 4 bytes
+#define HEADER_SIZE 4
+#define BLOCK_SIZE_MULTIPLE 32
 // Compile flags
 #define DEBUG_MEMORY
 
