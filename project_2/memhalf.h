@@ -40,9 +40,12 @@ bool get_allocated( memmap_t const* );
 void* get_prev_free( memmap_free_t const* );
 void* get_next_free( memmap_free_t const* );
 
+void set_block_size(memmap_t*, size_t);
+
 void memmap_free_init(memmap_free_t* const, size_t );
 void memmap_init(memmap_t* const, size_t );
 
+void split_block(memmap_free_t* const, size_t);
 // Public interface
 void half_init();
 void *half_alloc( size_t n );
