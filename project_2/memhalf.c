@@ -47,7 +47,7 @@ void memmap_free_init(memmap_free_t* const mmap, size_t size){
 
 void half_init(){
 	memmap_free_t* block = (memmap_free_t*)malloc(MAX_MEMORY);
-	memmap_free_init(block, MAX_MEMORY);
+	memmap_free_init(block, MAX_MEMORY - HEADER_SIZE);
 	mprgmmap[NUM_BUCKETS - 1] = block;
 	#ifdef DEBUG_MEMORY
 	free_memory = MAX_MEMORY;
