@@ -9,7 +9,11 @@ void* get_next_block(memmap_t const* mmap){
 }
 
 size_t get_block_size(memmap_t const* mmap){
-	return (size_t)mmap->block_size;
+	return (size_t) (mmap->block_size)*BLOCK_SIZE_MULTIPLE;
+}
+
+void set_block_size(memmap_t* mmap, size_t size){
+	mmap->block_size = FLOOR32(size)/BLOCK_SIZE_MULTIPLE;
 }
 
 bool get_allocated(memmap_t const* mmap){
