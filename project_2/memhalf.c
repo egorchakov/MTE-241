@@ -32,8 +32,8 @@ void memmap_init(memmap_t* const mmap, size_t size){
 	// Initialize the values for the fields
 	mmap->prev_block = 0;
 	mmap->next_block = 0;
-	mmap->block_size = size;
-	mmap->alloc = false;
+	set_block_size(mmap, size);
+	mmap->alloc = false; 
 }
 
 void memmap_free_init(memmap_free_t* const mmap, size_t size){
