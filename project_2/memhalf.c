@@ -143,9 +143,12 @@ void* half_alloc(size_t n){
 void half_free(void* ptr){
 	// NOT WORKING YET
 	
-	// cast the preceding 32 bytes as memmap_free_t for further operations
-	memmap_free_t* block = (memmap_free_t*) (ptr - 32);
-	((memmap_t*) block->memmap)->alloc = false;
+	// cast the preceding 32 bits as memmap_free_t for further operations
+	memmap_free_t* block = (memmap_free_t*) (ptr - HEADER_SIZE);
+	printf("a\n");
+	printf("d\n", ((memmap_t*) block->memmap)->alloc);
+	((memmap_t*) block->memmap)->alloc = __FALSE;
+	printf("b\n");
 	
 	// which bucket to insert into?
 	S16 bucket_index = get_free_bucket_index(((memmap_t*) block->memmap)->block_size);
