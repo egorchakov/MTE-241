@@ -5,7 +5,6 @@
 
 #define NUM_BUCKETS 10
 #define MAX_MEMORY 32768
-#define HEADER_SIZE 32
 
 // Header is 31 useful bits + 1 padding bit = 4 bytes
 #define HEADER_SIZE 4
