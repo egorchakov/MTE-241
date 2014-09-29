@@ -63,7 +63,6 @@ void memmap_free_init(memmap_free_t* const mmap, size_t size){
 	// memmap is the first field in memmap_free_t
 	memmap_t* memmap_alloc = (memmap_t*)(mmap);
 	memmap_init(memmap_alloc, size);
-	mmap->memmap = (U32)memmap_alloc;
 	mmap->prev_free = 0;
 	mmap->next_free = 0;
 }

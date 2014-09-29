@@ -14,7 +14,7 @@
 
 // Set alignment to 4 bytes
 #pragma pack(push)
-#pragma pack(4) 
+#pragma pack(HEADER_SIZE) 
 typedef struct memmap {
 	unsigned int prev_block:10;
 	unsigned int next_block:10;
