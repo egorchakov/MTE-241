@@ -12,10 +12,6 @@ size_t get_block_size(memmap_t const* mmap){
 	return (size_t) (mmap->block_size)*BLOCK_SIZE_MULTIPLE;
 }
 
-void set_block_size(memmap_t* mmap, size_t size){
-	mmap->block_size = FLOOR32(size)/BLOCK_SIZE_MULTIPLE;
-}
-
 bool get_allocated(memmap_t const* mmap){
 	return mmap->alloc;
 }
@@ -26,6 +22,30 @@ void* get_prev_free(memmap_free_t const* mmap){
 
 void* get_next_free(memmap_free_t const* mmap){
 	return (void*)mmap->next_free;
+}
+
+void set_block_size(memmap_t* mmap, size_t size){
+	mmap->block_size = FLOOR32(size)/BLOCK_SIZE_MULTIPLE;
+}
+
+void set_prev_block(memmap_t* mmap, void* ptr){
+	mmap->prev_block = (unsigned int)ptr;
+}
+
+void set_next_block(memmap_t* mmap, void* ptr){
+	mmap->next_block = (unsigned int)ptr;
+}
+
+void set_allocated(memmap_t*, bool alloc){
+	mmap->alloc = alloc;
+}
+
+void set_prev_free(memmap_free_t* mmap, void* ptr){
+	mmap->prev_free = (unsigned short)ptr;
+}
+
+void set_next_free(memmap_free_t* mmap, void* ptr){
+	mmap->next_free = (unsigned short)ptr;
 }
 
 // Temporarily move from util.c
@@ -116,7 +136,7 @@ void* half_alloc_2(size_t requested_block_size){
 	if (ptr_next_unallocated_block){
 		memmap_free_t* next_unallocated_block = (
 			(memmap_free_t*)(ptr_next_unallocated_block - sizeof(memmap_free_t)));
-		next_unallocated_block->prev_free = NULL;
+		next_unallocated_block->prev_free = 0;
 		mprgmmap[i] = next_unallocated_block;
 	}
 
