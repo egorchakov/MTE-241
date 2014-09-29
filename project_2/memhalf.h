@@ -48,8 +48,11 @@ void set_block_size( memmap_t*, size_t );
 void set_prev_block( memmap_t*, void* );
 void set_next_block( memmap_t*, void* );
 void set_allocated( memmap_t*, bool );
-void get_prev_free( memmap_free_t*, void* );
-void get_next_free( memmap_free_t*, void* );
+void set_prev_free( memmap_free_t*, void* );
+void set_next_free( memmap_free_t*, void* );
+
+void remove_free_block( memmap_free_t*, size_t );
+void insert_free_block( memmap_free_t* );
 
 // Temporarily move from util
 S16 floor_log2(size_t );
