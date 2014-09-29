@@ -149,6 +149,18 @@ void remove_free_block(memmap_free_t* mmap, size_t index){
 	}
 }
 
+void insert_free_block(memmap_free_t* mmap){
+	memmap_t* mmap_alloc = (memmap_t*)mmap;
+	size_t block_size = get_block_size(mmap_alloc);
+	int index = get_free_bucket_index(block_size);
+	set_next_free(mmap, mprgmmap[index]);
+	set_prev_free(mmap, NULL);
+	mprgmmap[index] = mmap; 
+	#ifdef DEBUG_MEMORY
+		printf("Reinsert memory size: %d\n", block_size);
+	#endif
+}
+
 void* half_alloc_2(size_t requested_block_size){
 	unsigned short required_memory = CEIL32(requested_block_size + HEADER_SIZE);
 	if (required_memory > MAX_MEMORY) return NULL;
@@ -206,16 +218,6 @@ void* half_alloc(size_t n){
 
 	// Remove allocated block from LL
 	remove_free_block(mmap, i);
-
-	size_t mmap_size = get_block_size(mmap_alloc);
-	mmap_alloc->alloc = __TRUE;
-	if(mmap_size - m > 32) {
-		void* new_block = ((void*)mmap) + m;
-		// Can't call half_free cause half_free assumes header exists
-		#ifdef DEBUG_MEMORY
-		printf("Allocated memory size: %d\n", m);
-		#endif
-	}
 
 	#ifdef DEBUG_MEMORY
 	free_memory -= (m + sizeof(memmap_t));
