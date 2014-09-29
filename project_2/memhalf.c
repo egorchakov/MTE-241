@@ -12,10 +12,6 @@ size_t get_block_size(memmap_t const* mmap){
 	return (size_t) (mmap->block_size)*BLOCK_SIZE_MULTIPLE;
 }
 
-void set_block_size(memmap_t* mmap, size_t size){
-	mmap->block_size = FLOOR32(size)/BLOCK_SIZE_MULTIPLE;
-}
-
 bool get_allocated(memmap_t const* mmap){
 	return mmap->alloc;
 }
@@ -26,6 +22,30 @@ void* get_prev_free(memmap_free_t const* mmap){
 
 void* get_next_free(memmap_free_t const* mmap){
 	return (void*)mmap->next_free;
+}
+
+void set_block_size(memmap_t* mmap, size_t size){
+	mmap->block_size = FLOOR32(size)/BLOCK_SIZE_MULTIPLE;
+}
+
+void set_prev_block(memmap_t* mmap, void* ptr){
+	mmap->prev_block = (unsigned int)ptr;
+}
+
+void set_next_block(memmap_t* mmap, void* ptr){
+	mmap->next_block = (unsigned int)ptr;
+}
+
+void set_allocated(memmap_t* mmap, bool alloc){
+	mmap->alloc = alloc;
+}
+
+void set_prev_free(memmap_free_t* mmap, void* ptr){
+	mmap->prev_free = (unsigned short)ptr;
+}
+
+void set_next_free(memmap_free_t* mmap, void* ptr){
+	mmap->next_free = (unsigned short)ptr;
 }
 
 // Temporarily move from util.c
@@ -63,7 +83,6 @@ void memmap_free_init(memmap_free_t* const mmap, size_t size){
 	// memmap is the first field in memmap_free_t
 	memmap_t* memmap_alloc = (memmap_t*)(mmap);
 	memmap_init(memmap_alloc, size);
-	mmap->memmap = (U32)memmap_alloc;
 	mmap->prev_free = 0;
 	mmap->next_free = 0;
 }
@@ -115,6 +134,21 @@ void* split_block(memmap_free_t* mmap_free, size_t required_size ){
 	return new_mmap_free;
 }
 
+void remove_free_block(memmap_free_t* mmap, size_t index){
+	memmap_t* mmap_alloc = (memmap_t*)mmap;
+	void* ptr_next = get_next_free(mmap);
+
+	// Remove allocated block from LL
+	if(ptr_next){
+		#ifdef DEBUG_MEMORY
+		printf("Removed block from LL: %p\n", ptr_next);
+		#endif
+		memmap_free_t* mmap_next_free = (memmap_free_t*)(ptr_next);
+		mmap_next_free->prev_free = 0;
+		mprgmmap[index] = mmap_next_free; 
+	}
+}
+
 void* half_alloc_2(size_t requested_block_size){
 	unsigned short required_memory = CEIL32(requested_block_size + HEADER_SIZE);
 	if (required_memory > MAX_MEMORY) return NULL;
@@ -137,7 +171,7 @@ void* half_alloc_2(size_t requested_block_size){
 	if (ptr_next_unallocated_block){
 		memmap_free_t* next_unallocated_block = (
 			(memmap_free_t*)(ptr_next_unallocated_block - sizeof(memmap_free_t)));
-		next_unallocated_block->prev_free = NULL;
+		next_unallocated_block->prev_free = 0;
 		mprgmmap[i] = next_unallocated_block;
 	}
 
@@ -165,22 +199,13 @@ void* half_alloc(size_t n){
 
 	if(i >= NUM_BUCKETS || mprgmmap[i] == NULL) return NULL; // Out of memory
 	memmap_free_t* mmap = mprgmmap[i];
-	memmap_t* mmap_alloc = (memmap_t*)mmap;
-	void* ptr_next = get_next_free(mmap);
 
 	#ifdef DEBUG_MEMORY
 	printf("Allocated block memory: %p\n", mmap);
 	#endif
 
 	// Remove allocated block from LL
-	if(ptr_next){
-		#ifdef DEBUG_MEMORY
-		printf("Removed block from LL: %p\n", ptr_next);
-		#endif
-		memmap_free_t* mmap_next_free = (memmap_free_t*)(ptr_next - sizeof(memmap_free_t));
-		mmap_next_free->prev_free = NULL;
-		mprgmmap[i] = mmap_next_free; 
-	}
+	remove_free_block(mmap, i);
 
 	size_t mmap_size = get_block_size(mmap_alloc);
 	mmap_alloc->alloc = __TRUE;

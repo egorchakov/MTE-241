@@ -14,7 +14,7 @@
 
 // Set alignment to 4 bytes
 #pragma pack(push)
-#pragma pack(4) 
+#pragma pack(HEADER_SIZE) 
 typedef struct memmap {
 	unsigned int prev_block:10;
 	unsigned int next_block:10;
@@ -44,7 +44,15 @@ bool get_allocated( memmap_t const* );
 void* get_prev_free( memmap_free_t const* );
 void* get_next_free( memmap_free_t const* );
 
-void set_block_size(memmap_t*, size_t);
+void set_block_size( memmap_t*, size_t );
+void set_prev_block( memmap_t*, void* );
+void set_next_block( memmap_t*, void* );
+void set_allocated( memmap_t*, bool );
+void set_prev_free( memmap_free_t*, void* );
+void set_next_free( memmap_free_t*, void* );
+
+void remove_free_block( memmap_free_t*, size_t );
+void insert_free_block( memmap_free_t* );
 
 // Temporarily move from util
 S16 floor_log2(size_t );
