@@ -116,12 +116,10 @@ void* split_block(memmap_free_t* mmap_free, size_t required_size ){
 }
 
 void* half_alloc_2(size_t requested_block_size){
-	size_t block_size = CEIL32(requested_block_size);
-	printf("half_alloc | Will be allocated: %d\n", block_size);
-	unsigned short required_memory = block_size + HEADER_SIZE;
+	unsigned short required_memory = CEIL32(requested_block_size + HEADER_SIZE);
 	if (required_memory > MAX_MEMORY) return NULL;
 	// from which bucket to allocate?
-	int i = get_alloc_bucket_index(block_size);
+	int i = get_alloc_bucket_index(requested_block_size);
 	printf("half_alloc | Starting search at bucket %d ... ", i);
 	while (i<NUM_BUCKETS && mprgmmap[i] == NULL) i++;
 
@@ -144,8 +142,8 @@ void* half_alloc_2(size_t requested_block_size){
 	}
 
 	//split the block if it's larger than requested by at least 32 bytes
-	if (get_block_size((memmap_t*) selected_block->memmap) - block_size > 32){
-		split_block(selected_block, block_size);
+	if (get_block_size((memmap_t*) selected_block->memmap) - requested_block_size > 32){
+		split_block(selected_block, requested_block_size);
 		// half_free(((memmap_t*) selected_block->memmap)->next_block+HEADER_SIZE);
 	}
 
