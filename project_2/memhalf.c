@@ -201,23 +201,24 @@ void* half_alloc(size_t n){
 
 void half_free(void* ptr){
 	// NOT WORKING YET
-	
-	// cast the preceding 32 bits as memmap_free_t for further operations
-	memmap_free_t* block = (memmap_free_t*) (ptr - HEADER_SIZE);
-	printf("a\n");
-	printf("d\n", ((memmap_t*) block->memmap)->alloc);
-	((memmap_t*) block->memmap)->alloc = __FALSE;
-	printf("b\n");
-	
+
+	// cast the preceding 32 bits as memmap_t
+	memmap_t* block = (memmap_t*)(ptr - HEADER_SIZE);
+	block->alloc = __FALSE;
+
 	// which bucket to insert into?
-	S16 bucket_index = get_free_bucket_index((size_t)((memmap_t*) block->memmap)->block_size);
+	S16 bucket_index = get_free_bucket_index(get_block_size(block));
+
+	// recast the block as memmap_free_t for further operations
+	memmap_free_t* free_block = (memmap_free_t*) block;
 
 	// prepend to the corresponding linked list
 	memmap_free_t* top_block = mprgmmap[bucket_index];
-	top_block->prev_free = block;
-	block->prev_free = NULL;
-	block->next_free = top_block;
-	mprgmmap[bucket_index] = block;
+
+	top_block->prev_free = free_block;
+	free_block->prev_free = NULL;
+	free_block->next_free = top_block;
+	mprgmmap[bucket_index] = free_block;
 }
 
 int main( int argc, char *argv[] ){
