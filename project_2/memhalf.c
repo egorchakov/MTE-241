@@ -78,19 +78,41 @@ void half_init(){
 	#endif
 }
 
-void split_block(memmap_free_t* block, size_t required_size ){
-	if (get_block_size((memmap_t*) block->memmap) < required_size + HEADER_SIZE + 32)
+/*
+	split_block returns a pointer to an additional block that results from splitting
+	or NULL if splitting is not possible
+*/
+
+void* split_block(memmap_free_t* mmap_free, size_t required_size ){
+	memmap_t* mmap_alloc = (memmap_t*) mmap_free;
+
+	// splitting is only possible if the required size of the block is less than
+	// (current size of the block) + 32 (minimum block size) + HEADER_SIZE (for the new block) 
+	if (get_block_size(mmap_alloc) < required_size + HEADER_SIZE + BLOCK_SIZE_MULTIPLE)
 		return NULL;
 
-	size_t old_size = get_block_size((memmap_t*) block->memmap);
-	memmap_free_t* new_block = (memmap_free_t*) (block + HEADER_SIZE + required_size);
 
-	set_block_size((memmap_t*) block->memmap, required_size);
-	set_block_size((memmap_t*) new_block->memmap, old_size - required_size - HEADER_SIZE);
+	size_t old_size = get_block_size(mmap_alloc);
 
-	((memmap_t*) new_block->memmap)->prev_block = (memmap_t*) block->memmap;
-	((memmap_t*) new_block->memmap)->next_block = (memmap_t*) ((memmap_t*) block->memmap)->next_block;
-	((memmap_t*) block->memmap)->next_block = (memmap_t*) new_block->memmap;
+	memmap_free_t* new_mmap_free = (memmap_free_t*) (mmap_alloc + HEADER_SIZE + required_size);
+	memmap_t* new_mmap_alloc = (memmap_t*) new_mmap_free;
+
+	set_block_size(mmap_alloc, required_size);
+	set_block_size(new_mmap_alloc, old_size - required_size - HEADER_SIZE);
+
+	// 			mmap_alloc 						new_mmap_alloc					some other block
+	//
+	// |[prev][next][size][alloc] ...| 	|[prev][next][size][alloc] ...|  |[prev][next][size][alloc] ...|
+	new_mmap_alloc->prev_block = mmap_alloc;
+	new_mmap_alloc->next_block = mmap_alloc->next_block;
+
+	if (new_mmap_alloc){
+		((memmap_t*) new_mmap_alloc->next_block)->prev_block = new_mmap_alloc;
+	}
+
+	mmap_alloc->next_block = new_mmap_alloc;
+
+	return new_mmap_free;
 }
 
 void* half_alloc_2(size_t requested_block_size){
