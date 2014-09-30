@@ -157,15 +157,14 @@ void* split_block(memmap_free_t* mmap_free, size_t required_size ){
 
 void remove_free_block(memmap_free_t* mmap, size_t index){
 	memmap_t* mmap_alloc = (memmap_t*)mmap;
-	void* ptr_next = get_next_free(mmap);
 
 	// Remove allocated block from LL
-	if(ptr_next){
+	if(!is_last_in_bucket(mmap)){
 		#ifdef DEBUG_MEMORY
-		printf("Removed block from LL: %p\n", ptr_next);
+		printf("Removed block from LL: %p\n", get_next_free(mmap));
 		#endif
-		memmap_free_t* mmap_next_free = (memmap_free_t*)(ptr_next);
-		mmap_next_free->prev_free = 0;
+		memmap_free_t* mmap_next_free = get_next_free(mmap);
+		set_prev_free(mmap_next_free, mmap_next_free);
 		mprgmmap[index] = mmap_next_free; 
 	}
 }
