@@ -93,18 +93,18 @@ S16 get_free_bucket_index(size_t size){
 
 void memmap_init(memmap_t* const mmap, size_t size){
 	// Initialize the values for the fields
-	mmap->prev_block = 0;
-	mmap->next_block = 0;
+	set_prev_block(mmap, mmap);
+	set_next_block(mmap, mmap);
 	set_block_size(mmap, size);
-	mmap->alloc = false; 
+	set_allocated(mmap, false);
 }
 
 void memmap_free_init(memmap_free_t* const mmap, size_t size){
 	// memmap is the first field in memmap_free_t
 	memmap_t* memmap_alloc = (memmap_t*)(mmap);
 	memmap_init(memmap_alloc, size);
-	mmap->prev_free = 0;
-	mmap->next_free = 0;
+	set_prev_free(mmap, mmap);
+	set_next_free(mmap, mmap);
 }
 
 void half_init(){
