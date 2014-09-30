@@ -30,7 +30,7 @@ typedef struct memmap_free {
 } memmap_free_t;
 #pragma pack(pop) 
 
-static memmap_free_t* mprgmmap[NUM_BUCKETS] = { NULL };
+extern memmap_free_t* mprgmmap[];
 static unsigned short rglut[NUM_BUCKETS] = { 64, 128, 256, 512, 1024, 2048, 4096, 8182, 16384, 32768 };
 #ifdef DEBUG_MEMORY
 static size_t free_memory = 0;

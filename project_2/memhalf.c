@@ -1,5 +1,7 @@
 #include "memhalf.h"
 
+memmap_free_t* mprgmmap[NUM_BUCKETS] = { NULL }; 
+
 void* get_prev_block(memmap_t const* mmap){
 	return (void*)mmap->prev_block;
 }
