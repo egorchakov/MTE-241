@@ -125,7 +125,7 @@ void* split_block(memmap_free_t* mmap_free, size_t required_size ){
 	set_prev_block(new_mmap_alloc, mmap_alloc);
 	set_next_block(new_mmap_alloc, mmap_alloc->next_block);
 
-	if (new_mmap_alloc->next_block){
+	if (new_mmap_alloc && new_mmap_alloc->next_block){
 		set_prev_block((memmap_t*) new_mmap_alloc->next_block, new_mmap_alloc);
 	}
 
