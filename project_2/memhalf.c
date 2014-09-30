@@ -1,13 +1,14 @@
 #include "memhalf.h"
 
 memmap_free_t* mprgmmap[NUM_BUCKETS] = { NULL }; 
+void* base_ptr = NULL;
 
 void* get_prev_block(memmap_t const* mmap){
-	return (void*)mmap->prev_block;
+	return (void*) ((mmap->prev_block)*BLOCK_SIZE_MULTIPLE + base_ptr);
 }
 
 void* get_next_block(memmap_t const* mmap){
-	return (void*)mmap->next_block;
+	return (void*) ((mmap->next_block)*BLOCK_SIZE_MULTIPLE + base_ptr );
 }
 
 size_t get_block_size(memmap_t const* mmap){
@@ -19,11 +20,11 @@ bool get_allocated(memmap_t const* mmap){
 }
 
 void* get_prev_free(memmap_free_t const* mmap){
-	return (void*)mmap->prev_free;
+	return (void*) ((mmap->prev_free)*BLOCK_SIZE_MULTIPLE + base_ptr);
 }
 
 void* get_next_free(memmap_free_t const* mmap){
-	return (void*)mmap->next_free;
+	return (void*) ((mmap->next_free)*BLOCK_SIZE_MULTIPLE + base_ptr);
 }
 
 void set_block_size(memmap_t* mmap, size_t size){
@@ -31,11 +32,11 @@ void set_block_size(memmap_t* mmap, size_t size){
 }
 
 void set_prev_block(memmap_t* mmap, void* ptr){
-	mmap->prev_block = (unsigned int)ptr;
+	mmap->prev_block = (unsigned int) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
 }
 
 void set_next_block(memmap_t* mmap, void* ptr){
-	mmap->next_block = (unsigned int)ptr;
+	mmap->next_block = (unsigned int) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
 }
 
 void set_allocated(memmap_t* mmap, bool alloc){
@@ -43,11 +44,11 @@ void set_allocated(memmap_t* mmap, bool alloc){
 }
 
 void set_prev_free(memmap_free_t* mmap, void* ptr){
-	mmap->prev_free = (unsigned short)ptr;
-}
+	mmap->prev_free = (unsigned short) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+} 
 
 void set_next_free(memmap_free_t* mmap, void* ptr){
-	mmap->next_free = (unsigned short)ptr;
+	mmap->next_free = (unsigned short) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
 }
 
 // Temporarily move from util.c
@@ -91,6 +92,7 @@ void memmap_free_init(memmap_free_t* const mmap, size_t size){
 
 void half_init(){
 	memmap_free_t* block = (memmap_free_t*)malloc(MAX_MEMORY);
+	base_ptr = block;
 	memmap_free_init(block, MAX_MEMORY - HEADER_SIZE);
 	mprgmmap[NUM_BUCKETS - 1] = block;
 	#ifdef DEBUG_MEMORY
