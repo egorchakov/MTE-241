@@ -55,6 +55,11 @@ void set_next_free( memmap_free_t*, void* );
 void remove_free_block( memmap_free_t*, size_t );
 void insert_free_block( memmap_free_t* );
 
+bool is_last_free(memmap_free_t*);
+bool is_first_free(memmap_free_t*);
+
+bool is_last_in_bin(memmap_t*);
+bool is_first_in_bin(memmap_t*);
 // Temporarily move from util
 S16 floor_log2(size_t );
 S16 ceil_log2(size_t );

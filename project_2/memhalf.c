@@ -51,6 +51,23 @@ void set_next_free(memmap_free_t* mmap, void* ptr){
 	mmap->next_free = (unsigned short) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
 }
 
+bool is_first_free(memmap_free_t* mmap){
+	return get_prev_free(mmap) == mmap;
+}
+
+bool is_last_free(memmap_free_t* mmap){
+	return get_next_free(mmap) == mmap;
+}
+
+bool is_first_in_bin(memmap_t* mmap){
+	return get_prev_block(mmap) == mmap;
+}
+
+bool is_last_in_bin(memmap_t* mmap){
+	return get_next_block(mmap) == mmap;
+}
+
+
 // Temporarily move from util.c
 S16 floor_log2(size_t size){
     S16 i = 0;
