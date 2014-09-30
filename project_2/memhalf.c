@@ -51,19 +51,19 @@ void set_next_free(memmap_free_t* mmap, void* ptr){
 	mmap->next_free = (unsigned short) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
 }
 
-bool is_first_free(memmap_free_t* mmap){
+bool is_first_in_bucket(memmap_free_t* mmap){
 	return get_prev_free(mmap) == mmap;
 }
 
-bool is_last_free(memmap_free_t* mmap){
+bool is_last_in_bucket(memmap_free_t* mmap){
 	return get_next_free(mmap) == mmap;
 }
 
-bool is_first_in_bin(memmap_t* mmap){
+bool is_first_in_memory(memmap_t* mmap){
 	return get_prev_block(mmap) == mmap;
 }
 
-bool is_last_in_bin(memmap_t* mmap){
+bool is_last_in_memory(memmap_t* mmap){
 	return get_next_block(mmap) == mmap;
 }
 
