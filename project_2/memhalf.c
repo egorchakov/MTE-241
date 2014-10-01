@@ -32,11 +32,19 @@ void set_block_size(memmap_t* mmap, size_t size){
 }
 
 void set_prev_block(memmap_t* mmap, void* ptr){
-	mmap->prev_block = (unsigned int) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
-}
+	if (ptr >= base_ptr)
+		mmap->prev_block = (unsigned int) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+	#ifdef DEBUG_MEMORY
+	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
+	#endif
+}	
 
 void set_next_block(memmap_t* mmap, void* ptr){
-	mmap->next_block = (unsigned int) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+	if (ptr >= base_ptr)
+		mmap->next_block = (unsigned int) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+	#ifdef DEBUG_MEMORY
+	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
+	#endif
 }
 
 void set_allocated(memmap_t* mmap, bool alloc){
@@ -44,11 +52,17 @@ void set_allocated(memmap_t* mmap, bool alloc){
 }
 
 void set_prev_free(memmap_free_t* mmap, void* ptr){
-	mmap->prev_free = (unsigned short) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+	if (ptr >= base_ptr)
+		mmap->prev_free = (unsigned short) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+	#ifdef DEBUG_MEMORY
+	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
+	#endif
 } 
 
 void set_next_free(memmap_free_t* mmap, void* ptr){
-	mmap->next_free = (unsigned short) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+	if (ptr >= base_ptr)
+		mmap->next_free = (unsigned short) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
 }
 
 bool is_first_in_bucket(memmap_free_t* mmap){
