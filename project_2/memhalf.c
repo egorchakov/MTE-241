@@ -314,15 +314,15 @@ void half_free(void* ptr){
 	mprgmmap[bucket_index] = free_block;
 }
 
-int main( int argc, char *argv[] ){
-	printf("520 -> %d\n", CEIL32(520));
-	printf("32 -> %d\n", CEIL32(32));
-	printf("%d\n", get_alloc_bucket_index((size_t)1000));
-	printf("%d\n", get_free_bucket_index((size_t)1000));
+// int main( int argc, char *argv[] ){
+// 	printf("520 -> %d\n", CEIL32(520));
+// 	printf("32 -> %d\n", CEIL32(32));
+// 	printf("%d\n", get_alloc_bucket_index((size_t)1000));
+// 	printf("%d\n", get_free_bucket_index((size_t)1000));
 
-	half_init();
-	void* dummy = half_alloc(32);
-	printf("\nFree memory: %d\n", free_memory);
-	fgetc(stdin);
-	return 0;
-}
+// 	half_init();
+// 	void* dummy = half_alloc(32);
+// 	printf("\nFree memory: %d\n", free_memory);
+// 	fgetc(stdin);
+// 	return 0;
+// }

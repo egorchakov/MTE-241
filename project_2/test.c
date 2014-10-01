@@ -27,23 +27,12 @@ void print_mem_layout(memmap_free_t* buckets[], short size){
     }
     printf("===================== END MEMORY LAYOUT =====================\n");
 }
+    
 void main(void){
-    printf("===================== MAIN =====================\n");
-    memmap_free_t* free_block = (memmap_free_t*) malloc(32768);
-    
-    memmap_t* allocated_block = (memmap_t*) free_block;
-
-    allocated_block->prev_block = 666;
-    allocated_block->next_block = 777;
-    set_block_size(allocated_block, 100);
-    allocated_block->alloc = false;
-    
-    // printf("prev_block: %u\n", allocated_block->prev_block);
-    // printf("next_block: %u\n", allocated_block->next_block);
-    printf("block_size: %u\n", get_block_size(allocated_block));
-    free_block->memmap = allocated_block;
-
-    printf("block_size: %u\n", get_block_size(allocated_block));
-    // printf("block_size: %u\n", get_block_size((memmap_t*) free_block->memmap));
-
+    half_init();
+    void* dummy1 = half_alloc_2(1000);
+    void* dummy2 = half_alloc_2(1000);
+    void* dummy3 = half_alloc_2(1000);
+    print_mem_layout(mprgmmap, 10);
+    printf("%p\n", base_ptr);
 }
