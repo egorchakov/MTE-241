@@ -217,11 +217,17 @@ void insert_free_block(memmap_free_t* mmap){
 	int index = get_free_bucket_index(block_size);
 
 	// some blocks present in the bucket
-	if (mprgmmap[index]) set_prev_free(mprgmmap[index], mmap);
-	
-	set_next_free(mmap, mprgmmap[index]);
+	if (mprgmmap[index]) {
+		set_prev_free(mprgmmap[index], mmap);
+		set_next_free(mmap, mprgmmap[index]);
+	}
+	else{
+		set_next_free(mmap, mmap);
+	}
+
 	set_prev_free(mmap, mmap);
 	mprgmmap[index] = mmap; 
+	
 	#ifdef DEBUG_MEMORY
 		printf("Reinsert memory size: %d\n", block_size);
 	#endif
