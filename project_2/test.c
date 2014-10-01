@@ -7,10 +7,13 @@
 
 
 void print_bucket(memmap_free_t* head){
-    memmap_free_t* tmp = head;
-    while (tmp){
-        printf("[%d] --> ", get_block_size((memmap_t*) tmp->memmap));
-        tmp = tmp->next_free;
+    memmap_free_t* tmp_free = head;
+    memmap_t* tmp_alloc = NULL;
+    while (tmp_free){
+        tmp_alloc = (memmap_t*) tmp_free;
+        printf("[%d] --> ", get_block_size(tmp_alloc));
+        if (is_last_in_bucket(tmp_free)) break;
+        tmp_free = get_next_free(tmp_free);
     }
     printf("\n");
 }
@@ -19,12 +22,11 @@ void print_mem_layout(memmap_free_t* buckets[], short size){
     short i;
     printf("==================== START MEMORY LAYOUT ====================\n");
     for (i=0; i<size; i++) {
-        printf("%d : ",i);
+        printf("%d (%d -- %d ): ", i, 1 << i+5, (1 << i+6) -1);
         print_bucket(buckets[i]);
     }
     printf("===================== END MEMORY LAYOUT =====================\n");
 }
-
 void main(void){
     printf("===================== MAIN =====================\n");
     memmap_free_t* free_block = (memmap_free_t*) malloc(32768);
