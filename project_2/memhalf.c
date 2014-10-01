@@ -138,33 +138,57 @@ void half_init(){
 */
 
 void* split_block(memmap_free_t* mmap_free, size_t required_size ){
+	required_size = CEIL32(required_size);
+
 	memmap_t* mmap_alloc = (memmap_t*) mmap_free;
 
 	// splitting is only possible if the required size of the block is less than
-	// (current size of the block) + 32 (minimum block size) + HEADER_SIZE (for the new block) 
-	if (get_block_size(mmap_alloc) < required_size + HEADER_SIZE + BLOCK_SIZE_MULTIPLE)
+	// CEIL32((current size of the block) + 32 (minimum block size) + HEADER_SIZE (for the new block)) 
+	if (get_block_size(mmap_alloc) < CEIL32(required_size + HEADER_SIZE + BLOCK_SIZE_MULTIPLE))
 		return NULL;
-
 
 	size_t old_size = get_block_size(mmap_alloc);
 
-	memmap_free_t* new_mmap_free = (memmap_free_t*) (mmap_alloc + HEADER_SIZE + required_size);
+	memmap_free_t* new_mmap_free = CEIL32((U32)mmap_alloc + (U32)HEADER_SIZE + (U32)required_size);
 	memmap_t* new_mmap_alloc = (memmap_t*) new_mmap_free;
 
+	/*
+
+	=========================================================================================================
+	 								mmap_alloc 									some other block
+	
+		|[prev][next][size][alloc] .......................................|  |[prev][next][size][alloc] ...|
+	=========================================================================================================
+
+	↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+	=========================================================================================================
+	 			mmap_alloc 						new_mmap_alloc					some other block
+	
+		 |[prev][next][size][alloc] ...| 	|[prev][next][size][alloc] ...|  |[prev][next][size][alloc] ...|
+	=========================================================================================================
+	
+	*/
+
+	// If mmap_alloc wasn't the last block in memory before splitting,
+	// we need to link the newly created block to whatever used to be 
+	// after mmap_alloc in memory
+	if (!is_last_in_memory(mmap_alloc)){
+		set_next_block(new_mmap_alloc, get_next_block(mmap_alloc));
+		set_prev_block((memmap_t*) get_next_block(mmap_alloc), new_mmap_alloc);
+	}
+	// Otherwise, just link the newly created block to itself (i.e. terminate)
+	else {
+		set_next_block(new_mmap_alloc, new_mmap_alloc);
+	}
+	
+	// Linking mmap_alloc and the newly created new_mmap_alloc
+	set_prev_block(new_mmap_alloc, mmap_alloc);
+	set_next_block(mmap_alloc, new_mmap_alloc);
+
+	// Finally, block sizes (only mmap_alloc and new_mmap_alloc are affected)
 	set_block_size(mmap_alloc, required_size);
 	set_block_size(new_mmap_alloc, old_size - required_size - HEADER_SIZE);
-
-	// 			mmap_alloc 						new_mmap_alloc					some other block
-	//
-	// |[prev][next][size][alloc] ...| 	|[prev][next][size][alloc] ...|  |[prev][next][size][alloc] ...|
-	set_prev_block(new_mmap_alloc, mmap_alloc);
-	set_next_block(new_mmap_alloc, mmap_alloc->next_block);
-
-	if (new_mmap_alloc && new_mmap_alloc->next_block){
-		set_prev_block((memmap_t*) new_mmap_alloc->next_block, new_mmap_alloc);
-	}
-
-	set_next_block(mmap_alloc, new_mmap_alloc);
 
 	return new_mmap_free;
 }
