@@ -3,7 +3,8 @@
 
 #include "util.h"
 
-#define NUM_BUCKETS 10
+#define NUM_BUCKETS 11
+#define FIRST_BUCKET_POWER 5
 #define MAX_MEMORY 32768
 
 // Header is 31 useful bits + 1 padding bit = 4 bytes
