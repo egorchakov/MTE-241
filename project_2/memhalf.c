@@ -300,6 +300,7 @@ void half_free(void* ptr){
 
 	// which bucket to insert into?
 	S16 bucket_index = get_free_bucket_index(get_block_size(block));
+	printf("half_free | inserting into bucket %d\n", bucket_index);
 
 	// recast the block as memmap_free_t for further operations
 	memmap_free_t* free_block = (memmap_free_t*) block;
@@ -307,7 +308,7 @@ void half_free(void* ptr){
 	// prepend to the corresponding linked list
 	memmap_free_t* top_block = mprgmmap[bucket_index];
 
-	top_block->prev_free = free_block;
+	if (top_block) top_block->prev_free = free_block;
 	free_block->prev_free = NULL;
 	free_block->next_free = top_block;
 	mprgmmap[bucket_index] = free_block;
