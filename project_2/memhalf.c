@@ -205,6 +205,10 @@ void remove_free_block(memmap_free_t* mmap, size_t index){
 		set_prev_free(mmap_next_free, mmap_next_free);
 		mprgmmap[index] = mmap_next_free; 
 	}
+	else{
+		mprgmmap[index] = NULL;
+	}
+
 }
 
 void insert_free_block(memmap_free_t* mmap){
