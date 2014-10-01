@@ -122,7 +122,11 @@ void memmap_free_init(memmap_free_t* const mmap, size_t size){
 }
 
 void half_init(){
+	#ifdef _WIN32
+	memmap_free_t* block = (memmap_free_t*) _aligned_malloc(BLOCK_SIZE_MULTIPLE, MAX_MEMORY);
+	#else
 	memmap_free_t* block = (memmap_free_t*) aligned_alloc(BLOCK_SIZE_MULTIPLE, MAX_MEMORY);
+	#endif
 	base_ptr = block;
 	memmap_free_init(block, MAX_MEMORY - HEADER_SIZE);
 	mprgmmap[NUM_BUCKETS - 1] = block;
