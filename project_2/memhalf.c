@@ -275,6 +275,7 @@ void* half_alloc_2(size_t requested_block_size){
 	//split the block if it's larger than requested by at least 32 bytes
 	if (get_block_size(selected_block_alloc) - required_memory > BLOCK_SIZE_MULTIPLE){
 		memmap_free_t* additional_block = split_block(selected_block_free, required_memory);
+		printf("half_alloc_2 | ");
 		insert_free_block(additional_block);
 	}
 	else {
@@ -316,6 +317,7 @@ void half_free(void* ptr){
 	memmap_free_t* block_free = (memmap_free_t*) (ptr - HEADER_SIZE);
 	memmap_t* block_alloc = (memmap_t*) block_free;
 	block_free = coalesce_block(block_free);
+	printf("half_free | ");
 	insert_free_block(block_free);
 	set_allocated(block_alloc, false);
 }
