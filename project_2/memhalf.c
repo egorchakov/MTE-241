@@ -219,7 +219,11 @@ memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
 		set_next_block(mmap_left, get_next_block(mmap_right));
 		set_prev_block(get_next_block(mmap_right), mmap_left);
 	}
+	printf("Left size: %d, ", get_block_size(mmap_left));
+	printf("Right size: %d, ", get_block_size(mmap_right));
+	printf("Removing right block of size %d", get_block_size(mmap_right));
 	remove_free_block(mmap_right);
+	printf(" and left block of size %d", get_block_size(mmap_left));
 	remove_free_block(mmap_left);
 	set_block_size(mmap_left, get_block_size(mmap_left) + get_block_size(mmap_right));
 	printf("Left size (new): %d\n", get_block_size(mmap_left));
