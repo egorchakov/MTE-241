@@ -20,12 +20,12 @@ void print_bucket(memmap_free_t* head){
 
 void print_buckets(memmap_free_t* buckets[], short size){
     short i;
-    printf("==================== START MEMORY LAYOUT ====================\n");
+    printf("==================== START BUCKETS LAYOUT ====================\n");
     for (i=0; i<size; i++) {
         printf("%d (%d -- %d ): ", i, 1 << i+5, (1 << i+6) -1);
         print_bucket(buckets[i]);
     }
-    printf("===================== END MEMORY LAYOUT =====================\n");
+    printf("===================== END BUCKETS LAYOUT =====================\n");
 }
     
 void main(void){
