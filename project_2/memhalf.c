@@ -212,10 +212,13 @@ memmap_free_t* coalesce_block(memmap_free_t* mmap){
 }
 
 memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
-	if(is_last_in_memory(mmap_right)) set_next_block(mmap_left, mmap_left);
-	else set_next_block(mmap_left, get_next_block(mmap_right));
-	printf("Left size: %d\n", get_block_size(mmap_left));
-	printf("Right size: %d\n", get_block_size(mmap_right));
+	if(is_last_in_memory(mmap_right)) {
+		set_next_block(mmap_left, mmap_left);
+	}
+	else {
+		set_next_block(mmap_left, get_next_block(mmap_right));
+		set_prev_block(get_next_block(mmap_right), mmap_left);
+	}
 	remove_free_block(mmap_right);
 	remove_free_block(mmap_left);
 	set_block_size(mmap_left, get_block_size(mmap_left) + get_block_size(mmap_right));
