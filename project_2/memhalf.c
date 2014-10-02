@@ -128,7 +128,7 @@ void half_init(){
 	memmap_free_t* block = (memmap_free_t*) aligned_alloc(BLOCK_SIZE_MULTIPLE, MAX_MEMORY);
 	#endif
 	base_ptr = block;
-	memmap_free_init(block, MAX_MEMORY - HEADER_SIZE);
+	memmap_free_init(block, MAX_MEMORY);
 	mprgmmap[NUM_BUCKETS - 1] = block;
 	#ifdef DEBUG_MEMORY
 	free_memory = MAX_MEMORY;
@@ -142,18 +142,16 @@ void half_init(){
 */
 
 memmap_free_t* split_block(memmap_free_t* mmap_free, size_t required_size ){
-	required_size = CEIL32(required_size);
-
 	memmap_t* mmap_alloc = (memmap_t*) mmap_free;
 
 	// splitting is only possible if the required size of the block is less than
 	// CEIL32((current size of the block) + 32 (minimum block size) + HEADER_SIZE (for the new block)) 
-	if (get_block_size(mmap_alloc) < CEIL32(required_size + HEADER_SIZE + BLOCK_SIZE_MULTIPLE))
+	if (get_block_size(mmap_alloc) < required_size + BLOCK_SIZE_MULTIPLE)
 		return NULL;
 
 	size_t old_size = get_block_size(mmap_alloc);
 
-	memmap_free_t* new_mmap_free = CEIL32((U32)mmap_alloc + (U32)HEADER_SIZE + (U32)required_size);
+	memmap_free_t* new_mmap_free = CEIL32((U32)mmap_alloc + (U32)required_size);
 	memmap_t* new_mmap_alloc = (memmap_t*) new_mmap_free;
 
 	/*
@@ -192,7 +190,7 @@ memmap_free_t* split_block(memmap_free_t* mmap_free, size_t required_size ){
 
 	// Finally, block sizes (only mmap_alloc and new_mmap_alloc are affected)
 	set_block_size(mmap_alloc, required_size);
-	set_block_size(new_mmap_alloc, old_size - required_size - HEADER_SIZE);
+	set_block_size(new_mmap_alloc, old_size - required_size);
 
 	return new_mmap_free;
 }
@@ -258,7 +256,7 @@ void* half_alloc_2(size_t requested_block_size){
 	if (required_memory > MAX_MEMORY) return NULL;
 
 	// from which bucket to allocate?
-	int i = get_alloc_bucket_index(requested_block_size);
+	int i = get_alloc_bucket_index(required_memory);
 	printf("half_alloc | Starting search at bucket %d ... ", i);
 	while (i<NUM_BUCKETS && mprgmmap[i] == NULL) i++;
 
@@ -273,12 +271,13 @@ void* half_alloc_2(size_t requested_block_size){
 	remove_free_block(selected_block_free,i);
 
 	//split the block if it's larger than requested by at least 32 bytes
-	if (get_block_size(selected_block_alloc) - requested_block_size > 32){
-		memmap_free_t* additional_block = split_block(selected_block_free, requested_block_size);
-		
+	if (get_block_size(selected_block_alloc) - required_memory > BLOCK_SIZE_MULTIPLE){
+		memmap_free_t* additional_block = split_block(selected_block_free, required_memory);
 		insert_free_block(additional_block);
 	}
-
+	else {
+		set_block_size(selected_block_alloc, required_memory);
+	}
 	return ((void*)selected_block_alloc) + HEADER_SIZE;
 }
 
