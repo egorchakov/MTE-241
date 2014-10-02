@@ -191,7 +191,8 @@ memmap_free_t* split_block(memmap_free_t* mmap_free, size_t required_size ){
 	// Finally, block sizes (only mmap_alloc and new_mmap_alloc are affected)
 	set_block_size(mmap_alloc, required_size);
 	set_block_size(new_mmap_alloc, old_size - required_size);
-
+	printf("split_block | old size: %d, required_size: %d, new sizes: %d and %d\n", 
+		old_size, required_size, get_block_size(mmap_alloc), get_block_size(new_mmap_alloc));
 	return new_mmap_free;
 }
 
