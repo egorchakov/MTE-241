@@ -319,6 +319,7 @@ void* half_alloc(size_t n){
 void half_free(void* ptr){
 	memmap_free_t* block_free = (memmap_free_t*) (ptr - HEADER_SIZE);
 	memmap_t* block_alloc = (memmap_t*) block_free;
+	if (!get_allocated(block_alloc)) return;
 	block_free = coalesce_block(block_free);
 	printf("half_free | ");
 	insert_free_block(block_free);
