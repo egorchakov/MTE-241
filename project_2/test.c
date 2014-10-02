@@ -5,6 +5,13 @@
 #include "type.h"
 #include "memhalf.h"
 
+#define RED     "\x1b[31m"
+#define GREEN   "\x1b[32m"
+#define YELLOW  "\x1b[33m"
+#define BLUE    "\x1b[34m"
+#define MAGENTA "\x1b[35m"
+#define CYAN    "\x1b[36m"
+#define RESET   "\x1b[0m"
 
 void print_bucket(memmap_free_t* head){
     memmap_free_t* tmp_free = head;
@@ -20,12 +27,14 @@ void print_bucket(memmap_free_t* head){
 
 void print_buckets(memmap_free_t* buckets[], short size){
     short i;
-    printf("==================== START BUCKETS LAYOUT ====================\n");
+    printf(MAGENTA "==================== START BUCKETS LAYOUT ====================\n");
     for (i=0; i<size; i++) {
         printf("%d (%d -- %d ): ", i, 1 << i+5, (1 << i+6) -1);
         print_bucket(buckets[i]);
     }
-    printf("===================== END BUCKETS LAYOUT =====================\n");
+    printf("===================== END BUCKETS LAYOUT =====================\n" RESET);
+}
+
 void print_memory_layout(void* base_ptr){
     memmap_t* block = (memmap_t*) base_ptr;
     printf( GREEN "==================== START MEMORY LAYOUT ====================\n");
