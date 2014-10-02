@@ -62,7 +62,9 @@ void set_prev_free(memmap_free_t* mmap, void* ptr){
 void set_next_free(memmap_free_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
 		mmap->next_free = (unsigned short) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+	#ifdef DEBUG_MEMORY
 	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
+	#endif
 }
 
 bool is_first_in_bucket(memmap_free_t* mmap){
@@ -191,8 +193,10 @@ memmap_free_t* split_block(memmap_free_t* mmap_free, size_t required_size ){
 	// Finally, block sizes (only mmap_alloc and new_mmap_alloc are affected)
 	set_block_size(mmap_alloc, required_size);
 	set_block_size(new_mmap_alloc, old_size - required_size);
+	#ifdef DEBUG_MEMORY
 	printf("split_block | old size: %d, required_size: %d, new sizes: %d and %d\n", 
 		old_size, required_size, get_block_size(mmap_alloc), get_block_size(new_mmap_alloc));
+	#endif
 	return new_mmap_free;
 }
 
@@ -279,23 +283,31 @@ void* half_alloc_2(size_t requested_block_size){
 
 	// from which bucket to allocate?
 	int i = get_alloc_bucket_index(required_memory);
+	#ifdef DEBUG_MEMORY
 	printf("half_alloc | Starting search at bucket %d ... ", i);
+	#endif
 	while (i<NUM_BUCKETS && mprgmmap[i] == NULL) i++;
 
 	// no appropriate bucket found
 	if (i >= NUM_BUCKETS || mprgmmap[i] == NULL) return NULL;
 
+	#ifdef DEBUG_MEMORY
 	printf(" allocating from bucket %d\n",i );
+	#endif
 	memmap_free_t* selected_block_free = mprgmmap[i];
 	memmap_t* selected_block_alloc = (memmap_t*) selected_block_free;
+	#ifdef DEBUG_MEMORY
 	printf("half_alloc | Selected block size: %d\n", get_block_size(selected_block_alloc));
+	#endif
 	
 	remove_free_block(selected_block_free);
 
 	//split the block if it's larger than requested by at least 32 bytes
 	if (get_block_size(selected_block_alloc) - required_memory > BLOCK_SIZE_MULTIPLE){
 		memmap_free_t* additional_block = split_block(selected_block_free, required_memory);
+		#ifdef DEBUG_MEMORY
 		printf("half_alloc_2 | ");
+		#endif
 		insert_free_block(additional_block);
 	}
 
