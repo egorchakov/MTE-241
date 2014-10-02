@@ -210,9 +210,9 @@ memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
 	else set_next_block(mmap_left, get_next_block(mmap_right));
 	printf("Left size: %d\n", get_block_size(mmap_left));
 	printf("Right size: %d\n", get_block_size(mmap_right));
-	set_block_size(mmap_left, get_block_size(mmap_left) + get_block_size(mmap_right));
 	remove_free_block(mmap_right, get_free_bucket_index(get_block_size(mmap_right)));
 	remove_free_block(mmap_left, get_free_bucket_index(get_block_size(mmap_left)));
+	set_block_size(mmap_left, get_block_size(mmap_left) + get_block_size(mmap_right));
 	printf("Left size (new): %d\n", get_block_size(mmap_left));
 	return mmap_left;
 }
