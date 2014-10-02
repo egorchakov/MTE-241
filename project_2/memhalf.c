@@ -200,8 +200,14 @@ memmap_free_t* coalesce_block(memmap_free_t* mmap){
 	memmap_t* mmap_alloc = (memmap_t*)mmap;
 	memmap_t* mmap_left = get_prev_block(mmap_alloc);
 	memmap_t* mmap_right = get_next_block(mmap_alloc);
-	if(!is_first_in_memory(mmap) != mmap && !get_allocated(mmap_left)) mmap = merge_block((memmap_free_t*)mmap_left, mmap);
-	if(!is_last_in_memory(mmap) != mmap && !get_allocated(mmap_right)) mmap = merge_block((memmap_free_t*)mmap, mmap_right);
+
+	if(!is_first_in_memory(mmap) && !get_allocated(mmap_left)) {
+		mmap = merge_block((memmap_free_t*)mmap_left, mmap);
+	}
+
+	if(!is_last_in_memory(mmap) && !get_allocated(mmap_right)) { 
+		mmap = merge_block((memmap_free_t*)mmap, mmap_right);
+	}
 	return mmap;
 }
 
