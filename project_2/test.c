@@ -26,6 +26,16 @@ void print_buckets(memmap_free_t* buckets[], short size){
         print_bucket(buckets[i]);
     }
     printf("===================== END BUCKETS LAYOUT =====================\n");
+void print_memory_layout(void* base_ptr){
+    memmap_t* block = (memmap_t*) base_ptr;
+    printf( GREEN "==================== START MEMORY LAYOUT ====================\n");
+    while (block){
+        if (get_allocated(block)) printf("( %d )->", get_block_size(block));
+        else printf("[ %d ]->", get_block_size(block));
+        if (is_last_in_memory(block)) break;
+        block = get_next_block(block);
+    }
+    printf("\n==================== END MEMORY LAYOUT ====================\n" RESET);
 }
     
 void main(void){
