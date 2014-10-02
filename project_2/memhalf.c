@@ -211,15 +211,15 @@ memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
 	printf("Left size: %d\n", get_block_size(mmap_left));
 	printf("Right size: %d\n", get_block_size(mmap_right));
 	set_block_size(mmap_left, get_block_size(mmap_left) + get_block_size(mmap_right));
-	remove_free_block(mmap_right, get_free_bucket_index(get_block_size(mmap_right)));
-	remove_free_block(mmap_left, get_free_bucket_index(get_block_size(mmap_left)));
+	remove_free_block(mmap_right);
+	remove_free_block(mmap_left);
 	printf("Left size (new): %d\n", get_block_size(mmap_left));
 	return mmap_left;
 }
 
-void remove_free_block(memmap_free_t* mmap, size_t index){
+void remove_free_block(memmap_free_t* mmap){
 	memmap_t* mmap_alloc = (memmap_t*)mmap;
-
+	int index = get_free_bucket_index(get_block_size(mmap_alloc));
 	// Remove allocated block from LL
 	if(!is_last_in_bucket(mmap)){
 		#ifdef DEBUG_MEMORY
@@ -274,7 +274,7 @@ void* half_alloc_2(size_t requested_block_size){
 	memmap_t* selected_block_alloc = (memmap_t*) selected_block_free;
 	printf("half_alloc | Selected block size: %d\n", get_block_size(selected_block_alloc));
 	
-	remove_free_block(selected_block_free,i);
+	remove_free_block(selected_block_free);
 
 	//split the block if it's larger than requested by at least 32 bytes
 	if (get_block_size(selected_block_alloc) - required_memory > BLOCK_SIZE_MULTIPLE){
@@ -307,7 +307,7 @@ void* half_alloc(size_t n){
 	#endif
 
 	// Remove allocated block from LL
-	remove_free_block(mmap, i);
+	remove_free_block(mmap);
 
 	#ifdef DEBUG_MEMORY
 	free_memory -= (m + sizeof(memmap_t));

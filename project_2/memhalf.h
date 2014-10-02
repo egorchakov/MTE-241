@@ -53,7 +53,7 @@ void set_allocated( memmap_t*, bool );
 void set_prev_free( memmap_free_t*, void* );
 void set_next_free( memmap_free_t*, void* );
 
-void remove_free_block( memmap_free_t*, size_t );
+void remove_free_block( memmap_free_t* );
 void insert_free_block( memmap_free_t* );
 
 bool is_first_in_bucket(memmap_free_t*);
