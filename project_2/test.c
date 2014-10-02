@@ -13,6 +13,8 @@
 #define CYAN    "\x1b[36m"
 #define RESET   "\x1b[0m"
 
+#define PRINT_IGNORE_EMPTY_BUCKETS
+
 void print_bucket(memmap_free_t* head){
     memmap_free_t* tmp_free = head;
     memmap_t* tmp_alloc = NULL;
@@ -29,6 +31,9 @@ void print_buckets(memmap_free_t* buckets[], short size){
     short i;
     printf(MAGENTA "==================== START BUCKETS LAYOUT ====================\n");
     for (i=0; i<size; i++) {
+        #ifdef PRINT_IGNORE_EMPTY_BUCKETS
+        if (!buckets[i]) continue;
+        #endif
         printf("%d (%d -- %d ): ", i, 1 << i+5, (1 << i+6) -1);
         print_bucket(buckets[i]);
     }
