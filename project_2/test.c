@@ -18,7 +18,7 @@ void print_bucket(memmap_free_t* head){
     printf("\n");
 }
 
-void print_mem_layout(memmap_free_t* buckets[], short size){
+void print_buckets(memmap_free_t* buckets[], short size){
     short i;
     printf("==================== START MEMORY LAYOUT ====================\n");
     for (i=0; i<size; i++) {
@@ -33,11 +33,12 @@ void main(void){
     void* dummy1 = half_alloc_2(1000);
     void* dummy2 = half_alloc_2(1000);
     void* dummy3 = half_alloc_2(1000);
+    print_buckets(mprgmmap, 10);
     half_free(dummy1);
-    print_mem_layout(mprgmmap, 10);
+    print_buckets(mprgmmap, 10);
     half_free(dummy2);
-    print_mem_layout(mprgmmap, 10);
+    print_buckets(mprgmmap, 10);
     half_free(dummy3);
-    print_mem_layout(mprgmmap, 10);
+    print_buckets(mprgmmap, 10);
     printf("%p\n", base_ptr);
 }
