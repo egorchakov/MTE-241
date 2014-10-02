@@ -197,6 +197,22 @@ void* split_block(memmap_free_t* mmap_free, size_t required_size ){
 	return new_mmap_free;
 }
 
+memmap_free_t* coalesce_block(memmap_free_t* mmap){
+	memmap_t* mmap_alloc = (memmap_t*)mmap;
+	memmap_t* mmap_left = get_prev_block(mmap_alloc);
+	memmap_t* mmap_right = get_next_block(mmap_alloc);
+	if(!get_allocated(mmap_left)) mmap_alloc = merge_block((memmap_free_t*)mmap_left, mmap);
+	if(!get_allocated(mmap_right)) mmap_alloc = merge_block((memmap_free_t*)mmap_alloc, mmap);
+	return mmap;
+}
+
+memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
+	set_next_block(mmap_left, get_next_block(mmap_right));
+	set_block_size(mmap_left, get_block_size(mmap_left) + get_block_size(mmap_right));
+	remove_free_block(mmap_right, get_free_bucket_index(get_block_size(mmap_right)));
+	return mmap_left;
+}
+
 void remove_free_block(memmap_free_t* mmap, size_t index){
 	memmap_t* mmap_alloc = (memmap_t*)mmap;
 
