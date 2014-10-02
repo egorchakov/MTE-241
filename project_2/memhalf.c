@@ -201,14 +201,15 @@ memmap_free_t* coalesce_block(memmap_free_t* mmap){
 	memmap_t* mmap_alloc = (memmap_t*)mmap;
 	memmap_t* mmap_left = get_prev_block(mmap_alloc);
 	memmap_t* mmap_right = get_next_block(mmap_alloc);
-	if(!get_allocated(mmap_left)) mmap_alloc = merge_block((memmap_free_t*)mmap_left, mmap);
-	if(!get_allocated(mmap_right)) mmap_alloc = merge_block((memmap_free_t*)mmap_alloc, mmap);
+	if(!is_first_in_bucket(mmap) != mmap && !get_allocated(mmap_left)) mmap_alloc = merge_block((memmap_free_t*)mmap_left, mmap);
+	if(!is_last_in_bucket(mmap) != mmap && !get_allocated(mmap_right)) mmap_alloc = merge_block((memmap_free_t*)mmap_alloc, mmap);
 	return mmap;
 }
 
 memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
 	set_next_block(mmap_left, get_next_block(mmap_right));
 	set_block_size(mmap_left, get_block_size(mmap_left) + get_block_size(mmap_right));
+	if(is_last_in_bucket(mmap_right)) set_next_block(mmap_left, mmap_left);
 	remove_free_block(mmap_right, get_free_bucket_index(get_block_size(mmap_right)));
 	return mmap_left;
 }
@@ -314,6 +315,7 @@ void* half_alloc(size_t n){
 void half_free(void* ptr){
 	memmap_free_t* block_free = (memmap_free_t*) (ptr - HEADER_SIZE);
 	memmap_t* block_alloc = (memmap_t*) block_free;
+	block_free = coalesce_block(block_free);
 	insert_free_block(block_free);
 	set_allocated(block_alloc, false);
 }
