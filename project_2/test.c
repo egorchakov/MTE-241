@@ -29,7 +29,7 @@ void print_bucket(memmap_free_t* head){
 
 void print_buckets(memmap_free_t* buckets[], short size){
     short i;
-    printf(MAGENTA "==================== START BUCKETS LAYOUT ====================\n");
+    printf(MAGENTA "==================== START BUCKETS LAYOUT ====================\n\n");
     for (i=0; i<size; i++) {
         #ifdef PRINT_IGNORE_EMPTY_BUCKETS
         if (!buckets[i]) continue;
@@ -37,19 +37,19 @@ void print_buckets(memmap_free_t* buckets[], short size){
         printf("%d (%d -- %d ): ", i, 1 << i+5, (1 << i+6) -1);
         print_bucket(buckets[i]);
     }
-    printf("===================== END BUCKETS LAYOUT =====================\n" RESET);
+    printf("\n===================== END BUCKETS LAYOUT =====================\n" RESET);
 }
 
 void print_memory_layout(void* base_ptr){
     memmap_t* block = (memmap_t*) base_ptr;
-    printf( GREEN "==================== START MEMORY LAYOUT ====================\n");
+    printf( GREEN "==================== START MEMORY LAYOUT ====================\n\n");
     while (block){
         if (get_allocated(block)) printf("( %d )->", get_block_size(block));
         else printf("[ %d ]->", get_block_size(block));
         if (is_last_in_memory(block)) break;
         block = get_next_block(block);
     }
-    printf("\n==================== END MEMORY LAYOUT ====================\n" RESET);
+    printf("\n\n==================== END MEMORY LAYOUT ====================\n" RESET);
 }
     
 void main(void){
