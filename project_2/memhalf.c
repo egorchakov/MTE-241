@@ -278,6 +278,8 @@ void* half_alloc_2(size_t requested_block_size){
 		printf("half_alloc_2 | ");
 		insert_free_block(additional_block);
 	}
+
+	set_allocated(selected_block_alloc, true);
 	return ((void*)selected_block_alloc) + HEADER_SIZE;
 }
 
