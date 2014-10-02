@@ -141,7 +141,7 @@ void half_init(){
 	or NULL if splitting is not possible
 */
 
-void* split_block(memmap_free_t* mmap_free, size_t required_size ){
+memmap_free_t* split_block(memmap_free_t* mmap_free, size_t required_size ){
 	required_size = CEIL32(required_size);
 
 	memmap_t* mmap_alloc = (memmap_t*) mmap_free;

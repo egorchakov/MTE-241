@@ -72,7 +72,7 @@ S16 get_free_bucket_index(size_t );
 void memmap_free_init(memmap_free_t* const, size_t );
 void memmap_init(memmap_t* const, size_t );
 
-void* split_block(memmap_free_t* const, size_t);
+memmap_free_t* split_block(memmap_free_t* const, size_t);
 // Public interface
 void half_init();
 void *half_alloc( size_t n );
