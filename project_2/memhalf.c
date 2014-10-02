@@ -219,14 +219,15 @@ memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
 		set_next_block(mmap_left, get_next_block(mmap_right));
 		set_prev_block(get_next_block(mmap_right), mmap_left);
 	}
-	printf("Left size: %d, ", get_block_size(mmap_left));
-	printf("Right size: %d, ", get_block_size(mmap_right));
-	printf("Removing right block of size %d", get_block_size(mmap_right));
+	#ifdef DEBUG_MEMORY
+	printf("Left: %d, right: %d ,", get_block_size(mmap_left), get_block_size(mmap_right));
+	#endif 
 	remove_free_block(mmap_right);
-	printf(" and left block of size %d", get_block_size(mmap_left));
 	remove_free_block(mmap_left);
 	set_block_size(mmap_left, get_block_size(mmap_left) + get_block_size(mmap_right));
-	printf("Left size (new): %d\n", get_block_size(mmap_left));
+	#ifdef DEBUG_MEMORY
+	printf("new left:  %d\n", get_block_size(mmap_left));
+	#endif
 	insert_free_block(mmap_left);
 
 	return mmap_left;
@@ -336,7 +337,9 @@ void half_free(void* ptr){
 	memmap_t* block_alloc = (memmap_t*) block_free;
 	if (!get_allocated(block_alloc)) return;
 	block_free = coalesce_block(block_free);
+	#ifdef DEBUG_MEMORY
 	printf("half_free | ");
+	#endif
 	insert_free_block(block_free);
 	set_allocated(block_alloc, false);
 }
