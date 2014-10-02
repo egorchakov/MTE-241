@@ -33,11 +33,11 @@ void main(void){
     void* dummy1 = half_alloc_2(1000);
     void* dummy2 = half_alloc_2(1000);
     void* dummy3 = half_alloc_2(1000);
-    half_free(dummy3);
+    half_free(dummy1);
     print_mem_layout(mprgmmap, 10);
     half_free(dummy2);
     print_mem_layout(mprgmmap, 10);
-    half_free(dummy1);
+    half_free(dummy3);
     print_mem_layout(mprgmmap, 10);
     printf("%p\n", base_ptr);
 }

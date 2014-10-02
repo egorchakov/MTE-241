@@ -200,16 +200,20 @@ memmap_free_t* coalesce_block(memmap_free_t* mmap){
 	memmap_t* mmap_alloc = (memmap_t*)mmap;
 	memmap_t* mmap_left = get_prev_block(mmap_alloc);
 	memmap_t* mmap_right = get_next_block(mmap_alloc);
-	if(!is_first_in_memory(mmap) != mmap && !get_allocated(mmap_left)) mmap_alloc = merge_block((memmap_free_t*)mmap_left, mmap);
-	if(!is_last_in_memory(mmap) != mmap && !get_allocated(mmap_right)) mmap_alloc = merge_block((memmap_free_t*)mmap_alloc, mmap);
+	if(!is_first_in_memory(mmap) != mmap && !get_allocated(mmap_left)) mmap = merge_block((memmap_free_t*)mmap_left, mmap);
+	if(!is_last_in_memory(mmap) != mmap && !get_allocated(mmap_right)) mmap = merge_block((memmap_free_t*)mmap, mmap_right);
 	return mmap;
 }
 
 memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
 	if(is_last_in_memory(mmap_right)) set_next_block(mmap_left, mmap_left);
 	else set_next_block(mmap_left, get_next_block(mmap_right));
+	printf("Left size: %d\n", get_block_size(mmap_left));
+	printf("Right size: %d\n", get_block_size(mmap_right));
 	set_block_size(mmap_left, get_block_size(mmap_left) + get_block_size(mmap_right));
 	remove_free_block(mmap_right, get_free_bucket_index(get_block_size(mmap_right)));
+	remove_free_block(mmap_left, get_free_bucket_index(get_block_size(mmap_left)));
+	printf("Left size (new): %d\n", get_block_size(mmap_left));
 	return mmap_left;
 }
 
