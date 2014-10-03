@@ -53,7 +53,7 @@ void set_allocated(memmap_t* mmap, bool alloc){
 
 void set_prev_free(memmap_free_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
-		mmap->prev_free = (unsigned short) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+		mmap->prev_free = (unsigned int) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
 	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
 	#endif
@@ -61,7 +61,7 @@ void set_prev_free(memmap_free_t* mmap, void* ptr){
 
 void set_next_free(memmap_free_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
-		mmap->next_free = (unsigned short) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+		mmap->next_free = (unsigned int) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
 	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
 	#endif

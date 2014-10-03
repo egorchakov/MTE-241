@@ -26,8 +26,8 @@ typedef struct memmap {
 
 typedef struct memmap_free {
 	U32 memmap:32;
-	unsigned short prev_free:10;
-	unsigned short next_free:10;
+	unsigned int prev_free:10;
+	unsigned int next_free:10;
 } memmap_free_t;
 #pragma pack(pop) 
 
