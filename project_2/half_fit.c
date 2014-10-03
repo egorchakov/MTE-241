@@ -236,7 +236,7 @@ memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
 		set_prev_block(get_next_block(mmap_right_alloc), mmap_left_alloc);
 	}
 	#ifdef DEBUG_MEMORY
-	printf("Left: %d, right: %d ,", get_block_size(mmap_left)_alloc, get_block_size(mmap_right_alloc);
+	printf("Left: %d, right: %d ,", get_block_size(mmap_left_alloc, get_block_size(mmap_right_alloc));
 	#endif 
 	remove_free_block(mmap_right);
 	remove_free_block(mmap_left);
