@@ -11,7 +11,7 @@
 #define HEADER_SIZE 4
 #define BLOCK_SIZE_MULTIPLE 32
 // Compile flags
-#define DEBUG_MEMORY
+// #define DEBUG_MEMORY
 
 // Set alignment to 4 bytes
 #pragma pack(push)
