@@ -71,18 +71,22 @@ void print_memory_layout(void* base_ptr, memmap_free_t* buckets[], short size){
     }
     printf("\n===================== END MEMORY LAYOUT =====================\n\n" RESET);
 }
-    
+
+
 void main(void){
     half_init();
-    void* dummy1 = half_alloc_2(1000);
-    void* dummy2 = half_alloc_2(1000);
-    void* dummy3 = half_alloc_2(1000);
-    print_buckets(mprgmmap, 10);
-    half_free(dummy1);
-    print_buckets(mprgmmap, 10);
-    half_free(dummy2);
-    print_buckets(mprgmmap, 10);
-    half_free(dummy3);
-    print_buckets(mprgmmap, 10);
-    printf("%p\n", base_ptr);
-}
+    void* dummy[100];
+    int i;
+    for (i=0; i<8; i++) {
+        dummy[i] = half_alloc_2(1000+32*i);
+    }
+    printf("after alloc ");
+    print_memory_layout(base_ptr, mprgmmap, 10);
+    int free_order[7] = {0,2, 4, 3, 1, 5, 6};
+    for (i=0; i<=7; i++) {
+        printf("Freeing %d \n", get_block_size(dummy[free_order[i]] - HEADER_SIZE));
+        half_free(dummy[free_order[i]]);
+        print_memory_layout(base_ptr, mprgmmap, 10);   
+    }
+    
+} 
