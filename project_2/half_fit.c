@@ -123,10 +123,18 @@ void memmap_free_init(memmap_free_t* const mmap, size_t size){
 
 void half_init(){
 	#ifdef _WIN32
+	if(base_ptr != NULL) _aligned_free(base_ptr); // Reinitialize
 	memmap_free_t* block = (memmap_free_t*) _aligned_malloc(BLOCK_SIZE_MULTIPLE, MAX_MEMORY);
 	#else
+	if(base_ptr != NULL) aligned_free(base_ptr); // Reinitialize
 	memmap_free_t* block = (memmap_free_t*) aligned_alloc(BLOCK_SIZE_MULTIPLE, MAX_MEMORY);
 	#endif
+
+	// Reinitialize each bucket
+	int i;
+	for(i = 0; i < NUM_BUCKETS; ++i) 
+		mprgmmap[i] = NULL;
+
 	base_ptr = block;
 	memmap_free_init(block, MAX_MEMORY);
 	mprgmmap[NUM_BUCKETS - 1] = block;
