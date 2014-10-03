@@ -471,9 +471,9 @@ int main( void ) {
 
 	printf( "test_alc_free_max=%i \n",              test_alc_free_max() );
 	printf( "test_static_alc_free=%i \n",           test_static_alc_free() );
-	// printf( "test_static_alc_free_violation=%i \n", test_static_alc_free_violation() );
-	// printf( "test_rndm_alc_free=%i \n",             test_rndm_alc_free() );
-	// printf( "test_max_alc_1_byte=%i \n",            test_max_alc_1_byte() );
+	printf( "test_static_alc_free_violation=%i \n", test_static_alc_free_violation() );
+	printf( "test_rndm_alc_free=%i \n",             test_rndm_alc_free() );
+	printf( "test_max_alc_1_byte=%i \n",            test_max_alc_1_byte() );
 	// } TimerStop();
 	
 	// printf( "The elappsed time is %d ms\n", current_elapsed_time() );
