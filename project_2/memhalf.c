@@ -206,11 +206,15 @@ memmap_free_t* coalesce_block(memmap_free_t* mmap){
 	memmap_t* mmap_right = get_next_block(mmap_alloc);
 
 	if(!is_first_in_memory(mmap) && !get_allocated(mmap_left)) {
+		printf("Merging %d and %d, ", get_block_size(mmap_left), get_block_size(mmap));
 		mmap = merge_block((memmap_free_t*)mmap_left, mmap);
+		printf("final size: %d\n", get_block_size((memmap_t*)mmap));
 	}
 
 	if(!is_last_in_memory(mmap) && !get_allocated(mmap_right)) { 
+		printf("Merging %d and %d, ", get_block_size(mmap), get_block_size(mmap_right));
 		mmap = merge_block((memmap_free_t*)mmap, mmap_right);
+		printf("final size: %d\n", get_block_size((memmap_t*)mmap));
 	}
 	return mmap;
 }
