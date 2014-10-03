@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "type.h"
-#include "memhalf.h"
+#include "half_fit.h"
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -23,7 +23,7 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
-#define PRINT_IGNORE_EMPTY_BUCKETS
+// #define PRINT_IGNORE_EMPTY_BUCKETS
 
 void print_bucket(memmap_free_t* head){
     memmap_free_t* tmp_free = head;

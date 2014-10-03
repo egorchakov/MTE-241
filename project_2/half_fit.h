@@ -1,5 +1,5 @@
-#ifndef __MEMHALF_H__
-#define __MEMHALF_H__
+#ifndef __HALF_FIT_H__
+#define __HALF_FIT_H__
 
 #include "util.h"
 
