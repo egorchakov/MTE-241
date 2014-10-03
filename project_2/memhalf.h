@@ -3,7 +3,7 @@
 
 #include "util.h"
 
-#define NUM_BUCKETS 11
+#define NUM_BUCKETS 10
 #define FIRST_BUCKET_POWER 5
 #define MAX_MEMORY 16384
 
