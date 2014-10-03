@@ -203,19 +203,19 @@ bool test_static_alc_free( void ) {
 
 	max_sz = find_max_block();
 
-	ptr_1 = half_alloc(1 << 5 + 1);
+	ptr_1 = half_alloc((1 << 5) + 1);
 	if (ptr_1 == NULL) return false;
 
-	ptr_2 = half_alloc(1 << 9 - 1);
+	ptr_2 = half_alloc((1 << 9) - 1);
 	if (ptr_2 == NULL) return false;
 
-	ptr_3 = half_alloc(1 << 5 + 1);
+	ptr_3 = half_alloc((1 << 5) + 1);
 	if (ptr_3 == NULL) return false;
 
 	ptr_4 = half_alloc(1 << 10);
 	if (ptr_4 == NULL) return false;
 
-	ptr_5 = half_alloc(12345);
+	ptr_5 = half_alloc(7000);
 	if (ptr_5 == NULL) return false;
 
 	half_free(ptr_1);
