@@ -299,7 +299,7 @@ void insert_free_block(memmap_free_t* mmap){
 	#endif
 }
 
-void* half_alloc_2(size_t requested_block_size){
+void* half_alloc(size_t requested_block_size){
 	unsigned short required_memory = CEIL32(requested_block_size + HEADER_SIZE);
 	if (required_memory > MAX_MEMORY) return NULL;
 
@@ -338,34 +338,34 @@ void* half_alloc_2(size_t requested_block_size){
 	return ((void*)selected_block_alloc) + HEADER_SIZE;
 }
 
-void* half_alloc(size_t n){
-	unsigned short m = CEIL32(n + HEADER_SIZE);
-	int i = 0;
-	if(m > MAX_MEMORY) return NULL;
-	i = get_alloc_bucket_index(m);
-	while (i < NUM_BUCKETS && mprgmmap[i] == NULL) i++;
+// void* half_alloc(size_t n){
+// 	unsigned short m = CEIL32(n + HEADER_SIZE);
+// 	int i = 0;
+// 	if(m > MAX_MEMORY) return NULL;
+// 	i = get_alloc_bucket_index(m);
+// 	while (i < NUM_BUCKETS && mprgmmap[i] == NULL) i++;
 
-	#ifdef DEBUG_MEMORY
-	printf("Requested m bytes: %d\n", m);
-	printf("Getting memory from bucket: %d\n", i);
-	#endif
+// 	#ifdef DEBUG_MEMORY
+// 	printf("Requested m bytes: %d\n", m);
+// 	printf("Getting memory from bucket: %d\n", i);
+// 	#endif
 
-	if(i >= NUM_BUCKETS || mprgmmap[i] == NULL) return NULL; // Out of memory
-	memmap_free_t* mmap = mprgmmap[i];
+// 	if(i >= NUM_BUCKETS || mprgmmap[i] == NULL) return NULL; // Out of memory
+// 	memmap_free_t* mmap = mprgmmap[i];
 
-	#ifdef DEBUG_MEMORY
-	printf("Allocated block memory: %p\n", mmap);
-	#endif
+// 	#ifdef DEBUG_MEMORY
+// 	printf("Allocated block memory: %p\n", mmap);
+// 	#endif
 
-	// Remove allocated block from LL
-	remove_free_block(mmap);
+// 	// Remove allocated block from LL
+// 	remove_free_block(mmap);
 
-	#ifdef DEBUG_MEMORY
-	free_memory -= (m + sizeof(memmap_t));
-	#endif
+// 	#ifdef DEBUG_MEMORY
+// 	free_memory -= (m + sizeof(memmap_t));
+// 	#endif
 
-	return (((void*)mmap) + sizeof(memmap_free_t));
-}
+// 	return (((void*)mmap) + sizeof(memmap_free_t));
+// }
 
 void half_free(void* ptr){
 	memmap_free_t* block_free = (memmap_free_t*) (ptr - HEADER_SIZE);
@@ -377,4 +377,3 @@ void half_free(void* ptr){
 	#endif
 	insert_free_block(block_free);
 	set_allocated(block_alloc, false);
-}
