@@ -377,3 +377,5 @@ void half_free(void* ptr){
 	#endif
 	insert_free_block(block_free);
 	set_allocated(block_alloc, false);
+}
+
