@@ -336,7 +336,6 @@ void* half_alloc(size_t requested_block_size){
 	//split the block if it's larger than requested by at least 32 bytes
 	if (get_block_size(selected_block_alloc) - required_memory > BLOCK_SIZE_MULTIPLE){
 		memmap_free_t* additional_block = split_block(selected_block_free, required_memory);
-		additional_block = coalesce_block(additional_block);
 		#ifdef DEBUG_MEMORY
 		printf("half_alloc_2 | ");
 		#endif
