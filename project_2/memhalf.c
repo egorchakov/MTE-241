@@ -151,7 +151,7 @@ memmap_free_t* split_block(memmap_free_t* mmap_free, size_t required_size ){
 
 	size_t old_size = get_block_size(mmap_alloc);
 
-	memmap_free_t* new_mmap_free = CEIL32((U32)mmap_alloc + (U32)required_size);
+	memmap_free_t* new_mmap_free = (memmap_free_t*) (CEIL32((U32)mmap_alloc + (U32)required_size));
 	memmap_t* new_mmap_alloc = (memmap_t*) new_mmap_free;
 
 	/*
@@ -203,36 +203,38 @@ memmap_free_t* coalesce_block(memmap_free_t* mmap){
 	memmap_t* mmap_left = get_prev_block(mmap_alloc);
 	memmap_t* mmap_right = get_next_block(mmap_alloc);
 
-	if(!is_first_in_memory(mmap) && !get_allocated(mmap_left)) {
-		printf("(Left) Merging %d and %d, ", get_block_size(mmap_left), get_block_size(mmap));
+	if(!is_first_in_memory(mmap_alloc) && !get_allocated(mmap_left)) {
+		printf("(Left) Merging %d and %d, ", get_block_size(mmap_left), get_block_size(mmap_alloc));
 		mmap = merge_block((memmap_free_t*)mmap_left, mmap);
 		printf("final size: %d\n", get_block_size((memmap_t*)mmap));
 	}
 
-	if(!is_last_in_memory(mmap) && !get_allocated(mmap_right)) { 
-		printf("(Right) Merging %d and %d, ", get_block_size(mmap), get_block_size(mmap_right));
-		mmap = merge_block((memmap_free_t*)mmap, mmap_right);
+	if(!is_last_in_memory(mmap_alloc) && !get_allocated(mmap_right)) { 
+		printf("(Right) Merging %d and %d, ", get_block_size(mmap_alloc), get_block_size(mmap_right));
+		mmap = merge_block(mmap, (memmap_free_t*)mmap_right);
 		printf("final size: %d\n", get_block_size((memmap_t*)mmap));
 	}
 	return mmap;
 }
 
 memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
-	if(is_last_in_memory(mmap_right)) {
-		set_next_block(mmap_left, mmap_left);
+	memmap_t* mmap_left_alloc = (memmap_t*) mmap_left;
+	memmap_t* mmap_right_alloc = (memmap_t*) mmap_right;
+	if(is_last_in_memory(mmap_right_alloc)) {
+		set_next_block(mmap_left_alloc, mmap_left_alloc);
 	}
 	else {
-		set_next_block(mmap_left, get_next_block(mmap_right));
-		set_prev_block(get_next_block(mmap_right), mmap_left);
+		set_next_block(mmap_left_alloc, get_next_block(mmap_right_alloc));
+		set_prev_block(get_next_block(mmap_right_alloc), mmap_left_alloc);
 	}
 	#ifdef DEBUG_MEMORY
-	printf("Left: %d, right: %d ,", get_block_size(mmap_left), get_block_size(mmap_right));
+	printf("Left: %d, right: %d ,", get_block_size(mmap_left)_alloc, get_block_size(mmap_right_alloc);
 	#endif 
 	remove_free_block(mmap_right);
 	remove_free_block(mmap_left);
-	set_block_size(mmap_left, get_block_size(mmap_left) + get_block_size(mmap_right));
+	set_block_size(mmap_left_alloc, get_block_size(mmap_left_alloc) + get_block_size(mmap_right_alloc));
 	#ifdef DEBUG_MEMORY
-	printf("new left:  %d\n", get_block_size(mmap_left));
+	printf("new left:  %d\n", get_block_size(mmap_left_alloc));
 	#endif
 	return mmap_left;
 }
