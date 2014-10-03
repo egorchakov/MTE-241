@@ -232,8 +232,6 @@ memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
 	#ifdef DEBUG_MEMORY
 	printf("new left:  %d\n", get_block_size(mmap_left));
 	#endif
-	insert_free_block(mmap_left);
-
 	return mmap_left;
 }
 
