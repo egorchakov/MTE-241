@@ -240,18 +240,40 @@ memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
 void remove_free_block(memmap_free_t* mmap){
 	memmap_t* mmap_alloc = (memmap_t*)mmap;
 	int index = get_free_bucket_index(get_block_size(mmap_alloc));
+	if (!is_last_in_bucket(mmap)){
+		if (!is_first_in_bucket(mmap)){
+			set_next_free(get_prev_free(mmap), get_next_free(mmap));
+			set_prev_free(get_next_free(mmap), get_prev_free(mmap));
+		}
+
+		else {
+			mprgmmap[index] = get_next_free(mmap);
+			set_prev_free(get_next_free(mmap), get_next_free(mmap));
+		}
+	}
+
+	else {
+		if (!is_first_in_bucket(mmap)){
+			set_next_free(get_prev_free(mmap), get_prev_free(mmap));
+		}
+
+		else {
+			mprgmmap[index] = NULL;
+		}
+
+	}
 	// Remove allocated block from LL
-	if(!is_last_in_bucket(mmap)){
-		#ifdef DEBUG_MEMORY
-		printf("Removed block from LL: %p\n", get_next_free(mmap));
-		#endif
-		memmap_free_t* mmap_next_free = get_next_free(mmap);
-		set_prev_free(mmap_next_free, mmap_next_free);
-		mprgmmap[index] = mmap_next_free; 
-	}
-	else{
-		mprgmmap[index] = NULL;
-	}
+	// if(!is_last_in_bucket(mmap)){
+	// 	#ifdef DEBUG_MEMORY
+	// 	printf("Removed block from LL: %p\n", get_next_free(mmap));
+	// 	#endif
+	// 	memmap_free_t* mmap_next_free = get_next_free(mmap);
+	// 	set_prev_free(mmap_next_free, mmap_next_free);
+	// 	mprgmmap[index] = mmap_next_free; 
+	// }
+	// else{
+	// 	mprgmmap[index] = NULL;
+	// }
 
 }
 
