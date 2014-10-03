@@ -280,6 +280,14 @@ void insert_free_block(memmap_free_t* mmap){
 	size_t block_size = get_block_size(mmap_alloc);
 	int index = get_free_bucket_index(block_size);
 
+	if (mprgmmap[index] == mmap){
+		printf("
+			[WARNING]: The passed block is the same as the 
+			first block in the bucket. This block might have
+			been previously inserted
+			");
+		return;
+	}
 	// some blocks present in the bucket
 	if (mprgmmap[index]) {
 		set_prev_free(mprgmmap[index], mmap);
