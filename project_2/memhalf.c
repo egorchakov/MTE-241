@@ -263,6 +263,10 @@ void remove_free_block(memmap_free_t* mmap){
 			mprgmmap[index] = NULL;
 		}
 	}
+
+	// "Isolating" the block
+	set_prev_free(mmap, mmap);
+	set_next_free(mmap, mmap);
 }
 
 void insert_free_block(memmap_free_t* mmap){
