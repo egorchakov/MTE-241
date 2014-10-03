@@ -123,10 +123,18 @@ void memmap_free_init(memmap_free_t* const mmap, size_t size){
 
 void half_init(){
 	#ifdef _WIN32
+	if(base_ptr != NULL) _aligned_free(base_ptr); // Reinitialize
 	memmap_free_t* block = (memmap_free_t*) _aligned_malloc(BLOCK_SIZE_MULTIPLE, MAX_MEMORY);
 	#else
+	if(base_ptr != NULL) aligned_free(base_ptr); // Reinitialize
 	memmap_free_t* block = (memmap_free_t*) aligned_alloc(BLOCK_SIZE_MULTIPLE, MAX_MEMORY);
 	#endif
+
+	// Reinitialize each bucket
+	int i;
+	for(i = 0; i < NUM_BUCKETS; ++i) 
+		mprgmmap[i] = NULL;
+
 	base_ptr = block;
 	memmap_free_init(block, MAX_MEMORY);
 	mprgmmap[NUM_BUCKETS - 1] = block;
@@ -228,7 +236,7 @@ memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
 		set_prev_block(get_next_block(mmap_right_alloc), mmap_left_alloc);
 	}
 	#ifdef DEBUG_MEMORY
-	printf("Left: %d, right: %d ,", get_block_size(mmap_left)_alloc, get_block_size(mmap_right_alloc);
+	printf("Left: %d, right: %d ,", get_block_size(mmap_left_alloc, get_block_size(mmap_right_alloc));
 	#endif 
 	remove_free_block(mmap_right);
 	remove_free_block(mmap_left);
@@ -328,7 +336,6 @@ void* half_alloc(size_t requested_block_size){
 	//split the block if it's larger than requested by at least 32 bytes
 	if (get_block_size(selected_block_alloc) - required_memory > BLOCK_SIZE_MULTIPLE){
 		memmap_free_t* additional_block = split_block(selected_block_free, required_memory);
-		additional_block = coalesce_block(additional_block);
 		#ifdef DEBUG_MEMORY
 		printf("half_alloc_2 | ");
 		#endif

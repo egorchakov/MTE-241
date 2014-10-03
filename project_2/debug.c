@@ -39,7 +39,7 @@ void print_memory_layout(void* base_ptr, memmap_free_t* buckets[], short size){
 //     void* dummy[100];
 //     int i;
 //     for (i=0; i<8; i++) {
-//         dummy[i] = half_alloc_2(1000+32*i);
+//         dummy[i] = half_alloc(1000+32*i);
 //     }
 //     printf("after alloc ");
 //     print_memory_layout(base_ptr, mprgmmap, 10);
