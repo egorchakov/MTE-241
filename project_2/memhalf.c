@@ -262,21 +262,7 @@ void remove_free_block(memmap_free_t* mmap){
 		else {
 			mprgmmap[index] = NULL;
 		}
-
 	}
-	// Remove allocated block from LL
-	// if(!is_last_in_bucket(mmap)){
-	// 	#ifdef DEBUG_MEMORY
-	// 	printf("Removed block from LL: %p\n", get_next_free(mmap));
-	// 	#endif
-	// 	memmap_free_t* mmap_next_free = get_next_free(mmap);
-	// 	set_prev_free(mmap_next_free, mmap_next_free);
-	// 	mprgmmap[index] = mmap_next_free; 
-	// }
-	// else{
-	// 	mprgmmap[index] = NULL;
-	// }
-
 }
 
 void insert_free_block(memmap_free_t* mmap){
