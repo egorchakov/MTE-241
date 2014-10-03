@@ -126,7 +126,7 @@ void half_init(){
 	if(base_ptr != NULL) _aligned_free(base_ptr); // Reinitialize
 	memmap_free_t* block = (memmap_free_t*) _aligned_malloc(BLOCK_SIZE_MULTIPLE, MAX_MEMORY);
 	#else
-	if(base_ptr != NULL) aligned_free(base_ptr); // Reinitialize
+	if(base_ptr != NULL) free(base_ptr); // Reinitialize
 	memmap_free_t* block = (memmap_free_t*) aligned_alloc(BLOCK_SIZE_MULTIPLE, MAX_MEMORY);
 	#endif
 
