@@ -323,17 +323,18 @@ void* half_alloc_2(size_t requested_block_size){
 	#endif
 	
 	remove_free_block(selected_block_free);
+	set_allocated(selected_block_alloc, true);
 
 	//split the block if it's larger than requested by at least 32 bytes
 	if (get_block_size(selected_block_alloc) - required_memory > BLOCK_SIZE_MULTIPLE){
 		memmap_free_t* additional_block = split_block(selected_block_free, required_memory);
+		additional_block = coalesce_block(additional_block);
 		#ifdef DEBUG_MEMORY
 		printf("half_alloc_2 | ");
 		#endif
 		insert_free_block(additional_block);
 	}
 
-	set_allocated(selected_block_alloc, true);
 	return ((void*)selected_block_alloc) + HEADER_SIZE;
 }
 
