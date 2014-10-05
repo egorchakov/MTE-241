@@ -36,7 +36,7 @@ void set_block_size(memmap_t* mmap, U32 size){
 
 void set_prev_block(memmap_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
-		mmap->prev_block = (unsigned int) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+		mmap->prev_block = (U32) (ptr - base_ptr) / BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
 	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
 	#endif
@@ -44,7 +44,7 @@ void set_prev_block(memmap_t* mmap, void* ptr){
 
 void set_next_block(memmap_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
-		mmap->next_block = (unsigned int) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+		mmap->next_block = (U32) (ptr - base_ptr) / BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
 	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
 	#endif
@@ -56,7 +56,7 @@ void set_allocated(memmap_t* mmap, bool alloc){
 
 void set_prev_free(memmap_free_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
-		mmap->prev_free = (unsigned int) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+		mmap->prev_free = (U32) (ptr - base_ptr) / BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
 	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
 	#endif
@@ -64,7 +64,7 @@ void set_prev_free(memmap_free_t* mmap, void* ptr){
 
 void set_next_free(memmap_free_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
-		mmap->next_free = (unsigned int) (ptr - base_ptr)/BLOCK_SIZE_MULTIPLE;
+		mmap->next_free = (U32) (ptr - base_ptr) / BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
 	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
 	#endif
@@ -134,7 +134,7 @@ void half_init(){
 	#endif
 
 	// Reinitialize each bucket
-	int i;
+	U8 i;
 	for(i = 0; i < NUM_BUCKETS; ++i) 
 		mprgmmap[i] = NULL;
 
@@ -252,7 +252,7 @@ memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
 
 void remove_free_block(memmap_free_t* mmap){
 	memmap_t* mmap_alloc = (memmap_t*)mmap;
-	int index = get_free_bucket_index(get_block_size(mmap_alloc));
+	U8 index = get_free_bucket_index(get_block_size(mmap_alloc));
 	if (!is_last_in_bucket(mmap)){
 		if (!is_first_in_bucket(mmap)){
 			set_next_free(get_prev_free(mmap), get_next_free(mmap));
@@ -283,7 +283,7 @@ void remove_free_block(memmap_free_t* mmap){
 void insert_free_block(memmap_free_t* mmap){
 	memmap_t* mmap_alloc = (memmap_t*)mmap;
 	U32 block_size = get_block_size(mmap_alloc);
-	int index = get_free_bucket_index(block_size);
+	U8 index = get_free_bucket_index(block_size);
 
 	if (mprgmmap[index] == mmap){
 		printf(" \
@@ -311,11 +311,11 @@ void insert_free_block(memmap_free_t* mmap){
 }
 
 void* half_alloc(U32 requested_block_size){
-	unsigned short required_memory = CEIL32(requested_block_size + HEADER_SIZE);
+	U16 required_memory = CEIL32(requested_block_size + HEADER_SIZE);
 	if (required_memory > MAX_MEMORY) return NULL;
 
 	// from which bucket to allocate?
-	int i = get_alloc_bucket_index(required_memory);
+	U8 i = get_alloc_bucket_index(required_memory);
 	#ifdef DEBUG_MEMORY
 	printf("half_alloc | Starting search at bucket %d ... ", i);
 	#endif
@@ -347,35 +347,6 @@ void* half_alloc(U32 requested_block_size){
 
 	return ((void*)selected_block_alloc) + HEADER_SIZE;
 }
-
-// void* half_alloc(U32 n){
-// 	unsigned short m = CEIL32(n + HEADER_SIZE);
-// 	int i = 0;
-// 	if(m > MAX_MEMORY) return NULL;
-// 	i = get_alloc_bucket_index(m);
-// 	while (i < NUM_BUCKETS && mprgmmap[i] == NULL) i++;
-
-// 	#ifdef DEBUG_MEMORY
-// 	printf("Requested m bytes: %d\n", m);
-// 	printf("Getting memory from bucket: %d\n", i);
-// 	#endif
-
-// 	if(i >= NUM_BUCKETS || mprgmmap[i] == NULL) return NULL; // Out of memory
-// 	memmap_free_t* mmap = mprgmmap[i];
-
-// 	#ifdef DEBUG_MEMORY
-// 	printf("Allocated block memory: %p\n", mmap);
-// 	#endif
-
-// 	// Remove allocated block from LL
-// 	remove_free_block(mmap);
-
-// 	#ifdef DEBUG_MEMORY
-// 	free_memory -= (m + sizeof(memmap_t));
-// 	#endif
-
-// 	return (((void*)mmap) + sizeof(memmap_free_t));
-// }
 
 void half_free(void* ptr){
 	memmap_free_t* block_free = (memmap_free_t*) (ptr - HEADER_SIZE);
