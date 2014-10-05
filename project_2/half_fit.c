@@ -4,15 +4,15 @@ memmap_free_t* mprgmmap[NUM_BUCKETS] = { NULL };
 void* base_ptr = NULL;
 
 void* get_prev_block(memmap_t const* mmap){
-	return (void*) ((mmap->prev_block)*BLOCK_SIZE_MULTIPLE + base_ptr);
+	return (void*) (base_ptr + (mmap->prev_block) * BLOCK_SIZE_MULTIPLE);
 }
 
 void* get_next_block(memmap_t const* mmap){
-	return (void*) ((mmap->next_block)*BLOCK_SIZE_MULTIPLE + base_ptr );
+	return (void*) (base_ptr + (mmap->next_block) * BLOCK_SIZE_MULTIPLE);
 }
 
-size_t get_block_size(memmap_t const* mmap){
-	return (size_t) (mmap->block_size)*BLOCK_SIZE_MULTIPLE;
+U32 get_block_size(memmap_t const* mmap){
+	return (U32) (mmap->block_size) * BLOCK_SIZE_MULTIPLE;
 }
 
 bool get_allocated(memmap_t const* mmap){
@@ -20,15 +20,18 @@ bool get_allocated(memmap_t const* mmap){
 }
 
 void* get_prev_free(memmap_free_t const* mmap){
-	return (void*) ((mmap->prev_free)*BLOCK_SIZE_MULTIPLE + base_ptr);
+	return (void*) (base_ptr + (mmap->prev_free) * BLOCK_SIZE_MULTIPLE);
 }
 
 void* get_next_free(memmap_free_t const* mmap){
-	return (void*) ((mmap->next_free)*BLOCK_SIZE_MULTIPLE + base_ptr);
+	return (void*) (base_ptr + (mmap->next_free) * BLOCK_SIZE_MULTIPLE);
 }
 
-void set_block_size(memmap_t* mmap, size_t size){
-	mmap->block_size = FLOOR32(size)/BLOCK_SIZE_MULTIPLE;
+void set_block_size(memmap_t* mmap, U32 size){
+	#ifdef DEBUG_MEMORY
+	if(FLOOR32(size) != size) printf("[WARNING]: Setting size that is not a multiple of 32: %d bytes \n", size);
+	#endif
+	mmap->block_size = size / BLOCK_SIZE_MULTIPLE;
 }
 
 void set_prev_block(memmap_t* mmap, void* ptr){
@@ -85,27 +88,27 @@ bool is_last_in_memory(memmap_t* mmap){
 
 
 // Temporarily move from util.c
-S16 floor_log2(size_t size){
+S16 floor_log2(U32 size){
     S16 i = 0;
     while (size >>= 1) i++;
     return i;
 }
 
-S16 ceil_log2(size_t size){
+S16 ceil_log2(U32 size){
     return ( size == 1 ) ? 0 : floor_log2(size - 1) + 1;
 }
 
-S16 get_alloc_bucket_index(size_t size){
+S16 get_alloc_bucket_index(U32 size){
     S16 index = ceil_log2(size) - FIRST_BUCKET_POWER;
     return (index >=0 ) ? index : 0; 
 }
 
-S16 get_free_bucket_index(size_t size){
+S16 get_free_bucket_index(U32 size){
     S16 index = floor_log2(size) - FIRST_BUCKET_POWER;
     return (index >=0) ? index : 0;
 }
 
-void memmap_init(memmap_t* const mmap, size_t size){
+void memmap_init(memmap_t* const mmap, U32 size){
 	// Initialize the values for the fields
 	set_prev_block(mmap, mmap);
 	set_next_block(mmap, mmap);
@@ -113,7 +116,7 @@ void memmap_init(memmap_t* const mmap, size_t size){
 	set_allocated(mmap, false);
 }
 
-void memmap_free_init(memmap_free_t* const mmap, size_t size){
+void memmap_free_init(memmap_free_t* const mmap, U32 size){
 	// memmap is the first field in memmap_free_t
 	memmap_t* memmap_alloc = (memmap_t*)(mmap);
 	memmap_init(memmap_alloc, size);
@@ -149,7 +152,7 @@ void half_init(){
 	or NULL if splitting is not possible
 */
 
-memmap_free_t* split_block(memmap_free_t* mmap_free, size_t required_size ){
+memmap_free_t* split_block(memmap_free_t* mmap_free, U32 required_size ){
 	memmap_t* mmap_alloc = (memmap_t*) mmap_free;
 
 	// splitting is only possible if the required size of the block is less than
@@ -157,7 +160,7 @@ memmap_free_t* split_block(memmap_free_t* mmap_free, size_t required_size ){
 	if (get_block_size(mmap_alloc) < required_size + BLOCK_SIZE_MULTIPLE)
 		return NULL;
 
-	size_t old_size = get_block_size(mmap_alloc);
+	U32 old_size = get_block_size(mmap_alloc);
 
 	memmap_free_t* new_mmap_free = (memmap_free_t*) (CEIL32((U32)mmap_alloc + (U32)required_size));
 	memmap_t* new_mmap_alloc = (memmap_t*) new_mmap_free;
@@ -236,7 +239,7 @@ memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
 		set_prev_block(get_next_block(mmap_right_alloc), mmap_left_alloc);
 	}
 	#ifdef DEBUG_MEMORY
-	printf("Left: %d, right: %d ,", get_block_size(mmap_left_alloc, get_block_size(mmap_right_alloc));
+	printf("Left: %d, right: %d ,", get_block_size(mmap_left_alloc), get_block_size(mmap_right_alloc));
 	#endif 
 	remove_free_block(mmap_right);
 	remove_free_block(mmap_left);
@@ -279,7 +282,7 @@ void remove_free_block(memmap_free_t* mmap){
 
 void insert_free_block(memmap_free_t* mmap){
 	memmap_t* mmap_alloc = (memmap_t*)mmap;
-	size_t block_size = get_block_size(mmap_alloc);
+	U32 block_size = get_block_size(mmap_alloc);
 	int index = get_free_bucket_index(block_size);
 
 	if (mprgmmap[index] == mmap){
@@ -307,7 +310,7 @@ void insert_free_block(memmap_free_t* mmap){
 	#endif
 }
 
-void* half_alloc(size_t requested_block_size){
+void* half_alloc(U32 requested_block_size){
 	unsigned short required_memory = CEIL32(requested_block_size + HEADER_SIZE);
 	if (required_memory > MAX_MEMORY) return NULL;
 
@@ -345,7 +348,7 @@ void* half_alloc(size_t requested_block_size){
 	return ((void*)selected_block_alloc) + HEADER_SIZE;
 }
 
-// void* half_alloc(size_t n){
+// void* half_alloc(U32 n){
 // 	unsigned short m = CEIL32(n + HEADER_SIZE);
 // 	int i = 0;
 // 	if(m > MAX_MEMORY) return NULL;
