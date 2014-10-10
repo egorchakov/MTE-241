@@ -1,6 +1,5 @@
 #include "util.h"
 
-#ifdef USE_UTIL
 S16 floor_log2(U32 size){
     S16 i = 0;
     while (size >>= 1) i++;
@@ -12,14 +11,11 @@ S16 ceil_log2(U32 size){
 }
 
 S16 get_alloc_bucket_index(U32 size){
-    // 2^6 = 64 is the first bucket, therefore indices are offset by 6
-    S16 index = ceil_log2(size) - 6;
+    S16 index = ceil_log2(size) - FIRST_BUCKET_POWER;
     return (index >=0 ) ? index : 0; 
 }
 
 S16 get_free_bucket_index(U32 size){
-    // 2^6 = 64 is the first bucket, therefore indices are offset by 6
-    S16 index = floor_log2(size) - 6;
+    S16 index = floor_log2(size) - FIRST_BUCKET_POWER;
     return (index >=0) ? index : 0;
 }
-#endif
