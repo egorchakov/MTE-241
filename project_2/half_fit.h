@@ -17,17 +17,17 @@
 #pragma pack(push)
 #pragma pack(4) 
 typedef struct memmap {
-	unsigned int prev_block:10;
-	unsigned int next_block:10;
-	unsigned int block_size:10;
-	bool alloc:1;
-	bool padding:1;
+	U16 prev_block:10;
+	U16 next_block:10;
+	U16 block_size:10;
+	BIT alloc:1;
+	BIT padding:1;
 } memmap_t;
 
 typedef struct memmap_free {
 	U32 memmap:32;
-	unsigned int prev_free:10;
-	unsigned int next_free:10;
+	U16 prev_free:10;
+	U16 next_free:10;
 } memmap_free_t;
 #pragma pack(pop) 
 
