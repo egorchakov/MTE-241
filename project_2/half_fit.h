@@ -19,8 +19,8 @@ typedef struct memmap {
 	U16 prev_block:10;
 	U16 next_block:10;
 	U16 block_size:10;
-	BIT alloc:1;
-	BIT padding:1;
+	BOOL alloc:1;
+	BOOL padding:1;
 } memmap_t;
 
 typedef struct memmap_free {
@@ -41,14 +41,14 @@ static U32 free_memory = 0;
 void* get_prev_block( memmap_t const* );
 void* get_next_block( memmap_t const* );
 U32 get_block_size( memmap_t const* );
-bool get_allocated( memmap_t const* );
+BOOL get_allocated( memmap_t const* );
 void* get_prev_free( memmap_free_t const* );
 void* get_next_free( memmap_free_t const* );
 
 void set_block_size( memmap_t*, U32 );
 void set_prev_block( memmap_t*, void* );
 void set_next_block( memmap_t*, void* );
-void set_allocated( memmap_t*, bool );
+void set_allocated( memmap_t*, BOOL );
 void set_prev_free( memmap_free_t*, void* );
 void set_next_free( memmap_free_t*, void* );
 
