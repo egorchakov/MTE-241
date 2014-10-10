@@ -219,15 +219,23 @@ memmap_free_t* coalesce_block(memmap_free_t* mmap){
 	memmap_t* mmap_right = get_next_block(mmap_alloc);
 
 	if(!is_first_in_memory(mmap_alloc) && !get_allocated(mmap_left)) {
+		#ifdef DEBUG_MEMORY
 		printf("(Left) Merging %d and %d, ", get_block_size(mmap_left), get_block_size(mmap_alloc));
+		#endif
 		mmap = merge_block((memmap_free_t*)mmap_left, mmap);
+		#ifdef DEBUG_MEMORY
 		printf("final size: %d\n", get_block_size((memmap_t*)mmap));
+		#endif
 	}
 
 	if(!is_last_in_memory(mmap_alloc) && !get_allocated(mmap_right)) { 
+		#ifdef DEBUG_MEMORY
 		printf("(Right) Merging %d and %d, ", get_block_size(mmap_alloc), get_block_size(mmap_right));
+		#endif
 		mmap = merge_block(mmap, (memmap_free_t*)mmap_right);
+		#ifdef DEBUG_MEMORY
 		printf("final size: %d\n", get_block_size((memmap_t*)mmap));
+		#endif
 	}
 	return mmap;
 }
@@ -290,11 +298,13 @@ void insert_free_block(memmap_free_t* mmap){
 	U8 index = get_free_bucket_index(block_size);
 
 	if (mprgmmap[index] == mmap){
+		#ifdef DEBUG_MEMORY
 		printf(" \
 			[WARNING]: The passed block is the same as the \
 			first block in the bucket. This block might have \
 			been previously inserted \
 			");
+		#endif
 		return;
 	}
 	// some blocks present in the bucket
