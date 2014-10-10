@@ -244,6 +244,7 @@ bool test_static_alc_free( void ) {
 	if ( ptr_1 == NULL ) {
 		rslt = false;
 		printf("Memory is defraged.\n");
+		print_memory_layout(base_ptr, mprgmmap, 10);
 	} else {
 		half_free(ptr_1);
 	}
@@ -318,6 +319,7 @@ bool test_static_alc_free_violation( void ) {
 	if ( ptr_1 == NULL ) {
 		rslt = false;
 		printf("Memory is defraged.\n");
+		print_memory_layout(base_ptr, mprgmmap, 10);
 	} else {
 		half_free( ptr_1 );
 	}
@@ -420,6 +422,7 @@ bool test_rndm_alc_free( void ) {
 	if ( ptr_1 == NULL ) {
 		rslt = false;
 		printf("Memory is defraged.\n");
+		print_memory_layout(base_ptr, mprgmmap, 10);
 	} else {
 		half_free(ptr_1);
 	}

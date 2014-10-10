@@ -23,7 +23,7 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
-// #define PRINT_IGNORE_EMPTY_BUCKETS
+#define PRINT_IGNORE_EMPTY_BUCKETS
 
 void print_bucket(memmap_free_t*);
 void print_memory_layout(void*, memmap_free_t*[], short);
