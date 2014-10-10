@@ -483,24 +483,32 @@ bool test_max_alc_rand_byte( void ) {
 // }
 
 int main( void ) {
+	#ifdef linux
 	int num_runs = 1000;
 	double total_time = 0;
 	double current_time;
 	struct timespec start, end;
+	#endif
 	int i;
 	for (i=0; i<=1000;i++){
+		#ifdef linux
 		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
+		#endif
 		test_max_alc();
 		test_alc_free_max();
 		test_static_alc_free();
 		test_static_alc_free_violation();
 		test_rndm_alc_free();
 		test_max_alc_1_byte();
+		#ifdef linux
 		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end);
 		current_time = ( end.tv_sec - start.tv_sec )+ ( end.tv_nsec - start.tv_nsec )/ 1e9;
 		total_time += current_time;
 		printf("%lf	", current_time);
+		#endif
 	}
 
+	#ifdef linux
 	printf("\nAverage time: %lf\n", total_time/num_runs);
+	#endif
 }
