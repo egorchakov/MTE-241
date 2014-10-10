@@ -125,6 +125,8 @@ void memmap_free_init(memmap_free_t* const mmap, U32 size){
 }
 
 void half_init(){
+	U8 i; // Index into bucket
+
 	#ifdef _WIN32
 	if(base_ptr != NULL) _aligned_free(base_ptr); // Reinitialize
 	memmap_free_t* block = (memmap_free_t*) _aligned_malloc(BLOCK_SIZE_MULTIPLE, MAX_MEMORY);
@@ -134,7 +136,6 @@ void half_init(){
 	#endif
 
 	// Reinitialize each bucket
-	U8 i;
 	for(i = 0; i < NUM_BUCKETS; ++i) 
 		mprgmmap[i] = NULL;
 
@@ -154,16 +155,19 @@ void half_init(){
 
 memmap_free_t* split_block(memmap_free_t* mmap_free, U32 required_size ){
 	memmap_t* mmap_alloc = (memmap_t*) mmap_free;
+    U32 old_size;
+    memmap_free_t* new_mmap_free; 
+    memmap_t* new_mmap_alloc;
 
 	// splitting is only possible if the required size of the block is less than
 	// CEIL32((current size of the block) + 32 (minimum block size) + HEADER_SIZE (for the new block)) 
 	if (get_block_size(mmap_alloc) < required_size + BLOCK_SIZE_MULTIPLE)
 		return NULL;
 
-	U32 old_size = get_block_size(mmap_alloc);
+	old_size = get_block_size(mmap_alloc);
 
-	memmap_free_t* new_mmap_free = (memmap_free_t*) (CEIL32((U32)mmap_alloc + (U32)required_size));
-	memmap_t* new_mmap_alloc = (memmap_t*) new_mmap_free;
+	new_mmap_free = (memmap_free_t*) (CEIL32((U32)mmap_alloc + (U32)required_size));
+	new_mmap_alloc = (memmap_t*) new_mmap_free;
 
 	/*
 
@@ -312,10 +316,15 @@ void insert_free_block(memmap_free_t* mmap){
 
 void* half_alloc(U32 requested_block_size){
 	U16 required_memory = CEIL32(requested_block_size + HEADER_SIZE);
+	U8 i;
+	memmap_free_t* selected_block_free;
+	memmap_t* selected_block_alloc;
+	memmap_free_t* additional_block;
+
 	if (required_memory > MAX_MEMORY) return NULL;
 
 	// from which bucket to allocate?
-	U8 i = get_alloc_bucket_index(required_memory);
+	i = get_alloc_bucket_index(required_memory);
 	#ifdef DEBUG_MEMORY
 	printf("half_alloc | Starting search at bucket %d ... ", i);
 	#endif
@@ -327,8 +336,8 @@ void* half_alloc(U32 requested_block_size){
 	#ifdef DEBUG_MEMORY
 	printf(" allocating from bucket %d\n",i );
 	#endif
-	memmap_free_t* selected_block_free = mprgmmap[i];
-	memmap_t* selected_block_alloc = (memmap_t*) selected_block_free;
+	selected_block_free = mprgmmap[i];
+	selected_block_alloc = (memmap_t*) selected_block_free;
 	#ifdef DEBUG_MEMORY
 	printf("half_alloc | Selected block size: %d\n", get_block_size(selected_block_alloc));
 	#endif
@@ -337,7 +346,7 @@ void* half_alloc(U32 requested_block_size){
 	
 	//split the block if it's larger than requested by at least 32 bytes
 	if (get_block_size(selected_block_alloc) - required_memory > BLOCK_SIZE_MULTIPLE){
-		memmap_free_t* additional_block = split_block(selected_block_free, required_memory);
+		additional_block = split_block(selected_block_free, required_memory);
 		#ifdef DEBUG_MEMORY
 		printf("half_alloc_2 | ");
 		#endif
