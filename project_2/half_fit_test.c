@@ -167,7 +167,6 @@ bool test_max_alc( void ) {
 	half_init();
 
 	blk_sz = find_max_block();
-	printf("blk_sz = %d\n", blk_sz);
 	max_blk_sz = 0x01 << lrgst_blk;
 
 	if ( ((int)max_blk_sz - (int)blk_sz) / max_blk_sz > 1 ) {
@@ -367,7 +366,7 @@ bool test_rndm_alc_free( void ) {
 			blks[blks_sz] = blk;
 			++blks_sz;
 			alc_rec++;
-			printf( "%i)The allocated %d Byte block starts from %d \n", ++line, blk.len, blk.ptr );
+			// printf( "%i)The allocated %d Byte block starts from %d \n", ++line, blk.len, blk.ptr );
 		}
 	}
 
@@ -382,7 +381,7 @@ bool test_rndm_alc_free( void ) {
 			// Free a random block
 			tbf = rand() % blks_sz;	// To be freed idex
 			half_free(blks[tbf].ptr);
-			printf("%i)The %d Byte block starting from %d is free1\n", ++line, blks[tbf].len, blks[tbf].ptr);
+			// printf("%i)The %d Byte block starting from %d is free1\n", ++line, blks[tbf].len, blks[tbf].ptr);
 			--blks_sz;
 			blks[tbf] = blks[blks_sz];
 
@@ -395,7 +394,7 @@ bool test_rndm_alc_free( void ) {
 				blks[blks_sz] = blk;
 				++blks_sz;
 				alc_rec++;
-				printf("%i)The allocated %d Byte block starts from %d \n", ++line, blk.len, blk.ptr);
+				// printf("%i)The allocated %d Byte block starts from %d \n", ++line, blk.len, blk.ptr);
 			}
 		}
 	}
@@ -409,12 +408,12 @@ bool test_rndm_alc_free( void ) {
 	for ( i = blks_sz - 1; i >= 0; --i ) {
 		half_free(blks[i].ptr);
 		--blks_sz;
-		printf("%i)The %d Byte block starting from %d is free2\n", ++line, blks[i].len, blks[i].ptr);
+		// printf("%i)The %d Byte block starting from %d is free2\n", ++line, blks[i].len, blks[i].ptr);
 	}
 
 	// All allocated memories have to be freed now.
 
-	printf("%d random blocks are allocated and freed without any violation.\n", alc_rec);
+	// printf("%d random blocks are allocated and freed without any violation.\n", alc_rec);
 
 	ptr_1 = half_alloc(max_sz);
 
@@ -443,7 +442,7 @@ bool test_max_alc_1_byte( void ) {
 		c++;
 	}
 
-	printf("Only %d 1-Byte block can be allocated within %d addressable Bytes.\n", c, max_sz);
+	// printf("Only %d 1-Byte block can be allocated within %d addressable Bytes.\n", c, max_sz);
 
 	if ( c == 0 || max_sz / c  != smlst_blk_sz ) {
 		printf( "32 * %d = %d is not equal to the maximum allocable block which is %d\n", c, c*32 , max_sz );
@@ -483,23 +482,25 @@ bool test_max_alc_rand_byte( void ) {
 // }
 
 int main( void ) {
+	int num_runs = 1;
 	#ifdef linux
-	int num_runs = 1000;
 	double total_time = 0;
 	double current_time;
 	struct timespec start, end;
 	#endif
 	int i;
-	for (i=0; i<=1000;i++){
+	for (i=0; i<num_runs;i++){
 		#ifdef linux
 		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
 		#endif
-		test_max_alc();
-		test_alc_free_max();
-		test_static_alc_free();
-		test_static_alc_free_violation();
-		test_rndm_alc_free();
-		test_max_alc_1_byte();
+		{
+			printf( "test_rndm_alc_free=%i \n",             test_rndm_alc_free() );
+			printf( "test_max_alc=%i \n",                   test_max_alc() );
+			printf( "test_alc_free_max=%i \n",              test_alc_free_max() );
+			printf( "test_max_alc_1_byte=%i \n",     		test_max_alc_1_byte() );
+			printf( "test_static_alc_free=%i \n",           test_static_alc_free() );
+			printf( "test_static_alc_free_violation=%i \n", test_static_alc_free_violation() );
+		}
 		#ifdef linux
 		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end);
 		current_time = ( end.tv_sec - start.tv_sec )+ ( end.tv_nsec - start.tv_nsec )/ 1e9;
