@@ -15,7 +15,7 @@ U32 get_block_size(memmap_t const* mmap){
 	return (U32) (mmap->block_size) * BLOCK_SIZE_MULTIPLE;
 }
 
-bool get_allocated(memmap_t const* mmap){
+BOOL get_allocated(memmap_t const* mmap){
 	return mmap->alloc;
 }
 
@@ -50,7 +50,7 @@ void set_next_block(memmap_t* mmap, void* ptr){
 	#endif
 }
 
-void set_allocated(memmap_t* mmap, bool alloc){
+void set_allocated(memmap_t* mmap, BOOL alloc){
 	mmap->alloc = alloc;
 }
 
@@ -91,7 +91,7 @@ void memmap_init(memmap_t* const mmap, U32 size){
 	set_prev_block(mmap, mmap);
 	set_next_block(mmap, mmap);
 	set_block_size(mmap, size);
-	set_allocated(mmap, false);
+	set_allocated(mmap, __FALSE);
 }
 
 void memmap_free_init(memmap_free_t* const mmap, U32 size){
@@ -184,6 +184,7 @@ memmap_free_t* split_block(memmap_free_t* mmap_free, U32 required_size ){
 	// Finally, block sizes (only mmap_alloc and new_mmap_alloc are affected)
 	set_block_size(mmap_alloc, required_size);
 	set_block_size(new_mmap_alloc, old_size - required_size);
+	set_allocated(new_mmap_alloc, __FALSE);
 	#ifdef DEBUG_MEMORY
 	printf("split_block | old size: %d, required_size: %d, new sizes: %d and %d\n", 
 		old_size, required_size, get_block_size(mmap_alloc), get_block_size(new_mmap_alloc));
@@ -341,7 +342,7 @@ void* half_alloc(U32 requested_block_size){
 		insert_free_block(additional_block);
 	}
 
-	set_allocated(selected_block_alloc, true);
+	set_allocated(selected_block_alloc, __TRUE);
 	return ((void*)selected_block_alloc) + HEADER_SIZE;
 }
 
@@ -354,6 +355,6 @@ void half_free(void* ptr){
 	printf("half_free | ");
 	#endif
 	insert_free_block(block_free);
-	set_allocated(block_alloc, false);
+	set_allocated(block_alloc, __FALSE);
 }
 
