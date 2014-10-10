@@ -482,20 +482,20 @@ bool test_max_alc_rand_byte( void ) {
 // }
 
 int main( void ) {
-	int num_runs = 1000;
+	int num_runs = 1;
 	double total_time = 0;
 	double current_time;
 	struct timespec start, end;
 	int i;
-	for (i=0; i<=1000;i++){
-		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
-		test_max_alc();
-		test_alc_free_max();
-		test_static_alc_free();
-		test_static_alc_free_violation();
-		test_rndm_alc_free();
-		test_max_alc_1_byte();
-		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end);
+	for (i=0; i<num_runs;i++){
+		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);{
+		printf( "test_rndm_alc_free=%i \n",             test_rndm_alc_free() );
+		printf( "test_max_alc=%i \n",                   test_max_alc() );
+		printf( "test_alc_free_max=%i \n",              test_alc_free_max() );
+		printf( "test_max_alc_1_byte=%i \n",     		test_max_alc_1_byte() );
+		printf( "test_static_alc_free=%i \n",           test_static_alc_free() );
+		printf( "test_static_alc_free_violation=%i \n", test_static_alc_free_violation() );
+		} clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end);
 		current_time = ( end.tv_sec - start.tv_sec )+ ( end.tv_nsec - start.tv_nsec )/ 1e9;
 		total_time += current_time;
 		printf("%lf	", current_time);
