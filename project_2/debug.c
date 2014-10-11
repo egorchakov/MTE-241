@@ -16,6 +16,7 @@ void print_memory_layout(void* base_ptr, memmap_free_t* buckets[], short size){
     memmap_t* block = (memmap_t*) base_ptr;
     printf( GREEN "==================== START MEMORY LAYOUT ====================\n\n" RESET);
     while (block){
+        print_block_info(block);
         if (get_allocated(block)) printf(BOLDGREEN "[%d]->" RESET, get_block_size(block));
         else printf(GREEN "|%d|->" RESET, get_block_size(block));
         if (is_last_in_memory(block)) break;
@@ -34,6 +35,24 @@ void print_memory_layout(void* base_ptr, memmap_free_t* buckets[], short size){
     printf("\n===================== END MEMORY LAYOUT =====================\n\n" RESET);
 }
 
+void print_block_info(void* block){
+    // {prev_block, next_block, block_size, alloc, padding }
+    printf("{ %d, %d, %d, %d, %d", 
+        get_block_size(get_prev_block(block)),
+        get_block_size(get_next_block(block)),
+        get_block_size(block),
+        get_allocated(block),
+        ((memmap_t*) block)->padding
+    );
+
+    if (!get_allocated(block))
+        printf(", %d, %d ", 
+            get_block_size(get_prev_free(block)),
+            get_block_size(get_next_free(block))
+        );
+
+    printf("}");
+}   
 // void main(void){
 //     half_init();
 //     void* dummy[100];
