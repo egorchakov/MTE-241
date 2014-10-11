@@ -9,8 +9,10 @@
 // Header is 31 useful bits + 1 padding bit = 4 bytes
 #define HEADER_SIZE 4
 #define BLOCK_SIZE_MULTIPLE 32
+
 // Compile flags
 //#define DEBUG_MEMORY
+//#define USE_KEIL
 
 // Set alignment to 4 bytes
 #pragma pack(push)
@@ -31,7 +33,7 @@ typedef struct memmap_free {
 #pragma pack(pop) 
 
 extern memmap_free_t* mprgmmap[];
-extern void* base_ptr;
+extern unsigned char base_ptr[];
 
 #ifdef DEBUG_MEMORY
 static U32 free_memory = 0;

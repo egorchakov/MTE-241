@@ -14,6 +14,7 @@ void print_bucket(memmap_free_t* head){
 
 void print_memory_layout(void* base_ptr, memmap_free_t* buckets[], short size){
     memmap_t* block = (memmap_t*) base_ptr;
+	    short i;
     printf( GREEN "==================== START MEMORY LAYOUT ====================\n\n" RESET);
     while (block){
         print_block_info(block);
@@ -24,7 +25,7 @@ void print_memory_layout(void* base_ptr, memmap_free_t* buckets[], short size){
     }
     printf( GREEN "\n\n\n");
 
-    short i;
+
     for (i=0; i<size; i++) {
         #ifdef PRINT_IGNORE_EMPTY_BUCKETS
         if (!buckets[i]) continue;

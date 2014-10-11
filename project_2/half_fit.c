@@ -1,14 +1,14 @@
 #include "half_fit.h"
 
 memmap_free_t* mprgmmap[NUM_BUCKETS] = { NULL }; 
-void* base_ptr = NULL;
+unsigned char base_ptr[MAX_MEMORY] __attribute__ ((section(".ARM.__at_0x10000000"), zero_init));
 
 void* get_prev_block(memmap_t const* mmap){
-	return (void*) (base_ptr + (mmap->prev_block) * BLOCK_SIZE_MULTIPLE);
+	return (void*) ((unsigned char*)base_ptr + (mmap->prev_block) * BLOCK_SIZE_MULTIPLE);
 }
 
 void* get_next_block(memmap_t const* mmap){
-	return (void*) (base_ptr + (mmap->next_block) * BLOCK_SIZE_MULTIPLE);
+	return (void*) ((unsigned char*)base_ptr + (mmap->next_block) * BLOCK_SIZE_MULTIPLE);
 }
 
 U32 get_block_size(memmap_t const* mmap){
@@ -20,11 +20,11 @@ BOOL get_allocated(memmap_t const* mmap){
 }
 
 void* get_prev_free(memmap_free_t const* mmap){
-	return (void*) (base_ptr + (mmap->prev_free) * BLOCK_SIZE_MULTIPLE);
+	return (void*) ((unsigned char*)base_ptr + (mmap->prev_free) * BLOCK_SIZE_MULTIPLE);
 }
 
 void* get_next_free(memmap_free_t const* mmap){
-	return (void*) (base_ptr + (mmap->next_free) * BLOCK_SIZE_MULTIPLE);
+	return (void*) ((unsigned char*)base_ptr + (mmap->next_free) * BLOCK_SIZE_MULTIPLE);
 }
 
 void set_block_size(memmap_t* mmap, U32 size){
@@ -36,7 +36,7 @@ void set_block_size(memmap_t* mmap, U32 size){
 
 void set_prev_block(memmap_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
-		mmap->prev_block = (U32) (ptr - base_ptr) / BLOCK_SIZE_MULTIPLE;
+		mmap->prev_block = (U16) ((unsigned char*)ptr - (unsigned char*)base_ptr) / BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
 	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
 	#endif
@@ -44,7 +44,7 @@ void set_prev_block(memmap_t* mmap, void* ptr){
 
 void set_next_block(memmap_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
-		mmap->next_block = (U32) (ptr - base_ptr) / BLOCK_SIZE_MULTIPLE;
+		mmap->next_block = (U16) ((unsigned char*) ptr - (unsigned char*)base_ptr) / BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
 	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
 	#endif
@@ -56,7 +56,7 @@ void set_allocated(memmap_t* mmap, BOOL alloc){
 
 void set_prev_free(memmap_free_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
-		mmap->prev_free = (U32) (ptr - base_ptr) / BLOCK_SIZE_MULTIPLE;
+		mmap->prev_free = (U16) ((unsigned char*)ptr - (unsigned char*)base_ptr) / BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
 	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
 	#endif
@@ -64,7 +64,7 @@ void set_prev_free(memmap_free_t* mmap, void* ptr){
 
 void set_next_free(memmap_free_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
-		mmap->next_free = (U32) (ptr - base_ptr) / BLOCK_SIZE_MULTIPLE;
+		mmap->next_free = (U16) ((unsigned char*)ptr - (unsigned char*)base_ptr) / BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
 	else printf("[WARNING]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
 	#endif
@@ -104,22 +104,13 @@ void memmap_free_init(memmap_free_t* const mmap, U32 size){
 
 void half_init(){
 	U8 i; // Index into bucket
-
-	#ifdef _WIN32
-	if(base_ptr != NULL) _aligned_free(base_ptr); // Reinitialize
-	memmap_free_t* block = (memmap_free_t*) _aligned_malloc(BLOCK_SIZE_MULTIPLE, MAX_MEMORY);
-	#else
-	if(base_ptr != NULL) free(base_ptr); // Reinitialize
-	memmap_free_t* block = (memmap_free_t*) aligned_alloc(BLOCK_SIZE_MULTIPLE, MAX_MEMORY);
-	#endif
-
+	
 	// Reinitialize each bucket
 	for(i = 0; i < NUM_BUCKETS; ++i) 
 		mprgmmap[i] = NULL;
 
-	base_ptr = block;
-	memmap_free_init(block, MAX_MEMORY);
-	mprgmmap[NUM_BUCKETS - 1] = block;
+	memmap_free_init((memmap_free_t*)base_ptr, MAX_MEMORY);
+	mprgmmap[NUM_BUCKETS - 1] = (memmap_free_t*)base_ptr;
 	#ifdef DEBUG_MEMORY
 	free_memory = MAX_MEMORY;
 	printf("\nHalf init succeeded: %d bytes free\n", free_memory);
@@ -144,7 +135,7 @@ memmap_free_t* split_block(memmap_free_t* mmap_free, U32 required_size ){
 
 	old_size = get_block_size(mmap_alloc);
 
-	new_mmap_free = (memmap_free_t*) (CEIL32((U32)mmap_alloc + (U32)required_size));
+	new_mmap_free = (memmap_free_t*) (CEIL32((U32)mmap_alloc + required_size));
 	new_mmap_alloc = (memmap_t*) new_mmap_free;
 
 	/*
@@ -343,11 +334,11 @@ void* half_alloc(U32 requested_block_size){
 	}
 
 	set_allocated(selected_block_alloc, __TRUE);
-	return ((void*)selected_block_alloc) + HEADER_SIZE;
+	return (void*)(((unsigned char*)selected_block_alloc) + HEADER_SIZE);
 }
 
 void half_free(void* ptr){
-	memmap_free_t* block_free = (memmap_free_t*) (ptr - HEADER_SIZE);
+	memmap_free_t* block_free = (memmap_free_t*) ((unsigned char*)ptr - HEADER_SIZE);
 	memmap_t* block_alloc = (memmap_t*) block_free;
 	if (!get_allocated(block_alloc)) return;
 	block_free = coalesce_block(block_free);
