@@ -12,7 +12,7 @@ void* get_next_block(memmap_t const* mmap){
 }
 
 U32 get_block_size(memmap_t const* mmap){
-	return (U32) (mmap->block_size) * BLOCK_SIZE_MULTIPLE;
+	return ((U32) (mmap->block_size) == 0 ? MAX_MEMORY : (U32) (mmap->block_size)* BLOCK_SIZE_MULTIPLE);
 }
 
 BOOL get_allocated(memmap_t const* mmap){
@@ -31,7 +31,7 @@ void set_block_size(memmap_t* mmap, U32 size){
 	#ifdef DEBUG_MEMORY
 	if(FLOOR32(size) != size) printf("[WARNING]: Setting size that is not a multiple of 32: %d bytes \n", size);
 	#endif
-	mmap->block_size = size / BLOCK_SIZE_MULTIPLE;
+	mmap->block_size = ((size == MAX_MEMORY) ? 0 : size / BLOCK_SIZE_MULTIPLE);
 }
 
 void set_prev_block(memmap_t* mmap, void* ptr){
