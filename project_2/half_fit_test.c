@@ -11,8 +11,8 @@
 
 #define smlst_blk			5
 #define	smlst_blk_sz  32
-#define	lrgst_blk			14
-#define	lrgst_blk_sz 	16352
+#define	lrgst_blk			15
+#define	lrgst_blk_sz 	32736
 
 #define __inline inline
 
@@ -215,7 +215,7 @@ bool test_static_alc_free( void ) {
 	ptr_4 = half_alloc(1 << 10);
 	if (ptr_4 == NULL) return false;
 
-	ptr_5 = half_alloc(7000);
+	ptr_5 = half_alloc(12345);
 	if (ptr_5 == NULL) return false;
 
 	half_free(ptr_1);
