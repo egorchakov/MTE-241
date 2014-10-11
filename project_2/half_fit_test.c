@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+//#define TEST_KEIL
 #define CEIL32(n) (((n-1) >> 5) +1) << 5
 #define FLOOR32(n) n >> 5 << 5
 
@@ -460,29 +461,30 @@ bool test_max_alc_rand_byte( void ) {
 	return false;
 }
 
+#ifdef TEST_KEIL
+int main( void ) {
+	printf("lrgst_blk_sz", lrgst_blk_sz);
+	
+	SystemInit();
+	SystemCoreClockUpdate();
+	TimerInit();
+	
+	TimerStart();*/ 
+	{
+	printf( "test_max_alc=%i \n",                   test_max_alc() );
 
-// int main( void ) {
-// 	printf("lrgst_blk_sz", lrgst_blk_sz);
+	printf( "test_alc_free_max=%i \n",              test_alc_free_max() );
+	printf( "test_static_alc_free=%i \n",           test_static_alc_free() );
+	printf( "test_static_alc_free_violation=%i \n", test_static_alc_free_violation() );
+	printf( "test_rndm_alc_free=%i \n",             test_rndm_alc_free() );
+	printf( "test_max_alc_1_byte=%i \n",            test_max_alc_1_byte() );
+	} TimerStop();
 	
-// 	// SystemInit();
-// 	// SystemCoreClockUpdate();
-// 	// TimerInit();
+	 printf( "The elappsed time is %d ms\n", current_elapsed_time() );
 	
-// 	/* TimerStart();*/ 
-// 	// {
-// 	printf( "test_max_alc=%i \n",                   test_max_alc() );
-
-// 	printf( "test_alc_free_max=%i \n",              test_alc_free_max() );
-// 	printf( "test_static_alc_free=%i \n",           test_static_alc_free() );
-// 	printf( "test_static_alc_free_violation=%i \n", test_static_alc_free_violation() );
-// 	printf( "test_rndm_alc_free=%i \n",             test_rndm_alc_free() );
-// 	printf( "test_max_alc_1_byte=%i \n",            test_max_alc_1_byte() );
-// 	// } TimerStop();
-	
-// 	// printf( "The elappsed time is %d ms\n", current_elapsed_time() );
-	
-// 	// while(1);
-// }
+	 while(1);
+}
+#endif
 
 int main( void ) {
 	int num_runs = 1;
