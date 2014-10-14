@@ -62,13 +62,13 @@ void print_block_info(void* block){
 //         dummy[i] = half_alloc(1000+32*i);
 //     }
 //     printf("after alloc ");
-//     print_memory_layout(base_ptr, mprgmmap, 10);
+//     print_memory_layout(base_ptr, mprgmmap, NUM_BUCKETS);
 //     int free_order[8] = {0,2, 4, 3, 1, 5, 6, 7};
 
 //     for (i=0; i<8; i++) {
 //         printf("Freeing %d \n", get_block_size(dummy[free_order[i]] - HEADER_SIZE));
 //         half_free(dummy[free_order[i]]);
-//         print_memory_layout(base_ptr, mprgmmap, 10);   
+//         print_memory_layout(base_ptr, mprgmmap, NUM_BUCKETS);   
 //     }
     
 // } 
