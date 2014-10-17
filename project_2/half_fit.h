@@ -67,4 +67,8 @@ void half_init();
 void *half_alloc( U32 n );
 void half_free( void* );
 
+#ifdef DEBUG_MEMORY
+static U32 free_memory = 0;
+#endif
+
 #endif
