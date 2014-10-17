@@ -10,6 +10,7 @@
 #define HEADER_SIZE 4
 #define BLOCK_SIZE_MULTIPLE 32
 
+// Struct representing an allocated memory block
 typedef struct memmap {
 	U16 prev_block:10;
 	U16 next_block:10;
@@ -18,18 +19,16 @@ typedef struct memmap {
 	BOOL padding:1;
 }__attribute__ ((packed, aligned(4)))  memmap_t;
 
+// Struct representing an unallocated (free) memory block
 typedef struct memmap_free {
 	U32 memmap:32;
 	U16 prev_free:10;
 	U16 next_free:10;
 } __attribute__ ((packed, aligned(4))) memmap_free_t;
 
+// The buckets and the initial memory array
 extern memmap_free_t* mprgmmap[];
 extern unsigned char base_ptr[];
-
-#ifdef DEBUG_MEMORY
-static U32 free_memory = 0;
-#endif
 
 // Internal Helpers
 __inline void* get_prev_block( memmap_t const* );
@@ -46,8 +45,8 @@ __inline void set_allocated( memmap_t*, BOOL );
 __inline void set_prev_free( memmap_free_t*, void* );
 __inline void set_next_free( memmap_free_t*, void* );
 
-void remove_free_block( memmap_free_t* );
-void insert_free_block( memmap_free_t* );
+__inline void remove_free_block( memmap_free_t* );
+__inline void insert_free_block( memmap_free_t* );
 
 __inline bool is_first_in_bucket(memmap_free_t*);
 __inline bool is_last_in_bucket(memmap_free_t*);
@@ -55,8 +54,8 @@ __inline bool is_last_in_bucket(memmap_free_t*);
 __inline bool is_first_in_memory(memmap_t*);
 __inline bool is_last_in_memory(memmap_t*);
 
-void memmap_free_init(memmap_free_t* const, U32 );
-void memmap_init(memmap_t* const, U32 );
+__inline void memmap_free_init(memmap_free_t* const, U32 );
+__inline void memmap_init(memmap_t* const, U32 );
 
 memmap_free_t* split_block(memmap_free_t* const, U32);
 memmap_free_t* coalesce_block(memmap_free_t*);
