@@ -46,6 +46,7 @@ __inline void set_block_size(memmap_t* mmap, U32 size){
     if(FLOOR32(size) != size) 
         printf("WARN: Size is not a multiple of 32: %d bytes \n", size);
     #endif
+
     mmap->block_size = ((size == MAX_MEMORY) ? 0 : size / BLOCK_SIZE_MULTIPLE);
 }
 
@@ -53,6 +54,7 @@ __inline void set_prev_block(memmap_t* mmap, void* ptr){
     if (ptr >= base_ptr)
         mmap->prev_block = (U16) ((unsigned char*)ptr -
             (unsigned char*)base_ptr) / BLOCK_SIZE_MULTIPLE;
+
     #ifdef DEBUG_MEMORY
     else printf("WARN: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
     #endif
@@ -155,6 +157,7 @@ void half_init(){
 
     memmap_free_init((memmap_free_t*)base_ptr, MAX_MEMORY);
     mprgmmap[NUM_BUCKETS - 1] = (memmap_free_t*)base_ptr;
+
     #ifdef DEBUG_MEMORY
     free_memory = MAX_MEMORY;
     printf("\nHalf init succeeded: %d bytes free\n", free_memory);
@@ -210,11 +213,13 @@ memmap_free_t* split_block(memmap_free_t* mmap_free, U32 required_size ){
     set_block_size(mmap_alloc, required_size);
     set_block_size(new_mmap_alloc, old_size - required_size);
     set_allocated(new_mmap_alloc, __FALSE);
+
     #ifdef DEBUG_MEMORY
     printf("split_block | old size: %d, required: %d, new sizes: %d and %d\n", 
         old_size, required_size, get_block_size(mmap_alloc), 
         get_block_size(new_mmap_alloc));
     #endif
+
     return new_mmap_free;
 }
 
@@ -235,7 +240,9 @@ memmap_free_t* coalesce_block(memmap_free_t* mmap){
         printf("(Left) Merging %d and %d, ", get_block_size(mmap_left), 
             get_block_size(mmap_alloc));
         #endif
+
         mmap = merge_block((memmap_free_t*)mmap_left, mmap);
+
         #ifdef DEBUG_MEMORY
         printf("final size: %d\n", get_block_size((memmap_t*)mmap));
         #endif
@@ -246,7 +253,9 @@ memmap_free_t* coalesce_block(memmap_free_t* mmap){
         printf("(Right) Merging %d and %d, ", get_block_size(mmap_alloc), 
             get_block_size(mmap_right));
         #endif
+
         mmap = merge_block(mmap, (memmap_free_t*)mmap_right);
+
         #ifdef DEBUG_MEMORY
         printf("final size: %d\n", get_block_size((memmap_t*)mmap));
         #endif
@@ -270,6 +279,7 @@ memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
         set_next_block(mmap_left_alloc, get_next_block(mmap_right_alloc));
         set_prev_block(get_next_block(mmap_right_alloc), mmap_left_alloc);
     }
+
     #ifdef DEBUG_MEMORY
     printf("Left: %d, right: %d ,", get_block_size(mmap_left_alloc), 
         get_block_size(mmap_right_alloc));
@@ -283,6 +293,7 @@ memmap_free_t* merge_block(memmap_free_t* mmap_left, memmap_free_t* mmap_right){
     #ifdef DEBUG_MEMORY
     printf("new left:  %d\n", get_block_size(mmap_left_alloc));
     #endif
+
     return mmap_left;
 }
 
@@ -343,6 +354,7 @@ __inline void insert_free_block(memmap_free_t* mmap){
             been previously inserted \
             ");
         #endif
+
         return;
     }
     // some blocks present in the bucket
@@ -387,9 +399,11 @@ void* half_alloc(U32 requested_block_size){
 
     // from which bucket to allocate?
     i = get_alloc_bucket_index(required_memory);
+
     #ifdef DEBUG_MEMORY
     printf("half_alloc | Starting search at bucket %d ... ", i);
     #endif
+
     while (i < NUM_BUCKETS && mprgmmap[i] == NULL) i++;
 
     // no appropriate bucket found
@@ -439,9 +453,11 @@ void half_free(void* ptr){
     memmap_t* block_alloc = (memmap_t*) block_free;
     if (!get_allocated(block_alloc)) return;
     block_free = coalesce_block(block_free);
+
     #ifdef DEBUG_MEMORY
     printf("half_free | ");
     #endif
+    
     insert_free_block(block_free);
     set_allocated(block_alloc, __FALSE);
 }
