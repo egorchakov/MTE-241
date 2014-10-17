@@ -1,0 +1,2 @@
+simulator: 10ms
+board: 225ms
