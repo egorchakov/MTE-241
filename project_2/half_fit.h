@@ -40,35 +40,28 @@ static U32 free_memory = 0;
 #endif
 
 // Internal Helpers
-void* get_prev_block( memmap_t const* );
-void* get_next_block( memmap_t const* );
-U32 get_block_size( memmap_t const* );
-BOOL get_allocated( memmap_t const* );
-void* get_prev_free( memmap_free_t const* );
-void* get_next_free( memmap_free_t const* );
+__inline void* get_prev_block( memmap_t const* );
+__inline void* get_next_block( memmap_t const* );
+__inline U32 get_block_size( memmap_t const* );
+__inline BOOL get_allocated( memmap_t const* );
+__inline void* get_prev_free( memmap_free_t const* );
+__inline void* get_next_free( memmap_free_t const* );
 
-void set_block_size( memmap_t*, U32 );
-void set_prev_block( memmap_t*, void* );
-void set_next_block( memmap_t*, void* );
-void set_allocated( memmap_t*, BOOL );
-void set_prev_free( memmap_free_t*, void* );
-void set_next_free( memmap_free_t*, void* );
+__inline void set_block_size( memmap_t*, U32 );
+__inline void set_prev_block( memmap_t*, void* );
+__inline void set_next_block( memmap_t*, void* );
+__inline void set_allocated( memmap_t*, BOOL );
+__inline void set_prev_free( memmap_free_t*, void* );
+__inline void set_next_free( memmap_free_t*, void* );
 
 void remove_free_block( memmap_free_t* );
 void insert_free_block( memmap_free_t* );
 
-bool is_first_in_bucket(memmap_free_t*);
-bool is_last_in_bucket(memmap_free_t*);
+__inline bool is_first_in_bucket(memmap_free_t*);
+__inline bool is_last_in_bucket(memmap_free_t*);
 
-bool is_first_in_memory(memmap_t*);
-bool is_last_in_memory(memmap_t*);
-
-// Temporarily move from util
-S16 floor_log2(U32 );
-S16 ceil_log2(U32 );
-
-S16 get_alloc_bucket_index(U32 );
-S16 get_free_bucket_index(U32 );
+__inline bool is_first_in_memory(memmap_t*);
+__inline bool is_last_in_memory(memmap_t*);
 
 void memmap_free_init(memmap_free_t* const, U32 );
 void memmap_init(memmap_t* const, U32 );
