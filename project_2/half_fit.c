@@ -44,7 +44,7 @@ __inline void* get_next_free(memmap_free_t const* mmap){
 __inline void set_block_size(memmap_t* mmap, U32 size){
     #ifdef DEBUG_MEMORY
     if(FLOOR32(size) != size) 
-        printf("[WARN]: Size is not a multiple of 32: %d bytes \n", size);
+        printf("WARN: Size is not a multiple of 32: %d bytes \n", size);
     #endif
     mmap->block_size = ((size == MAX_MEMORY) ? 0 : size / BLOCK_SIZE_MULTIPLE);
 }
@@ -54,7 +54,7 @@ __inline void set_prev_block(memmap_t* mmap, void* ptr){
         mmap->prev_block = (U16) ((unsigned char*)ptr -
             (unsigned char*)base_ptr) / BLOCK_SIZE_MULTIPLE;
     #ifdef DEBUG_MEMORY
-    else printf("[WARN]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
+    else printf("WARN: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
     #endif
 }   
 
@@ -64,7 +64,7 @@ __inline void set_next_block(memmap_t* mmap, void* ptr){
          (unsigned char*)base_ptr) / BLOCK_SIZE_MULTIPLE;
 
     #ifdef DEBUG_MEMORY
-    else printf("[WARN]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
+    else printf("WARN: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
     #endif
 }
 
@@ -78,7 +78,7 @@ __inline void set_prev_free(memmap_free_t* mmap, void* ptr){
             (unsigned char*)base_ptr) / BLOCK_SIZE_MULTIPLE;
 
     #ifdef DEBUG_MEMORY
-    else printf("[WARN]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
+    else printf("WARN: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
     #endif
 } 
 
@@ -88,7 +88,7 @@ __inline void set_next_free(memmap_free_t* mmap, void* ptr){
             (unsigned char*)base_ptr) / BLOCK_SIZE_MULTIPLE;
 
     #ifdef DEBUG_MEMORY
-    else printf("[WARN]: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
+    else printf("WARN: ptr < base_ptr | ptr:%d, base_ptr:%d\n", ptr, base_ptr);
     #endif
 }
 
@@ -338,7 +338,7 @@ __inline void insert_free_block(memmap_free_t* mmap){
     if (mprgmmap[index] == mmap){
         #ifdef DEBUG_MEMORY
         printf(" \
-            [WARN]: The passed block is the same as the \
+            WARN: The passed block is the same as the \
             first block in the bucket. This block might have \
             been previously inserted \
             ");
