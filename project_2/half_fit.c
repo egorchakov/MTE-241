@@ -1,40 +1,42 @@
 #include "half_fit.h"
 
+// Initializing buckets and the initial memory
 memmap_free_t* mprgmmap[NUM_BUCKETS] = { NULL }; 
 unsigned char base_ptr[MAX_MEMORY] __attribute__ ((section(".ARM.__at_0x10000000"), zero_init));
 
-void* get_prev_block(memmap_t const* mmap){
+
+__inline void* get_prev_block(memmap_t const* mmap){
 	return (void*) ((unsigned char*)base_ptr + (mmap->prev_block) * BLOCK_SIZE_MULTIPLE);
 }
 
-void* get_next_block(memmap_t const* mmap){
+__inline void* get_next_block(memmap_t const* mmap){
 	return (void*) ((unsigned char*)base_ptr + (mmap->next_block) * BLOCK_SIZE_MULTIPLE);
 }
 
-U32 get_block_size(memmap_t const* mmap){
+__inline U32 get_block_size(memmap_t const* mmap){
 	return ((U32) (mmap->block_size) == 0 ? MAX_MEMORY : (U32) (mmap->block_size)* BLOCK_SIZE_MULTIPLE);
 }
 
-BOOL get_allocated(memmap_t const* mmap){
+__inline BOOL get_allocated(memmap_t const* mmap){
 	return mmap->alloc;
 }
 
-void* get_prev_free(memmap_free_t const* mmap){
+__inline void* get_prev_free(memmap_free_t const* mmap){
 	return (void*) ((unsigned char*)base_ptr + (mmap->prev_free) * BLOCK_SIZE_MULTIPLE);
 }
 
-void* get_next_free(memmap_free_t const* mmap){
+__inline void* get_next_free(memmap_free_t const* mmap){
 	return (void*) ((unsigned char*)base_ptr + (mmap->next_free) * BLOCK_SIZE_MULTIPLE);
 }
 
-void set_block_size(memmap_t* mmap, U32 size){
+__inline void set_block_size(memmap_t* mmap, U32 size){
 	#ifdef DEBUG_MEMORY
 	if(FLOOR32(size) != size) printf("[WARNING]: Setting size that is not a multiple of 32: %d bytes \n", size);
 	#endif
 	mmap->block_size = ((size == MAX_MEMORY) ? 0 : size / BLOCK_SIZE_MULTIPLE);
 }
 
-void set_prev_block(memmap_t* mmap, void* ptr){
+__inline void set_prev_block(memmap_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
 		mmap->prev_block = (U16) ((unsigned char*)ptr - (unsigned char*)base_ptr) / BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
@@ -42,7 +44,7 @@ void set_prev_block(memmap_t* mmap, void* ptr){
 	#endif
 }	
 
-void set_next_block(memmap_t* mmap, void* ptr){
+__inline void set_next_block(memmap_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
 		mmap->next_block = (U16) ((unsigned char*) ptr - (unsigned char*)base_ptr) / BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
@@ -50,11 +52,11 @@ void set_next_block(memmap_t* mmap, void* ptr){
 	#endif
 }
 
-void set_allocated(memmap_t* mmap, BOOL alloc){
+__inline void set_allocated(memmap_t* mmap, BOOL alloc){
 	mmap->alloc = alloc;
 }
 
-void set_prev_free(memmap_free_t* mmap, void* ptr){
+__inline void set_prev_free(memmap_free_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
 		mmap->prev_free = (U16) ((unsigned char*)ptr - (unsigned char*)base_ptr) / BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
@@ -62,7 +64,7 @@ void set_prev_free(memmap_free_t* mmap, void* ptr){
 	#endif
 } 
 
-void set_next_free(memmap_free_t* mmap, void* ptr){
+__inline void set_next_free(memmap_free_t* mmap, void* ptr){
 	if (ptr >= base_ptr)
 		mmap->next_free = (U16) ((unsigned char*)ptr - (unsigned char*)base_ptr) / BLOCK_SIZE_MULTIPLE;
 	#ifdef DEBUG_MEMORY
@@ -70,19 +72,19 @@ void set_next_free(memmap_free_t* mmap, void* ptr){
 	#endif
 }
 
-bool is_first_in_bucket(memmap_free_t* mmap){
+__inline bool is_first_in_bucket(memmap_free_t* mmap){
 	return get_prev_free(mmap) == mmap;
 }
 
-bool is_last_in_bucket(memmap_free_t* mmap){
+__inline bool is_last_in_bucket(memmap_free_t* mmap){
 	return get_next_free(mmap) == mmap;
 }
 
-bool is_first_in_memory(memmap_t* mmap){
+__inline bool is_first_in_memory(memmap_t* mmap){
 	return get_prev_block(mmap) == mmap;
 }
 
-bool is_last_in_memory(memmap_t* mmap){
+__inline bool is_last_in_memory(memmap_t* mmap){
 	return get_next_block(mmap) == mmap;
 }
 
