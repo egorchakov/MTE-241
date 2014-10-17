@@ -10,23 +10,19 @@
 #define HEADER_SIZE 4
 #define BLOCK_SIZE_MULTIPLE 32
 
-// Set alignment to 4 bytes
-#pragma pack(push)
-#pragma pack(4) 
 typedef struct memmap {
 	U16 prev_block:10;
 	U16 next_block:10;
 	U16 block_size:10;
 	BOOL alloc:1;
 	BOOL padding:1;
-}__attribute__ ((__packed__))  memmap_t;
+}__attribute__ ((packed, aligned(4)))  memmap_t;
 
 typedef struct memmap_free {
 	U32 memmap:32;
 	U16 prev_free:10;
 	U16 next_free:10;
-} __attribute__ ((__packed__)) memmap_free_t;
-#pragma pack(pop) 
+} __attribute__ ((packed, aligned(4))) memmap_free_t;
 
 extern memmap_free_t* mprgmmap[];
 extern unsigned char base_ptr[];
