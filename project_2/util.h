@@ -22,10 +22,24 @@ __inline S16 ceil_log2(U32 size){
     return ( size == 1 ) ? 0 : floor_log2(size - 1) + 1;
 }
 
+/*
+    __inline S16 get_alloc_bucket_index(U32 size)
+
+    Calculates the bucket from the search for a block of a given size should be
+    started (smallest power of 2 larger than size).
+*/
+
 __inline S16 get_alloc_bucket_index(U32 size){
     S16 index = ceil_log2(size) - FIRST_BUCKET_POWER;
     return (index >=0 ) ? index : 0; 
 }
+
+/*
+    __inline S16 get_free_bucket_index(U32 size)
+
+    Calculates the bucket into which a block of a given size should be
+    put when freed (largest power of 2 smaller than size).
+*/
 
 __inline S16 get_free_bucket_index(U32 size){
     S16 index = floor_log2(size) - FIRST_BUCKET_POWER;
