@@ -10,7 +10,11 @@
 #define HEADER_SIZE 4
 #define BLOCK_SIZE_MULTIPLE 32
 
-// Struct representing an allocated memory block
+/*  
+    A struct representing an allocated memory block.
+    Implemented with bitfields.
+*/
+
 typedef struct memmap {
 	U16 prev_block:10;
 	U16 next_block:10;
@@ -19,7 +23,11 @@ typedef struct memmap {
 	BOOL padding:1;
 }__attribute__ ((packed, aligned(4)))  memmap_t;
 
-// Struct representing an unallocated (free) memory block
+/* 
+    A struct representing an unallocated (free) memory block.
+    The first member of this struct is a U32-casted struct of type `memmap`
+    (of size 32).
+*/
 typedef struct memmap_free {
 	U32 memmap:32;
 	U16 prev_free:10;
