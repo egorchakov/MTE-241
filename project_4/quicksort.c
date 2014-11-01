@@ -75,20 +75,26 @@ array_type find_med_three(array_interval_t* interval, int* const iMin, int* cons
 	}
 }
 
-void insertion_sort( array_interval_t interval ) {
+void insertion_sort( array_interval_t* interval ) {
 	int i, j, curr;
-	for(i = interval.a; i < interval.c; i++) {
- 		curr = interval.array.array[i];
+	array_type* array = interval->array.array;
+	printf("Insertion sort\n");
+
+	for(i = interval->a; i < interval->c; i++) {
+ 		curr = array[i];
  		j = i - 1;
- 		while(j >= interval.a) {
- 			if(interval.array.array[j] > interval.array.array[j]) {
- 				interval.array.array[j + 1] = interval.array.array[j];
+ 		while(j >= interval->a) {
+ 			if(curr < array[j]) {
+ 				array[j + 1] = array[j];
  				j--;
  			} else {
- 				interval.array.array[j + 1] = curr;
+ 				array[j + 1] = curr;
  				break;
  			}
  		}
+
+ 		if(curr < array[interval->a])
+ 			array[interval->a] = curr;
  	}
 }
 
@@ -108,8 +114,11 @@ __task void quick_sort_task( void* void_ptr){
 
 	int low = params->interval.a, high = params->interval.c, mid = (high - low) / 2;
 
+
+	printf("quick_sort_task \n");
+
 	if(params->interval.c - params->interval.a < USE_INSERTION_SORT) {
-		insertion_sort(params->interval);
+		insertion_sort(&params->interval);
 	} else {
 		vMed = find_med_three(&params->interval, &iMin, &iMax, &iMed);
 		vMin = array[iMin];
