@@ -5,7 +5,7 @@
 #include "quicksort.h"
 #include "array_tools.h"
 
-#undef PRINT_ARRAY
+#define PRINT_ARRAY
 
 // Change 'undef' to 'define' when you have implemented quicksort_sem
 #undef TEST_SEMAPHORE_IMPLEMENTATION
@@ -33,9 +33,13 @@ __task void base_task( void ) {
 
 	while ( 1 ) {
 		array = generate_array();
-
 		time = os_time_get();
 
+		#ifdef PRINT_ARRAY
+			printf("Foo: \n");
+			print_array( &array );
+		#endif
+		
 		// Sort array
 		#ifdef TEST_SEMAPHORE_IMPLEMENTATION
 			quicksort_sem( array );

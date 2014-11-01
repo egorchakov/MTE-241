@@ -58,10 +58,10 @@ array_t generate_array( void ) {
 
 	printf("Enter each %d numbers, and hit Enter then: ", result.length);
 
-	result.array = (unsigned char *) (0x2007C000);
+	result.array = (array_type *) malloc (sizeof(array_type) * n);
 
 	for(i = 0; i < result.length; ++i)
-		scanf("%d", &( result.array[i]) );
+		scanf("%c", &( result.array[i]) );
 
 	printf("\n");
 
@@ -72,7 +72,7 @@ void print_array( array_t* a ) {
 	size_t i;
 
 	for ( i = 0; i < a->length; ++i ) {
-		printf( " [%d]=%d", i, a->array[i] );
+		printf( " [%c]=%c", i, a->array[i] );
 	}
 
 	printf( "\n" );

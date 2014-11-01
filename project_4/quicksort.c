@@ -8,7 +8,7 @@
 #include "array_tools.h"
 
 // You decide what the threshold will be
-#define USE_INSERTION_SORT 5
+#define USE_INSERTION_SORT 25
 
 typedef struct {
 	array_t array;
@@ -161,7 +161,7 @@ void quicksort( array_t array ) {
 	task_param.interval = interval;
 
 	// If you are using priorities, you can change this
-	task_param.priority = 10;
+	task_param.priority = 200;
 	
 	//start the quick_sort threading
 	os_tsk_create_ex( quick_sort_task, task_param.priority, &task_param ); 
