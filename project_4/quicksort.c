@@ -96,8 +96,8 @@ __task void quick_sort_task( void* void_ptr){
 	qsort_task_parameters_t* params = (qsort_task_parameters_t*)void_ptr;
 	qsort_task_parameters_t task_param_left;
 	qsort_task_parameters_t task_param_right;
-	array_interval_t left;
-	array_interval_t right;
+	array_interval_t left_interval;
+	array_interval_t right_interval;
 
 	// Pointer to array for clarity
 	array_type* array = params->interval.array.array;
@@ -129,7 +129,22 @@ __task void quick_sort_task( void* void_ptr){
 		// Move pivot to proper location
 		swap(array, params->interval.c, low);
 
-		// TODO: Invoke quicksort of left and right partitions
+		// Create child lasts for partitions
+		left_interval.array =  params->interval.array;
+		left_interval.a     =  params->interval.a;
+		left_interval.c     =  mid;
+		task_param_left.interval = left_interval;
+		task_param_left.priority = params->priority - 1;
+
+		right_interval.array =  params->interval.array;
+		right_interval.a     =  mid;
+		right_interval.c     =  params->interval.c;
+		task_param_right.interval = right_interval;
+		task_param_right.priority = params->priority - 1;
+	
+		// start the quick_sort threading
+		os_tsk_create_ex(quick_sort_task, task_param_left.priority, &task_param_left); 
+		os_tsk_create_ex(quick_sort_task, task_param_right.priority, &task_param_right); 
 	}
 }
 

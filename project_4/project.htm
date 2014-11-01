@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Sat Nov 01 16:13:18 2014
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Sat Nov 01 16:25:40 2014
 <BR><P>
 <H3>Maximum Stack Usage =        248 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -79,7 +79,7 @@ Function Pointers
  <LI><a href="#[39]">isspace</a> from isspace_c.o(.text) referenced from scanf_char.o(.text)
  <LI><a href="#[2d]">main</a> from main.o(.text) referenced from entry9a.o(.ARM.Collect$$$$0000000B)
  <LI><a href="#[3b]">os_idle_demon</a> from rtx_conf_cm.o(.text) referenced from rt_task.o(i.rt_sys_init)
- <LI><a href="#[62]">quick_sort_task</a> from quicksort.o(.text) referenced from quicksort.o(.text)
+ <LI><a href="#[62]">quick_sort_task</a> from quicksort.o(.text) referenced 3 times from quicksort.o(.text)
  <LI><a href="#[2e]">rt_alloc_box</a> from rt_membox.o(i.rt_alloc_box) referenced from hal_cm3.o(.emb_text)
  <LI><a href="#[2f]">rt_free_box</a> from rt_membox.o(i.rt_free_box) referenced from hal_cm3.o(.emb_text)
  <LI><a href="#[34]">rt_sys_init</a> from rt_task.o(i.rt_sys_init) referenced from main.o(.text)
@@ -527,8 +527,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;quick_sort_task
 </UL>
 
-<P><STRONG><a name="[62]"></a>quick_sort_task</STRONG> (Thumb, 134 bytes, Stack size 20 bytes, quicksort.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = quick_sort_task &rArr; quicksort
+<P><STRONG><a name="[62]"></a>quick_sort_task</STRONG> (Thumb, 246 bytes, Stack size 88 bytes, quicksort.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = quick_sort_task &rArr; quicksort
 </UL>
 <BR>[Calls]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;insertion_sort
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;find_med_three
