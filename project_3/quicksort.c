@@ -23,8 +23,14 @@ typedef struct{
 
 
 void insertion_sort( array_interval_t interval ) {
-  // Your implementation here
-}
+  int cur, i, j;
+  for (i = interval.a; i<=interval.c; i++){
+  	cur = interval.array.array[i];
+  	j = i;
+  	while(j>0 && interval.array.array[j-1] > cur){
+  		interval.array.array[j] = interval.array.array[j-1];
+  		j--;
+  	}
 
 __task void quick_sort_task( void* void_ptr){
   // Your implementation here
