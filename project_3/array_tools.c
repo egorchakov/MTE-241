@@ -71,8 +71,12 @@ array_t generate_array( void ) {
 void print_array( array_t* a ) {
 	size_t i;
 
+	// for ( i = 0; i < a->length; ++i ) {
+	// 	printf( " [%d]=%d", i, a->array[i] );
+	// }
+
 	for ( i = 0; i < a->length; ++i ) {
-		printf( " [%d]=%d", i, a->array[i] );
+		printf( "%d\t", a->array[i] );
 	}
 
 	printf( "\n" );
