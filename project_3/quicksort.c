@@ -32,8 +32,8 @@ void insertion_sort( array_interval_t interval ) {
   		j--;
   	}
 
-__task void quick_sort_task( void* void_ptr){
-  // Your implementation here
+  	interval.array.array[j] = cur;
+  }
 }
 
 void quicksort( array_t array ) {
