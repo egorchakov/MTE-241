@@ -58,7 +58,7 @@ array_t generate_array( void ) {
 
 	printf("Enter each %d numbers, and hit Enter then: ", result.length);
 
-	result.array = (unsigned char *) (0x2007C000);
+	result.array = (array_type *) (0x2007C000);
 
 	for(i = 0; i < result.length; ++i)
 		scanf("%d", &( result.array[i]) );
