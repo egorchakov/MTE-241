@@ -23,7 +23,8 @@ typedef struct{
 
 
 void insertion_sort( array_interval_t interval ) {
-  int cur, i, j;
+  int i, j;
+  array_type cur;
   for (i = interval.a; i<=interval.c; i++){
   	cur = interval.array.array[i];
   	j = i;
