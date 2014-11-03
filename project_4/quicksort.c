@@ -32,7 +32,7 @@ void swap(array_type* array, int iA, int iB) {
 array_type find_med_three(array_interval_t* interval, int* const iMin, int* const iMax, int* const iMed) { 
 	int a = interval->a;
 	int c = interval->c;
-	int b = (c - a) / 2;
+	int b = (c + a) / 2;
 
 	if(interval->array.array[a] > interval->array.array[b]) {
 		if(interval->array.array[b] > interval->array.array[c]) {
