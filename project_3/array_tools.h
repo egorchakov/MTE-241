@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-typedef  unsigned char array_type;
+typedef  int array_type;
 
 #define LARGE_ARRAY (1 << 13)
 
