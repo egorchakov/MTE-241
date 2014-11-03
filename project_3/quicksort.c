@@ -25,15 +25,16 @@ typedef struct{
 void insertion_sort( array_interval_t interval ) {
   int i, j;
   array_type cur;
+  array_type* array = interval.array.array;
+
   for (i = interval.a; i<=interval.c; i++){
-  	cur = interval.array.array[i];
+  	cur = array[i];
   	j = i;
-  	while(j>0 && interval.array.array[j-1] > cur){
-  		interval.array.array[j] = interval.array.array[j-1];
+  	while(j>0 && array[j-1] > cur){
+  		array[j] = array[j-1];
   		j--;
   	}
-
-  	interval.array.array[j] = cur;
+  	array[j] = cur;
   }
 }
 
