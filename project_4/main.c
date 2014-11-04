@@ -36,10 +36,10 @@ __task void base_task( void ) {
 		time = os_time_get();
 
 		#ifdef PRINT_ARRAY
-			printf("Foo: \n");
 			print_array( &array );
 		#endif
 		
+			printf("Foo: \n");
 		// Sort array
 		#ifdef TEST_SEMAPHORE_IMPLEMENTATION
 			quicksort_sem( array );
@@ -47,6 +47,7 @@ __task void base_task( void ) {
 			quicksort( array );
 		#endif
 
+			printf("Bar: \n");
 		time = os_time_get() - time;
 
 		if( is_sorted_array( &array ) )
