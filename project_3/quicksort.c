@@ -23,7 +23,39 @@ typedef struct{
 
 
 void insertion_sort( array_interval_t interval ) {
-  // Your implementation here
+  int i, j;
+  array_type cur;
+  array_type* array = interval.array.array;
+
+  for (i = interval.a; i<=interval.c; i++){
+  	cur = array[i];
+  	j = i;
+  	while(j>0 && array[j-1] > cur){
+  		array[j] = array[j-1];
+  		j--;
+  	}
+  	array[j] = cur;
+  }
+}
+
+int get_median_of_three( array_interval_t* interval ){
+    int a,b,c;
+
+    array_type* const arr = interval->array.array;
+    a = interval->a;
+    c = interval->c;
+    b = FLOOR(a/2 + c/2);
+
+    if (arr[a] >= arr[b]){
+        if (arr[b] >= arr[c]) return b;
+        else if (arr[c] >= arr[a]) return a;
+        else return c;               
+    }
+    else {
+        if (arr[a] >= arr[c]) return a;
+        else if (arr[b] >= arr[c]) return c;
+        else return b;
+    }
 }
 
 __task void quick_sort_task( void* void_ptr){
