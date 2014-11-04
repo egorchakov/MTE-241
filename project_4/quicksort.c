@@ -139,9 +139,7 @@ void quick_sort_task( void* void_ptr){
 			while(array[high] > vMed) high--;
 			if(high > low) {
 				printf("Swapped %d with %d\n", low, high);
-				swap(array, low, high);
-				low++;
-				high--;
+				swap(array, low++, high--);
 			}
 		}
 
