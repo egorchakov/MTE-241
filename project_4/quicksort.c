@@ -9,6 +9,7 @@
 
 // You decide what the threshold will be
 #define USE_INSERTION_SORT 5
+#define MAX_DEPTH 200
 
 typedef struct {
 	array_t array;
@@ -162,9 +163,10 @@ void quick_sort_task( void* void_ptr){
 		// start the quick_sort threading
 		// os_tsk_create_ex(quick_sort_task, task_param_left.priority, &task_param_left); 
 		printf("Calling subroutine left\n");
-		quick_sort_task(&task_param_left); 
+		// quick_sort_task(&task_param_left); 
+		os_tsk_create_ex(quick_sort_task, task_param_left.priority, &task_param_left); 
 		printf("Calling subroutine right\n");
-		quick_sort_task(&task_param_right); 
+		os_tsk_create_ex(quick_sort_task, task_param_left.priority, &task_param_left); 
 	}
 }
 
@@ -181,9 +183,8 @@ void quicksort( array_t array ) {
 	printf("Initial a = %d, c = %d\n", task_param.interval.a, task_param.interval.c);
 
 	// If you are using priorities, you can change this
-	task_param.priority = 200;
-	
+	task_param.priority = MAX_DEPTH;
+	os_tsk_prio_self(MAX_DEPTH + 1);
 	//start the quick_sort threading
-	// os_tsk_create_ex( quick_sort_task, task_param.priority, &task_param ); 
-	quick_sort_task(&task_param);
+	os_tsk_create_ex(quick_sort_task, task_param.priority, &task_param ); 
 }
