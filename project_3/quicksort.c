@@ -38,6 +38,10 @@ void insertion_sort( array_interval_t interval ) {
   }
 }
 
+__task void quick_sort_task( void* void_ptr){
+  // Your implementation here
+}
+
 void quicksort( array_t array ) {
 	array_interval_t interval;
 	qsort_task_parameters_t task_param;
