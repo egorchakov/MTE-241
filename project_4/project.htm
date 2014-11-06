@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Wed Nov 05 22:58:33 2014
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Thu Nov 06 01:05:31 2014
 <BR><P>
 <H3>Maximum Stack Usage =        248 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -467,16 +467,16 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getkey
 </UL>
 
-<P><STRONG><a name="[56]"></a>base_task</STRONG> (Thumb, 132 bytes, Stack size 24 bytes, main.o(.text))
+<P><STRONG><a name="[56]"></a>base_task</STRONG> (Thumb, 126 bytes, Stack size 24 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = base_task &rArr; generate_array &rArr; __0scanf &rArr; __vfscanf_char_file &rArr; __vfscanf_char &rArr; __vfscanf &rArr; _scanf_string
 </UL>
-<BR>[Calls]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;quicksort
+<BR>[Calls]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;quicksort
 <LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_array
 <LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;is_sorted_array
 <LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;generate_array
 <LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
 <LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
-<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
@@ -486,7 +486,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;os_set_env
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
 <LI><a href="#[30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
-<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;srand
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
@@ -497,7 +497,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;generate_random_array
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__0scanf
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
-<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;base_task
 </UL>
@@ -505,7 +505,7 @@ Global Symbols
 <P><STRONG><a name="[59]"></a>print_array</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, array_tools.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = print_array &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<BR>[Calls]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;base_task
 </UL>
@@ -513,7 +513,7 @@ Global Symbols
 <P><STRONG><a name="[5d]"></a>is_sorted_array</STRONG> (Thumb, 58 bytes, Stack size 16 bytes, array_tools.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = is_sorted_array &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<BR>[Calls]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;base_task
 </UL>
@@ -527,7 +527,7 @@ Global Symbols
 <P><STRONG><a name="[64]"></a>find_med_three</STRONG> (Thumb, 308 bytes, Stack size 32 bytes, quicksort.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = find_med_three &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<BR>[Calls]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;quick_sort_task
 </UL>
@@ -538,20 +538,20 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;quick_sort_task
 </UL>
 
-<P><STRONG><a name="[65]"></a>quick_sort_task</STRONG> (Thumb, 318 bytes, Stack size 88 bytes, quicksort.o(.text))
+<P><STRONG><a name="[65]"></a>quick_sort_task</STRONG> (Thumb, 306 bytes, Stack size 88 bytes, quicksort.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = quick_sort_task &rArr; find_med_three &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;insertion_sort
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;find_med_three
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;swap
-<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> quicksort.o(.text)
 </UL>
-<P><STRONG><a name="[5b]"></a>quicksort</STRONG> (Thumb, 72 bytes, Stack size 48 bytes, quicksort.o(.text))
+<P><STRONG><a name="[5a]"></a>quicksort</STRONG> (Thumb, 66 bytes, Stack size 48 bytes, quicksort.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = quicksort &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<BR>[Calls]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;base_task
 </UL>
@@ -751,12 +751,12 @@ Global Symbols
 
 <P><STRONG><a name="[af]"></a>__1printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0printf), UNUSED)
 
-<P><STRONG><a name="[5a]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0printf))
+<P><STRONG><a name="[5b]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0printf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;quick_sort_task
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;find_med_three
-<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;quicksort
+<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;quicksort
 <LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_array
 <LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;is_sorted_array
 <LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;generate_array

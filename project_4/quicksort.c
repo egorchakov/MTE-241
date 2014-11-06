@@ -122,8 +122,8 @@ __task void quick_sort_task(void* void_ptr){
 	int low = params->interval.a, high = params->interval.c - 1, mid = (high - low) / 2;
 	printf("Passed a = %d, c = %d\n", params->interval.a, params->interval.c);
 
-	if(params->interval.c - params->interval.a < USE_INSERTION_SORT) {
-		insertion_sort(&(params->interval));
+	if((high - low) < USE_INSERTION_SORT) {
+		if(high > low)	insertion_sort(&(params->interval));
 	} else {
 		vMed = find_med_three(&(params->interval), &iMin, &iMax, &iMed);
 		vMin = array[iMin];
@@ -161,9 +161,7 @@ __task void quick_sort_task(void* void_ptr){
 		task_param_right.priority = params->priority + 1;
 	
 		// start the quick_sort threading
-		// os_tsk_create_ex(quick_sort_task, task_param_left.priority, &task_param_left); 
 		printf("Calling subroutine left\n");
-		// quick_sort_task(&task_param_left); 
 		os_tsk_create_ex(quick_sort_task, task_param_left.priority, &task_param_left); 
 		printf("Calling subroutine right\n");
 		os_tsk_create_ex(quick_sort_task, task_param_right.priority, &task_param_right);	
@@ -190,5 +188,4 @@ void quicksort( array_t array ) {
 	
 	//start the quick_sort threading
 	os_tsk_create_ex(quick_sort_task, task_param.priority, &task_param); 
-	printf("Baz\n");
 }
