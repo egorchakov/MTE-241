@@ -36,7 +36,7 @@ Section Cross References
     array_tools.o(.text) refers to malloc.o(i.malloc) for malloc
     quicksort.o(.text) refers to printfa.o(i.__0printf) for __2printf
     quicksort.o(.text) refers to rt_task.o(i.rt_tsk_create) for rt_tsk_create
-    quicksort.o(.text) refers to rt_task.o(i.rt_tsk_prio) for rt_tsk_prio
+    quicksort.o(.text) refers to rt_task.o(i.rt_tsk_delete) for rt_tsk_delete
     rt_task.o(i.rt_block) refers to rt_list.o(i.rt_put_dly) for rt_put_dly
     rt_task.o(i.rt_block) refers to rt_list.o(i.rt_get_first) for rt_get_first
     rt_task.o(i.rt_block) refers to rt_task.o(i.rt_switch_req) for rt_switch_req
@@ -569,7 +569,6 @@ Removing Unused input sections from the image.
     Removing quicksort.o(.rev16_text), (4 bytes).
     Removing quicksort.o(.revsh_text), (4 bytes).
     Removing rt_task.o(i.rt_block), (56 bytes).
-    Removing rt_task.o(i.rt_tsk_delete), (364 bytes).
     Removing rt_task.o(i.rt_tsk_pass), (48 bytes).
     Removing rt_task.o(i.rt_tsk_self), (16 bytes).
     Removing rt_time.o(i.rt_dly_wait), (6 bytes).
@@ -603,7 +602,7 @@ Removing Unused input sections from the image.
     Removing rt_timer.o(i.rt_tmr_create), (80 bytes).
     Removing rt_timer.o(i.rt_tmr_kill), (52 bytes).
 
-42 unused section(s) (total 2224 bytes) removed from the image.
+41 unused section(s) (total 1860 bytes) removed from the image.
 
 ==============================================================================
 
@@ -614,57 +613,57 @@ Image Symbol Table
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
     RESET                                    0x00000000   Section      204  startup_lpc17xx.o(RESET)
-    ../clib/microlib/ctype/ctype.c           0x00000000   Number         0  ctype_c.o ABSOLUTE
     ../clib/microlib/ctype/ctype.c           0x00000000   Number         0  isspace_c.o ABSOLUTE
-    ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
+    ../clib/microlib/ctype/ctype.c           0x00000000   Number         0  ctype_c.o ABSOLUTE
     ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
+    ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
-    ../clib/microlib/longlong.c              0x00000000   Number         0  llsshr.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
-    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  malloc.o ABSOLUTE
-    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  mallocr.o ABSOLUTE
-    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  malloca.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llsshr.o ABSOLUTE
     ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  mallocra.o ABSOLUTE
+    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  malloca.o ABSOLUTE
+    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  mallocr.o ABSOLUTE
+    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  malloc.o ABSOLUTE
     ../clib/microlib/malloc/mvars.c          0x00000000   Number         0  mvars.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf0.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf6.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf5.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf4.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf7.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf5.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf3.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf2.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf1.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfb.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf0.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf3.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfa.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf8.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf7.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfa.o ABSOLUTE
     ../clib/microlib/printf/stubs.s          0x00000000   Number         0  stubs.o ABSOLUTE
     ../clib/microlib/stdio/fgetc.c           0x00000000   Number         0  fgetc_b.o ABSOLUTE
     ../clib/microlib/stdio/semi.s            0x00000000   Number         0  semi.o ABSOLUTE
     ../clib/microlib/stdlib/rand.c           0x00000000   Number         0  rand.o ABSOLUTE
-    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpya.o ABSOLUTE
     ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpyb.o ABSOLUTE
-    ../clib/microlib/stubs.s                 0x00000000   Number         0  iusesemig.o ABSOLUTE
+    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpya.o ABSOLUTE
     ../clib/microlib/stubs.s                 0x00000000   Number         0  iusefp.o ABSOLUTE
-    ../clib/scanf.c                          0x00000000   Number         0  _scanf_str.o ABSOLUTE
-    ../clib/scanf.c                          0x00000000   Number         0  _scanf.o ABSOLUTE
-    ../clib/scanf.c                          0x00000000   Number         0  scanf_char.o ABSOLUTE
-    ../clib/scanf.c                          0x00000000   Number         0  _scanf_int.o ABSOLUTE
-    ../clib/scanf.c                          0x00000000   Number         0  _chval.o ABSOLUTE
+    ../clib/microlib/stubs.s                 0x00000000   Number         0  iusesemig.o ABSOLUTE
     ../clib/scanf.c                          0x00000000   Number         0  __0scanf.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  scanf_char.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  _scanf.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  _scanf_int.o ABSOLUTE
     ../clib/scanf.c                          0x00000000   Number         0  scanf_char_file.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  _chval.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  _scanf_str.o ABSOLUTE
     ../fplib/microlib/fpadd.c                0x00000000   Number         0  dadd.o ABSOLUTE
     ../fplib/microlib/fpdiv.c                0x00000000   Number         0  ddiv.o ABSOLUTE
     ../fplib/microlib/fpepilogue.c           0x00000000   Number         0  depilogue.o ABSOLUTE
@@ -717,8 +716,8 @@ Image Symbol Table
     .text                                    0x000002c6   Section        0  rtx_conf_cm.o(.text)
     .text                                    0x000002d0   Section        0  rand.o(.text)
     .text                                    0x000002f4   Section        0  iusefp.o(.text)
-    .text                                    0x000002f4   Section        0  semi.o(.text)
     .text                                    0x000002f4   Section        0  iusesemig.o(.text)
+    .text                                    0x000002f4   Section        0  semi.o(.text)
     SVC_TABLE                                0x000002f4   Section        4  SVC_Table.o(SVC_TABLE)
     i.__scatterload_null                     0x000002f8   Section        2  handlers.o(i.__scatterload_null)
     i.os_tick_irqack                         0x000002fa   Section        0  rt_system.o(i.os_tick_irqack)
@@ -797,13 +796,14 @@ Image Symbol Table
     i.rt_time_get                            0x00002d38   Section        0  rt_time.o(i.rt_time_get)
     i.rt_tmr_tick                            0x00002d44   Section        0  rt_timer.o(i.rt_tmr_tick)
     i.rt_tsk_create                          0x00002d84   Section        0  rt_task.o(i.rt_tsk_create)
-    i.rt_tsk_prio                            0x00002e18   Section        0  rt_task.o(i.rt_tsk_prio)
-    .constdata                               0x00002ea4   Section       40  rtx_conf_cm.o(.constdata)
-    __tagsym$$used                           0x00002eb8   Number         0  rtx_conf_cm.o(.constdata)
-    __tagsym$$used                           0x00002ebc   Number         0  rtx_conf_cm.o(.constdata)
-    .constdata                               0x00002ecc   Section        4  rt_system.o(.constdata)
-    __tagsym$$used                           0x00002ecc   Number         0  rt_system.o(.constdata)
-    .constdata                               0x00002ed0   Section       64  ctype_c.o(.constdata)
+    i.rt_tsk_delete                          0x00002e18   Section        0  rt_task.o(i.rt_tsk_delete)
+    i.rt_tsk_prio                            0x00002f84   Section        0  rt_task.o(i.rt_tsk_prio)
+    .constdata                               0x00003010   Section       40  rtx_conf_cm.o(.constdata)
+    __tagsym$$used                           0x00003024   Number         0  rtx_conf_cm.o(.constdata)
+    __tagsym$$used                           0x00003028   Number         0  rtx_conf_cm.o(.constdata)
+    .constdata                               0x00003038   Section        4  rt_system.o(.constdata)
+    __tagsym$$used                           0x00003038   Number         0  rt_system.o(.constdata)
+    .constdata                               0x0000303c   Section       64  ctype_c.o(.constdata)
     .data                                    0x10000000   Section        8  retarget.o(.data)
     .data                                    0x10000008   Section        4  system_lpc17xx.o(.data)
     .data                                    0x1000000c   Section       28  uart.o(.data)
@@ -826,11 +826,11 @@ Image Symbol Table
     ungetc_sp                                0x10000068   Data           1  fgetc_b.o(.data)
     ungetc_stack                             0x10000069   Data           2  fgetc_b.o(.data)
     .bss                                     0x1000006c   Section      128  uart.o(.bss)
-    .bss                                     0x100000f0   Section     2184  rtx_conf_cm.o(.bss)
-    .bss                                     0x10000978   Section       56  rt_task.o(.bss)
-    .bss                                     0x100009b0   Section       48  rt_list.o(.bss)
-    HEAP                                     0x100009e0   Section        0  startup_lpc17xx.o(HEAP)
-    STACK                                    0x100009e0   Section      512  startup_lpc17xx.o(STACK)
+    .bss                                     0x100000f0   Section    23228  rtx_conf_cm.o(.bss)
+    .bss                                     0x10005bac   Section       56  rt_task.o(.bss)
+    .bss                                     0x10005be4   Section       48  rt_list.o(.bss)
+    HEAP                                     0x10005c18   Section        0  startup_lpc17xx.o(HEAP)
+    STACK                                    0x10005c18   Section      512  startup_lpc17xx.o(STACK)
 
     Global Symbols
 
@@ -989,8 +989,8 @@ Image Symbol Table
     swap                                     0x00000d19   Thumb Code    12  quicksort.o(.text)
     find_med_three                           0x00000d25   Thumb Code   308  quicksort.o(.text)
     insertion_sort                           0x00000e59   Thumb Code    66  quicksort.o(.text)
-    quick_sort_task                          0x00000e9b   Thumb Code   320  quicksort.o(.text)
-    quicksort                                0x00000fdb   Thumb Code    76  quicksort.o(.text)
+    quick_sort_task                          0x00000e9b   Thumb Code   318  quicksort.o(.text)
+    quicksort                                0x00000fd9   Thumb Code    72  quicksort.o(.text)
     __aeabi_uldivmod                         0x00001109   Thumb Code    98  uldiv.o(.text)
     __0scanf                                 0x0000116d   Thumb Code    26  __0scanf.o(.text)
     _scanf_int                               0x0000118d   Thumb Code   336  _scanf_int.o(.text)
@@ -1060,22 +1060,23 @@ Image Symbol Table
     rt_time_get                              0x00002d39   Thumb Code     6  rt_time.o(i.rt_time_get)
     rt_tmr_tick                              0x00002d45   Thumb Code    56  rt_timer.o(i.rt_tmr_tick)
     rt_tsk_create                            0x00002d85   Thumb Code   126  rt_task.o(i.rt_tsk_create)
-    rt_tsk_prio                              0x00002e19   Thumb Code   122  rt_task.o(i.rt_tsk_prio)
-    os_maxtaskrun                            0x00002ea4   Data           2  rtx_conf_cm.o(.constdata)
-    os_stackinfo                             0x00002ea8   Data           4  rtx_conf_cm.o(.constdata)
-    os_rrobin                                0x00002eac   Data           4  rtx_conf_cm.o(.constdata)
-    os_trv                                   0x00002eb0   Data           4  rtx_conf_cm.o(.constdata)
-    os_flags                                 0x00002eb4   Data           1  rtx_conf_cm.o(.constdata)
-    os_clockrate                             0x00002eb8   Data           4  rtx_conf_cm.o(.constdata)
-    os_timernum                              0x00002ebc   Data           4  rtx_conf_cm.o(.constdata)
-    mp_tcb_size                              0x00002ec0   Data           2  rtx_conf_cm.o(.constdata)
-    mp_stk_size                              0x00002ec4   Data           4  rtx_conf_cm.o(.constdata)
-    os_fifo_size                             0x00002ec8   Data           1  rtx_conf_cm.o(.constdata)
-    mp_tmr_size                              0x00002eca   Data           2  rtx_conf_cm.o(.constdata)
-    RL_RTX_Version                           0x00002ecc   Data           4  rt_system.o(.constdata)
-    __ctype_categories                       0x00002ed0   Data          64  ctype_c.o(.constdata)
-    Region$$Table$$Base                      0x00002f10   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x00002f30   Number         0  anon$$obj.o(Region$$Table)
+    rt_tsk_delete                            0x00002e19   Thumb Code   336  rt_task.o(i.rt_tsk_delete)
+    rt_tsk_prio                              0x00002f85   Thumb Code   122  rt_task.o(i.rt_tsk_prio)
+    os_maxtaskrun                            0x00003010   Data           2  rtx_conf_cm.o(.constdata)
+    os_stackinfo                             0x00003014   Data           4  rtx_conf_cm.o(.constdata)
+    os_rrobin                                0x00003018   Data           4  rtx_conf_cm.o(.constdata)
+    os_trv                                   0x0000301c   Data           4  rtx_conf_cm.o(.constdata)
+    os_flags                                 0x00003020   Data           1  rtx_conf_cm.o(.constdata)
+    os_clockrate                             0x00003024   Data           4  rtx_conf_cm.o(.constdata)
+    os_timernum                              0x00003028   Data           4  rtx_conf_cm.o(.constdata)
+    mp_tcb_size                              0x0000302c   Data           2  rtx_conf_cm.o(.constdata)
+    mp_stk_size                              0x00003030   Data           4  rtx_conf_cm.o(.constdata)
+    os_fifo_size                             0x00003034   Data           1  rtx_conf_cm.o(.constdata)
+    mp_tmr_size                              0x00003036   Data           2  rtx_conf_cm.o(.constdata)
+    RL_RTX_Version                           0x00003038   Data           4  rt_system.o(.constdata)
+    __ctype_categories                       0x0000303c   Data          64  ctype_c.o(.constdata)
+    Region$$Table$$Base                      0x0000307c   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x0000309c   Number         0  anon$$obj.o(Region$$Table)
     __stdout                                 0x10000000   Data           4  retarget.o(.data)
     __stdin                                  0x10000004   Data           4  retarget.o(.data)
     SystemCoreClock                          0x10000008   Data           4  system_lpc17xx.o(.data)
@@ -1102,16 +1103,16 @@ Image Symbol Table
     __microlib_freelist_initialised          0x10000064   Data           4  mvars.o(.data)
     UART0Buffer                              0x1000006c   Data          64  uart.o(.bss)
     UART1Buffer                              0x100000ac   Data          64  uart.o(.bss)
-    mp_tcb                                   0x100000f0   Data         404  rtx_conf_cm.o(.bss)
-    mp_stk                                   0x10000288   Data        1616  rtx_conf_cm.o(.bss)
-    os_fifo                                  0x100008d8   Data         132  rtx_conf_cm.o(.bss)
-    os_active_TCB                            0x1000095c   Data          28  rtx_conf_cm.o(.bss)
-    os_idle_TCB                              0x10000978   Data          56  rt_task.o(.bss)
-    os_rdy                                   0x100009b0   Data          24  rt_list.o(.bss)
-    os_dly                                   0x100009c8   Data          24  rt_list.o(.bss)
-    __heap_base                              0x100009e0   Data           0  startup_lpc17xx.o(HEAP)
-    __heap_limit                             0x100009e0   Data           0  startup_lpc17xx.o(HEAP)
-    __initial_sp                             0x10000be0   Data           0  startup_lpc17xx.o(STACK)
+    mp_tcb                                   0x100000f0   Data        2252  rtx_conf_cm.o(.bss)
+    mp_stk                                   0x100009c0   Data       20680  rtx_conf_cm.o(.bss)
+    os_fifo                                  0x10005a88   Data         132  rtx_conf_cm.o(.bss)
+    os_active_TCB                            0x10005b0c   Data         160  rtx_conf_cm.o(.bss)
+    os_idle_TCB                              0x10005bac   Data          56  rt_task.o(.bss)
+    os_rdy                                   0x10005be4   Data          24  rt_list.o(.bss)
+    os_dly                                   0x10005bfc   Data          24  rt_list.o(.bss)
+    __heap_base                              0x10005c18   Data           0  startup_lpc17xx.o(HEAP)
+    __heap_limit                             0x10005c18   Data           0  startup_lpc17xx.o(HEAP)
+    __initial_sp                             0x10005e18   Data           0  startup_lpc17xx.o(STACK)
 
 
 
@@ -1121,9 +1122,9 @@ Memory Map of the image
 
   Image Entry point : 0x000000cd
 
-  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x00002f9c, Max: 0x00080000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x00003108, Max: 0x00080000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Base: 0x00000000, Size: 0x00002f30, Max: 0x00080000, ABSOLUTE)
+    Execution Region ER_IROM1 (Base: 0x00000000, Size: 0x0000309c, Max: 0x00080000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -1221,14 +1222,15 @@ Memory Map of the image
     0x00002d38   0x0000000c   Code   RO          321    i.rt_time_get       RTX_CM3.LIB(rt_time.o)
     0x00002d44   0x00000040   Code   RO          746    i.rt_tmr_tick       RTX_CM3.LIB(rt_timer.o)
     0x00002d84   0x00000094   Code   RO          224    i.rt_tsk_create     RTX_CM3.LIB(rt_task.o)
-    0x00002e18   0x0000008c   Code   RO          227    i.rt_tsk_prio       RTX_CM3.LIB(rt_task.o)
-    0x00002ea4   0x00000028   Data   RO          201    .constdata          rtx_conf_cm.o
-    0x00002ecc   0x00000004   Data   RO          407    .constdata          RTX_CM3.LIB(rt_system.o)
-    0x00002ed0   0x00000040   Data   RO         1135    .constdata          mc_w.l(ctype_c.o)
-    0x00002f10   0x00000020   Data   RO         1137    Region$$Table       anon$$obj.o
+    0x00002e18   0x0000016c   Code   RO          225    i.rt_tsk_delete     RTX_CM3.LIB(rt_task.o)
+    0x00002f84   0x0000008c   Code   RO          227    i.rt_tsk_prio       RTX_CM3.LIB(rt_task.o)
+    0x00003010   0x00000028   Data   RO          201    .constdata          rtx_conf_cm.o
+    0x00003038   0x00000004   Data   RO          407    .constdata          RTX_CM3.LIB(rt_system.o)
+    0x0000303c   0x00000040   Data   RO         1135    .constdata          mc_w.l(ctype_c.o)
+    0x0000307c   0x00000020   Data   RO         1137    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Base: 0x10000000, Size: 0x00000be0, Max: 0x00008000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Base: 0x10000000, Size: 0x00005e18, Max: 0x00008000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -1251,11 +1253,12 @@ Memory Map of the image
     0x1000006b   0x00000001   PAD
     0x1000006c   0x00000080   Zero   RW           84    .bss                uart.o
     0x100000ec   0x00000004   PAD
-    0x100000f0   0x00000888   Zero   RW          200    .bss                rtx_conf_cm.o
-    0x10000978   0x00000038   Zero   RW          229    .bss                RTX_CM3.LIB(rt_task.o)
-    0x100009b0   0x00000030   Zero   RW          491    .bss                RTX_CM3.LIB(rt_list.o)
-    0x100009e0   0x00000000   Zero   RW            2    HEAP                startup_lpc17xx.o
-    0x100009e0   0x00000200   Zero   RW            1    STACK               startup_lpc17xx.o
+    0x100000f0   0x00005abc   Zero   RW          200    .bss                rtx_conf_cm.o
+    0x10005bac   0x00000038   Zero   RW          229    .bss                RTX_CM3.LIB(rt_task.o)
+    0x10005be4   0x00000030   Zero   RW          491    .bss                RTX_CM3.LIB(rt_list.o)
+    0x10005c14   0x00000004   PAD
+    0x10005c18   0x00000000   Zero   RW            2    HEAP                startup_lpc17xx.o
+    0x10005c18   0x00000200   Zero   RW            1    STACK               startup_lpc17xx.o
 
 
 ==============================================================================
@@ -1267,15 +1270,15 @@ Image component sizes
 
        520        176          0          0          0       3285   array_tools.o
        260         86          0          8          0       8328   main.o
-      1008        226          0          0          0       2943   quicksort.o
+      1008        232          0          0          0       2903   quicksort.o
        110          0          0          8          0       7278   retarget.o
-        10          0         40          4       2184       1768   rtx_conf_cm.o
+        10          0         40          4      23228       1768   rtx_conf_cm.o
         40         12        204          0        512        900   startup_lpc17xx.o
        792         78          0          4          0        969   system_lpc17xx.o
       1012         72          0         28        128      45753   uart.o
 
     ----------------------------------------------------------------------
-      3752        650        276         52       2828      71224   Object Totals
+      3752        656        276         52      23872      71184   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          0          0          0          0          4          0   (incl. Padding)
 
@@ -1292,7 +1295,7 @@ Image component sizes
         96         22          0          8          0        974   rt_robin.o
         52          6          0          0          0        453   rt_semaphore.o
        266         44          4          8          0       3025   rt_system.o
-       816        142          0          8         56       5841   rt_task.o
+      1180        170          0          8         56       6645   rt_task.o
         12          6          0          4          0        516   rt_time.o
         64          8          0          8          0        583   rt_timer.o
         32          6          0          0          0         84   __0scanf.o
@@ -1336,19 +1339,19 @@ Image component sizes
        228          0          0          0          0         96   dmul.o
 
     ----------------------------------------------------------------------
-      7984        496         68         56        104      22661   Library Totals
-        12          0          0          4          0          0   (incl. Padding)
+      8348        524         68         56        108      23465   Library Totals
+        12          0          0          4          4          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Name
 
-      2592        322          4         37        104      19933   RTX_CM3.LIB
+      2956        350          4         37        104      20737   RTX_CM3.LIB
       4292        172         64         15          0       1996   mc_w.l
       1088          2          0          0          0        732   mf_w.l
 
     ----------------------------------------------------------------------
-      7984        496         68         56        104      22661   Library Totals
+      8348        524         68         56        108      23465   Library Totals
 
     ----------------------------------------------------------------------
 
@@ -1357,15 +1360,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     11736       1146        344        108       2932      90245   Grand Totals
-     11736       1146        344        108       2932      90245   ELF Image Totals
-     11736       1146        344        108          0          0   ROM Totals
+     12100       1180        344        108      23980      90957   Grand Totals
+     12100       1180        344        108      23980      90957   ELF Image Totals
+     12100       1180        344        108          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                12080 (  11.80kB)
-    Total RW  Size (RW Data + ZI Data)              3040 (   2.97kB)
-    Total ROM Size (Code + RO Data + RW Data)      12188 (  11.90kB)
+    Total RO  Size (Code + RO Data)                12444 (  12.15kB)
+    Total RW  Size (RW Data + ZI Data)             24088 (  23.52kB)
+    Total ROM Size (Code + RO Data + RW Data)      12552 (  12.26kB)
 
 ==============================================================================
 
