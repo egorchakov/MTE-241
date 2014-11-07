@@ -58,6 +58,13 @@ int get_median_of_three( array_interval_t* interval ){
     }
 }
 
+__inline void swap(array_type* arr, int a, int b){
+    array_type tmp;
+    tmp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = tmp;
+}
+
 int partition(array_interval_t* interval){
     int pivot_index, pivot_value, tmp_index, i;
 
