@@ -58,6 +58,24 @@ int get_median_of_three( array_interval_t* interval ){
     }
 }
 
+int partition(array_interval_t* interval){
+    int pivot_index, pivot_value, tmp_index, i;
+
+    tmp_index = interval->a;
+    pivot_index = get_median_of_three(interval);
+    pivot_value = interval->array.array[pivot_index];
+    swap(interval->array.array, pivot_index, interval->c);
+    for (i = interval->a; i<interval->c; i++){
+        if (interval->array.array[i] < pivot_value){
+            swap(interval->array.array, i, tmp_index);
+            ++tmp_index;
+        }
+    }
+
+    swap(interval->array.array, tmp_index, interval->c);
+    return tmp_index;
+}
+
 __task void quick_sort_task( void* void_ptr){
   // Your implementation here
 }
