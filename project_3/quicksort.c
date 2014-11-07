@@ -134,7 +134,7 @@ __task void quick_sort_task( void* void_ptr){
     printf("done\n");
 }
 
-void quicksort( array_t array ) {
+void quicksort_sem( array_t array ) {
 	array_interval_t interval;
 	qsort_task_parameters_t task_param;
 	
