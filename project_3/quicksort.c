@@ -22,12 +22,12 @@ typedef struct{
 } qsort_task_parameters_t;
 
 
-void insertion_sort( array_interval_t interval ) {
+void insertion_sort( array_interval_t* interval ) {
   int i, j;
   array_type cur;
-  array_type* array = interval.array.array;
+  array_type* array = interval->array.array;
 
-  for (i = interval.a; i<=interval.c; i++){
+  for (i = interval->a; i<=interval->c; i++){
   	cur = array[i];
   	j = i;
   	while(j>0 && array[j-1] > cur){
