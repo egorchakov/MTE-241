@@ -39,7 +39,6 @@ __task void base_task( void ) {
 			print_array( &array );
 		#endif
 		
-			printf("Foo: \n");
 		// Sort array
 		#ifdef TEST_SEMAPHORE_IMPLEMENTATION
 			quicksort_sem( array );

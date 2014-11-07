@@ -105,7 +105,7 @@ void insertion_sort( array_interval_t* interval ) {
  	}
 }
 
-void quick_sort_task( void* void_ptr){
+__task void quick_sort_task(void* void_ptr){
 	qsort_task_parameters_t* params = (qsort_task_parameters_t*)void_ptr;
 	qsort_task_parameters_t task_param_left;
 	qsort_task_parameters_t task_param_right;
@@ -122,8 +122,8 @@ void quick_sort_task( void* void_ptr){
 	int low = params->interval.a, high = params->interval.c - 1, mid = (high - low) / 2;
 	printf("Passed a = %d, c = %d\n", params->interval.a, params->interval.c);
 
-	if(params->interval.c - params->interval.a < USE_INSERTION_SORT) {
-		insertion_sort(&(params->interval));
+	if((high - low) < USE_INSERTION_SORT) {
+		if(high > low)	insertion_sort(&(params->interval));
 	} else {
 		vMed = find_med_three(&(params->interval), &iMin, &iMax, &iMed);
 		vMin = array[iMin];
@@ -152,22 +152,23 @@ void quick_sort_task( void* void_ptr){
 		left_interval.a     =  params->interval.a;
 		left_interval.c     =  mid;
 		task_param_left.interval = left_interval;
-		task_param_left.priority = params->priority - 1;
+		task_param_left.priority = params->priority + 1;
 
 		right_interval.array =  params->interval.array;
 		right_interval.a     =  mid;
 		right_interval.c     =  params->interval.c;
 		task_param_right.interval = right_interval;
-		task_param_right.priority = params->priority - 1;
+		task_param_right.priority = params->priority + 1;
 	
 		// start the quick_sort threading
-		// os_tsk_create_ex(quick_sort_task, task_param_left.priority, &task_param_left); 
 		printf("Calling subroutine left\n");
-		// quick_sort_task(&task_param_left); 
 		os_tsk_create_ex(quick_sort_task, task_param_left.priority, &task_param_left); 
 		printf("Calling subroutine right\n");
-		os_tsk_create_ex(quick_sort_task, task_param_left.priority, &task_param_left); 
+		os_tsk_create_ex(quick_sort_task, task_param_right.priority, &task_param_right);	
 	}
+	
+	// Delete the task and remove from ready queue
+	os_tsk_delete_self();
 }
 
 void quicksort( array_t array ) {
@@ -183,8 +184,8 @@ void quicksort( array_t array ) {
 	printf("Initial a = %d, c = %d\n", task_param.interval.a, task_param.interval.c);
 
 	// If you are using priorities, you can change this
-	task_param.priority = MAX_DEPTH;
-	os_tsk_prio_self(MAX_DEPTH + 1);
+	task_param.priority = 10;
+	
 	//start the quick_sort threading
-	os_tsk_create_ex(quick_sort_task, task_param.priority, &task_param ); 
+	os_tsk_create_ex(quick_sort_task, task_param.priority, &task_param); 
 }
