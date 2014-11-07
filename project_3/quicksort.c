@@ -85,6 +85,53 @@ int partition(array_interval_t* interval){
 
 __task void quick_sort_task( void* void_ptr){
   // Your implementation here
+// void quick_sort_task(void* void_ptr){
+    
+    OS_MUT left_task_done, right_task_done;
+    int pivot_index;
+    
+    array_interval_t* interval;
+    array_interval_t left_interval;
+    array_interval_t right_interval;
+    qsort_task_parameters_t* cur_params;
+    qsort_task_parameters_t left_task_params;
+    qsort_task_parameters_t right_task_params;
+
+    cur_params = (qsort_task_parameters_t*) void_ptr;
+    interval = &(cur_params->interval);
+    
+    if (interval->array.length > 1){
+        // if (interval->array.length <= USE_INSERTION_SORT){
+        //     insertion_sort(interval);
+        //     return;
+        // }
+
+        pivot_index = partition(interval);
+
+        // array_interval_init(&left_interval, &(interval->array), interval->a, interval->c);
+        // array_interval_init(&right_interval, &(interval->array), interval->a, interval->c);
+        left_interval.array = interval->array;
+        left_interval.a = interval->a;
+        left_interval.c = pivot_index - 1;
+        left_interval.array.length = left_interval.c - left_interval.a + 1;
+
+        right_interval.array = interval->array;
+        right_interval.a = pivot_index + 1;
+        right_interval.c = interval->c;
+        right_interval.array.length = right_interval.c - right_interval.a + 1;
+
+        left_task_params.interval = left_interval;
+        left_task_params.priority = cur_params->priority + 1;
+
+        right_task_params.interval = right_interval;
+        right_task_params.priority = cur_params->priority + 1;
+
+        os_tsk_create_ex(quick_sort_task, left_task_params.priority, &left_task_params);
+        os_tsk_create_ex(quick_sort_task, right_task_params.priority, &right_task_params);
+    }
+
+    os_tsk_delete_self();
+    printf("done\n");
 }
 
 void quicksort( array_t array ) {
