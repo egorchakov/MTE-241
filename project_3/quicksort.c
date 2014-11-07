@@ -142,7 +142,7 @@ void quicksort_sem( array_t array ) {
 	//  - in the course notes, this sorts from a to c - 1
 	interval.array =  array;
 	interval.a     =  0;
-	interval.c     =  array.length;
+	interval.c     =  array.length-1;
 	
 	task_param.interval = interval;
 
