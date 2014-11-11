@@ -10,18 +10,20 @@
 // You decide what the threshold will be
 #define USE_INSERTION_SORT 5
 
-typedef struct {
-	array_t array;
-	size_t a;
-	size_t c;
-} array_interval_t;
+#define FLOOR(n)  (n) - ((n) % 1)
+#define MUTEXPRINT(...) {os_mut_wait(&printing, 0xffff); printf(__VA_ARGS__); os_mut_release(&printing);}
 
-typedef struct{
-	array_interval_t interval;
-	unsigned char priority;
-} qsort_task_parameters_t;
+// Temporarily moved to quicksort.h
+// typedef struct {
+// 	array_t array;
+// 	size_t a;
+// 	size_t c;
+// } array_interval_t;
 
-
+// typedef struct{
+// 	array_interval_t interval;
+// 	unsigned char priority;
+// } qsort_task_parameters_t;
 void insertion_sort( array_interval_t* interval ) {
   int i, j;
   array_type cur;
