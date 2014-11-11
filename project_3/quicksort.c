@@ -24,6 +24,12 @@
 // 	array_interval_t interval;
 // 	unsigned char priority;
 // } qsort_task_parameters_t;
+
+int num_tasks;
+OS_MUT num_tasks_mutex;
+OS_SEM all_tasks_finished;
+OS_MUT printing;
+
 void insertion_sort( array_interval_t* interval ) {
   int i, j;
   array_type cur;
