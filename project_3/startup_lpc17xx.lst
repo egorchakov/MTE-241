@@ -46,22 +46,22 @@ ARM Macro Assembler    Page 1
    28 00000000         ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
    29 00000000         ; </h>
    30 00000000         
-   31 00000000 00001000 
+   31 00000000 00000800 
                        Stack_Size
-                               EQU              0x00001000
+                               EQU              0x00000800
    32 00000000         
    33 00000000                 AREA             STACK, NOINIT, READWRITE, ALIGN
 =3
    34 00000000         Stack_Mem
                                SPACE            Stack_Size
-   35 00001000         __initial_sp
-   36 00001000         
-   37 00001000         
-   38 00001000         ; <h> Heap Configuration
-   39 00001000         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
-   40 00001000         ; </h>
-   41 00001000         
-   42 00001000 00001000 
+   35 00000800         __initial_sp
+   36 00000800         
+   37 00000800         
+   38 00000800         ; <h> Heap Configuration
+   39 00000800         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
+   40 00000800         ; </h>
+   41 00000800         
+   42 00000800 00001200 
                        Heap_Size
 
 
@@ -69,23 +69,23 @@ ARM Macro Assembler    Page 1
 ARM Macro Assembler    Page 2 
 
 
-                               EQU              0x00001000
-   43 00001000         
-   44 00001000                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
+                               EQU              0x00001200
+   43 00000800         
+   44 00000800                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
 3
    45 00000000         __heap_base
    46 00000000         Heap_Mem
                                SPACE            Heap_Size
-   47 00001000         __heap_limit
-   48 00001000         
-   49 00001000         
-   50 00001000                 PRESERVE8
-   51 00001000                 THUMB
-   52 00001000         
-   53 00001000         
-   54 00001000         ; Vector Table Mapped to Address 0 at Reset
-   55 00001000         
-   56 00001000                 AREA             RESET, DATA, READONLY
+   47 00001200         __heap_limit
+   48 00001200         
+   49 00001200         
+   50 00001200                 PRESERVE8
+   51 00001200                 THUMB
+   52 00001200         
+   53 00001200         
+   54 00001200         ; Vector Table Mapped to Address 0 at Reset
+   55 00001200         
+   56 00001200                 AREA             RESET, DATA, READONLY
    57 00000000                 EXPORT           __Vectors
    58 00000000         
    59 00000000 00000000 
@@ -224,7 +224,7 @@ ARM Macro Assembler    Page 4
                                PROC
   144 0000000A                 EXPORT           HardFault_Handler         [WEAK
 ]
-  145 0000000A E7FE            B                .
+  145 0000000A E7FE    3       B                .
   146 0000000C                 ENDP
   148 0000000C         MemManage_Handler
                                PROC
@@ -420,11 +420,11 @@ ARM Macro Assembler    Page 7
   287 0000001C                 END
               00000000 
               00000000 
-Command Line: --debug --xref --cpu=Cortex-M3 --apcs=interwork --depend=.\startu
-p_lpc17xx.d -o.\startup_lpc17xx.o -IC:\Keil\ARM\RV31\INC -IC:\Keil\ARM\CMSIS\In
-clude -IC:\Keil\ARM\Inc\NXP\LPC17xx --predefine="__RTX SETA 1" --predefine="__E
-VAL SETA 1" --predefine="__MICROLIB SETA 1" --list=.\startup_lpc17xx.lst startu
-p_LPC17xx.s
+Command Line: --debug --xref --cpu=Cortex-M3 --apcs=interwork --depend=startup_
+LPC17xx.d -ostartup_LPC17xx.o -IC:\Software\Keil\ARM\RV31\INC -IC:\Software\Kei
+l\ARM\CMSIS\Include -IC:\Software\Keil\ARM\Inc\NXP\LPC17xx --predefine="__RTX S
+ETA 1" --predefine="__MICROLIB SETA 1" --list=startup_LPC17xx.lst startup_LPC17
+xx.s
 
 
 
@@ -447,7 +447,7 @@ Symbol: Stack_Mem
    Uses
       None
 Comment: Stack_Mem unused
-__initial_sp 00001000
+__initial_sp 00000800
 
 Symbol: __initial_sp
    Definitions
@@ -487,7 +487,7 @@ Symbol: __heap_base
    Uses
       At line 267 in file startup_LPC17xx.s
 Comment: __heap_base used once
-__heap_limit 00001000
+__heap_limit 00001200
 
 Symbol: __heap_limit
    Definitions
@@ -548,6 +548,14 @@ Comment: CRP_Key unused
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Relocatable symbols
 
+ 0000000A
+
+Symbol: 
+   Definitions
+      None
+   Uses
+      None
+Warning:  undefinedComment:  unused
 .text 00000000
 
 Symbol: .text
@@ -599,6 +607,12 @@ Symbol: CAN_IRQHandler
       At line 243 in file startup_LPC17xx.s
    Uses
       At line 102 in file startup_LPC17xx.s
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
       At line 207 in file startup_LPC17xx.s
 
 DMA_IRQHandler 0000001A
@@ -607,12 +621,6 @@ Symbol: DMA_IRQHandler
    Definitions
       At line 244 in file startup_LPC17xx.s
    Uses
-
-
-
-ARM Macro Assembler    Page 2 Alphabetic symbol ordering
-Relocatable symbols
-
       At line 103 in file startup_LPC17xx.s
       At line 208 in file startup_LPC17xx.s
 
@@ -664,6 +672,12 @@ EINT3_IRQHandler 0000001A
 
 Symbol: EINT3_IRQHandler
    Definitions
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Relocatable symbols
+
       At line 239 in file startup_LPC17xx.s
    Uses
       At line 98 in file startup_LPC17xx.s
@@ -672,12 +686,6 @@ Symbol: EINT3_IRQHandler
 ENET_IRQHandler 0000001A
 
 Symbol: ENET_IRQHandler
-
-
-
-ARM Macro Assembler    Page 3 Alphabetic symbol ordering
-Relocatable symbols
-
    Definitions
       At line 246 in file startup_LPC17xx.s
    Uses
@@ -729,6 +737,12 @@ Symbol: I2S_IRQHandler
       At line 104 in file startup_LPC17xx.s
       At line 209 in file startup_LPC17xx.s
 
+
+
+
+ARM Macro Assembler    Page 4 Alphabetic symbol ordering
+Relocatable symbols
+
 MCPWM_IRQHandler 0000001A
 
 Symbol: MCPWM_IRQHandler
@@ -737,12 +751,6 @@ Symbol: MCPWM_IRQHandler
    Uses
       At line 107 in file startup_LPC17xx.s
       At line 212 in file startup_LPC17xx.s
-
-
-
-ARM Macro Assembler    Page 4 Alphabetic symbol ordering
-Relocatable symbols
-
 
 MemManage_Handler 0000000C
 
@@ -794,6 +802,12 @@ PendSV_Handler 00000016
 Symbol: PendSV_Handler
    Definitions
       At line 171 in file startup_LPC17xx.s
+
+
+
+ARM Macro Assembler    Page 5 Alphabetic symbol ordering
+Relocatable symbols
+
    Uses
       At line 73 in file startup_LPC17xx.s
       At line 172 in file startup_LPC17xx.s
@@ -802,12 +816,6 @@ QEI_IRQHandler 0000001A
 
 Symbol: QEI_IRQHandler
    Definitions
-
-
-
-ARM Macro Assembler    Page 5 Alphabetic symbol ordering
-Relocatable symbols
-
       At line 249 in file startup_LPC17xx.s
    Uses
       At line 108 in file startup_LPC17xx.s
@@ -860,18 +868,18 @@ Symbol: SSP0_IRQHandler
 
 SSP1_IRQHandler 0000001A
 
+
+
+ARM Macro Assembler    Page 6 Alphabetic symbol ordering
+Relocatable symbols
+
+
 Symbol: SSP1_IRQHandler
    Definitions
       At line 233 in file startup_LPC17xx.s
    Uses
       At line 92 in file startup_LPC17xx.s
       At line 197 in file startup_LPC17xx.s
-
-
-
-
-ARM Macro Assembler    Page 6 Alphabetic symbol ordering
-Relocatable symbols
 
 SVC_Handler 00000012
 
@@ -924,6 +932,12 @@ Symbol: TIMER3_IRQHandler
    Definitions
       At line 222 in file startup_LPC17xx.s
    Uses
+
+
+
+ARM Macro Assembler    Page 7 Alphabetic symbol ordering
+Relocatable symbols
+
       At line 81 in file startup_LPC17xx.s
       At line 186 in file startup_LPC17xx.s
 
@@ -932,12 +946,6 @@ UART0_IRQHandler 0000001A
 Symbol: UART0_IRQHandler
    Definitions
       At line 223 in file startup_LPC17xx.s
-
-
-
-ARM Macro Assembler    Page 7 Alphabetic symbol ordering
-Relocatable symbols
-
    Uses
       At line 82 in file startup_LPC17xx.s
       At line 187 in file startup_LPC17xx.s
@@ -989,6 +997,12 @@ Symbol: USB_IRQHandler
 
 UsageFault_Handler 00000010
 
+
+
+
+ARM Macro Assembler    Page 8 Alphabetic symbol ordering
+Relocatable symbols
+
 Symbol: UsageFault_Handler
    Definitions
       At line 158 in file startup_LPC17xx.s
@@ -998,12 +1012,6 @@ Symbol: UsageFault_Handler
 
 WDT_IRQHandler 0000001A
 
-
-
-ARM Macro Assembler    Page 8 Alphabetic symbol ordering
-Relocatable symbols
-
-
 Symbol: WDT_IRQHandler
    Definitions
       At line 218 in file startup_LPC17xx.s
@@ -1011,14 +1019,14 @@ Symbol: WDT_IRQHandler
       At line 77 in file startup_LPC17xx.s
       At line 182 in file startup_LPC17xx.s
 
-47 symbols
+48 symbols
 
 
 
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Absolute symbols
 
-Heap_Size 00001000
+Heap_Size 00001200
 
 Symbol: Heap_Size
    Definitions
@@ -1026,7 +1034,7 @@ Symbol: Heap_Size
    Uses
       At line 46 in file startup_LPC17xx.s
 Comment: Heap_Size used once
-Stack_Size 00001000
+Stack_Size 00000800
 
 Symbol: Stack_Size
    Definitions

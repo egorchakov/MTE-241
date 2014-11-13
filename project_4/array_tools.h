@@ -6,7 +6,8 @@
 
 typedef  unsigned char array_type;
 
-#define LARGE_ARRAY (1 << 13)
+// #define LARGE_ARRAY (1 << 13)
+#define LARGE_ARRAY 20
 
 typedef struct {
 	array_type *array;
@@ -16,5 +17,6 @@ typedef struct {
 array_t generate_array( void );
 void print_array( array_t * );
 bool is_sorted_array( array_t * );
+array_t generate_random_array( void );
 
 #endif

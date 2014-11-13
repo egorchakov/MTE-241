@@ -29,7 +29,7 @@ __task void base_task( void ) {
     //  - lowest priority:     1
     //  - highest priority:  254
 
-    os_tsk_prio_self( 250 );
+    os_tsk_prio_self( 1 );
 
     while ( 1 ) {
         array = generate_array();

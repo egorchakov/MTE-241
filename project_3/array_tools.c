@@ -27,8 +27,8 @@ array_t generate_random_array( void ) {
   
   result.length = LARGE_ARRAY;
   // Statically allocating memory like: array = (array_type *) malloc(sizeof(array_type) * LARGE_ARRAY);
-  result.array = (array_type *) malloc(sizeof(array_type) * LARGE_ARRAY);
-  // result.array = (array_type *) (0x2007C000);
+  // result.array = (array_type *) malloc(sizeof(array_type) * LARGE_ARRAY);
+  result.array = (array_type *) (0x2007C000);
   //How many blocks are going to randomly assigned.
   blks = LARGE_ARRAY / SEGMENTS;
   //The maximum unsigned value that a variable of `array_type' 
@@ -88,8 +88,8 @@ array_t generate_array( void ) {
 
 	printf("Enter each %d numbers, and hit Enter then: ", result.length);
 
-  result.array = (array_type *) malloc(sizeof(array_type) * result.length);
-	// result.array = (array_type *) (0x2007C000);
+  //result.array = (array_type *) malloc(sizeof(array_type) * result.length);
+	result.array = (array_type *) (0x2007C000);
 
 	for(i = 0; i < result.length; ++i)
 		scanf("%d", &( result.array[i]) );

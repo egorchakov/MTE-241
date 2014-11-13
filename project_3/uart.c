@@ -401,7 +401,9 @@ uint8_t UARTReceiveChar( uint32_t portNum)
 		while (!(LPC_UART->LSR & 0x01));
 		return (LPC_UART->RBR);
 	#else
-		while (ITM_CheckChar() != 1) __NOP();
+
+
+	while (ITM_CheckChar() != 1) __NOP();
 		return (ITM_ReceiveChar());
 	#endif
 }

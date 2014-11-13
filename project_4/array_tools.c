@@ -3,42 +3,72 @@
 
 #include "array_tools.h"
 
+//After the refactoring, it'd better to be moved into array_tools.h.
+#define  SEGMENTS    ( 1 << 3  )
+
 // Local prototypes
-static array_t generate_random_array( void );
+// static array_t generate_random_array( void );
 
 
-static array_t generate_random_array( void ) {
-	array_t result;
-	size_t i,blk   = LARGE_ARRAY >> 3; //The default is 8k
+// static array_t generate_random_array( void ) {
+array_t generate_random_array( void ) {
+	
+  size_t i, j, blks;
+  array_type max_u;
+  array_t result;
 
-	result.length = LARGE_ARRAY;
-	result.array  = (array_type *) (0x2007C000);
+  if( ( LARGE_ARRAY * sizeof(array_type) )  > ( 1 << 14 ) ){
+    result.length = 0;
+    result.array = 0;
+    printf( "The array size is too large.\n" );
+    return result;
+  }
+  
+  result.length = LARGE_ARRAY;
+  //Statically allocating memory like: array = (array_type *) malloc(sizeof(array_type) * LARGE_ARRAY);
+  // result.array = (array_type *) (0x2007C000);
+  result.array = (array_type *) malloc(sizeof(array_type) * LARGE_ARRAY);
+  
+  //How many blocks are going to randomly assigned.
+  blks = LARGE_ARRAY / SEGMENTS;
+  //The maximum unsigned value that a variable of `array_type' 
+  //can take is:
+  max_u = ( 1 << ( sizeof(array_type) * 8 - 1) );
+  
+  for( i = 0; i <  SEGMENTS; ++i ){
+    
+    //What does has to be generated in the next block.
+    //3 - random equal numbers. The probability of being 3 is ~15%.
+		//    and ~28% to be 0,1,2.
+    //0 - random increasing numbers.
+    //1 - random decreasing numbers.
+		//2 - random number.
+    array_type cntl   = ( rand() % 7 ) % 4;
+    array_type  eq_rnd = rand() % max_u;
+    
+    size_t min_blk = i * blks;
+    size_t max_blk = (i + 1) * blks - 1;
+    
+    for( j = min_blk; j <= max_blk; ++j){
 
-	// The first blk is in reverse order
-	for ( i = 0; i < blk ; ++i) {
-		// To be generalized
-		//     result.array[i] = (~(1 << sizeof( array_type )*8) - i) % (1 << sizeof( array_type )*8);
-
-		result.array[i] = (0xFF - i) % 0x100;
-	}
-
-	// The next two blocks are random
-	for ( i = blk; i < 3*blk ; ++i)
-		result.array[i] =  rand() % 0x100;
-
-	// The fourth block is constant
-	for ( i = 3*blk; i < 4*blk ; ++i)
-		result.array[i] =  0x0F;
-
-	// The fifth block is ascending
-	for ( i = 4*blk; i < 5*blk ; ++i)
-		result.array[i] =  i % 0x100;
-
-	// The last three are random
-	for ( i = 5*blk; i < 8*blk ; ++i)
-		result.array[i] =  rand() % 0x100;
-
-	return result;
+      switch (cntl){
+        case 3:
+          result.array[j] = eq_rnd;
+          break;
+        case 0:
+          result.array[j] = ( j - min_blk ) % max_u ;
+          break;
+        case 1:
+          result.array[j] = ( min_blk - j - 1 ) % max_u ;
+          break;
+				case 2:
+          result.array[j] = rand() % max_u ;
+          break;
+      }//end of case
+    }//end of for-j
+  }//end of for-i
+  
+  return result;
 }
 
 array_t generate_array( void ) {
@@ -58,10 +88,12 @@ array_t generate_array( void ) {
 
 	printf("Enter each %d numbers, and hit Enter then: ", result.length);
 
-	result.array = (array_type *) malloc (sizeof(array_type) * n);
+	// result.array = (unsigned char *) (0x2007C000);
+	result.array = (array_type *) malloc(sizeof(array_type) * LARGE_ARRAY);
+
 
 	for(i = 0; i < result.length; ++i)
-		scanf("%c", &( result.array[i]) );
+		scanf("%d", &( result.array[i]) );
 
 	printf("\n");
 
@@ -72,9 +104,10 @@ void print_array( array_t* a ) {
 	size_t i;
 
 	for ( i = 0; i < a->length; ++i ) {
-		printf( " [%c]=%c", i, a->array[i] );
+		// printf( " [%d]=%d", i, a->array[i] );
+		printf( "%d 	", a->array[i] );
 	}
-
+	
 	printf( "\n" );
 }
 
@@ -84,7 +117,7 @@ void print_array( array_t* a ) {
 
 bool is_sorted_array( array_t *a ) {
 	size_t i;
-
+	
 	for ( i = 1; i < a->length; ++i ) {
 		if ( a->array[i - 1] > a->array[i] ) {
 			printf("The array is not sorted in [%d]=%d > [%d]=%d\n", i-1, a->array[i-1], i, a->array[i]);

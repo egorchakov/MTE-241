@@ -6,6 +6,7 @@
 #include "array_tools.h"
 
 #define PRINT_ARRAY
+#undef PRINT_ARRAY
 
 // Change 'undef' to 'define' when you have implemented quicksort_sem
 #undef TEST_SEMAPHORE_IMPLEMENTATION
@@ -35,10 +36,6 @@ __task void base_task( void ) {
 		array = generate_array();
 		time = os_time_get();
 
-		#ifdef PRINT_ARRAY
-			print_array( &array );
-		#endif
-		
 		// Sort array
 		#ifdef TEST_SEMAPHORE_IMPLEMENTATION
 			quicksort_sem( array );
@@ -46,17 +43,18 @@ __task void base_task( void ) {
 			quicksort( array );
 		#endif
 
-			printf("Bar: \n");
 		time = os_time_get() - time;
 
 		if( is_sorted_array( &array ) )
 			printf("The array is sucessfully sorted in %.1f us.\n", time);
-		//else
-		//	printf("The array is not sorted!\n");
+		else {
+			printf("The array is not sorted!\n");
+			print_array( &array );
+		}
 
 		#ifdef PRINT_ARRAY
-			print_array( &array );
 		#endif
+		free(&array);
 	}
 }
 

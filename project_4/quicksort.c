@@ -34,28 +34,28 @@ array_type find_med_three(array_interval_t* interval, int* const iMin, int* cons
 	int a = interval->a;
 	int c = interval->c - 1;
 	int b = a + (c - a) / 2;
-	printf("a = %d, b = %d, c = %d\n", a, b, c);
+	// printf("a = %d, b = %d, c = %d\n", a, b, c);
 	
 	if(interval->array.array[a] > interval->array.array[b]) {
 		if(interval->array.array[b] > interval->array.array[c]) {
 			*iMax = a;
 			*iMin = c;
 			*iMed = b;
-			printf("iMin = %d, iMed = %d, iMax = %d", *iMin, *iMed, *iMax);
+			// printf("iMin = %d, iMed = %d, iMax = %d", *iMin, *iMed, *iMax);
 			return interval->array.array[b];
 		}
 		else if(interval->array.array[a] > interval->array.array[c]) {
 			*iMax = a;
 			*iMin = b;
 			*iMed = c;
-			printf("iMin = %d, iMed = %d, iMax = %d", *iMin, *iMed, *iMax);
+			// printf("iMin = %d, iMed = %d, iMax = %d", *iMin, *iMed, *iMax);
 			return interval->array.array[c];
 		}
 		else {
 			*iMax = c;
 			*iMin = b;
 			*iMed = a;
-			printf("iMin = %d, iMed = %d, iMax = %d", *iMin, *iMed, *iMax);
+			// printf("iMin = %d, iMed = %d, iMax = %d", *iMin, *iMed, *iMax);
 			return interval->array.array[a];
 		}
 	} else {
@@ -63,21 +63,21 @@ array_type find_med_three(array_interval_t* interval, int* const iMin, int* cons
 			*iMax = b;
 			*iMin = c;
 			*iMed = a;
-			printf("iMin = %d, iMed = %d, iMax = %d", *iMin, *iMed, *iMax);
+			// printf("iMin = %d, iMed = %d, iMax = %d", *iMin, *iMed, *iMax);
 			return interval->array.array[a];
 		}
 		else if (interval->array.array[b] > interval->array.array[c]) {
 			*iMax = b;
 			*iMin = a;
 			*iMed = c;
-			printf("iMin = %d, iMed = %d, iMax = %d", *iMin, *iMed, *iMax);
+			// printf("iMin = %d, iMed = %d, iMax = %d", *iMin, *iMed, *iMax);
 			return interval->array.array[c];
 		}
 		else {
 			*iMax = c;
 			*iMin = a;
 			*iMed = b;
-			printf("iMin = %d, iMed = %d, iMax = %d", *iMin, *iMed, *iMax);
+			// printf("iMin = %d, iMed = %d, iMax = %d", *iMin, *iMed, *iMax);
 			return interval->array.array[b];
 		}
 	}
@@ -120,7 +120,7 @@ __task void quick_sort_task(void* void_ptr){
 	array_type vMin, vMax, vMed;
 
 	int low = params->interval.a, high = params->interval.c - 1, mid = (high - low) / 2;
-	printf("Passed a = %d, c = %d\n", params->interval.a, params->interval.c);
+	// printf("Passed a = %d, c = %d\n", params->interval.a, params->interval.c);
 
 	if((high - low) < USE_INSERTION_SORT) {
 		if(high > low)	insertion_sort(&(params->interval));
@@ -128,7 +128,7 @@ __task void quick_sort_task(void* void_ptr){
 		vMed = find_med_three(&(params->interval), &iMin, &iMax, &iMed);
 		vMin = array[iMin];
 		vMax = array[iMax];
-		printf("vMin = %c, vMed = %c, vMax = %c \n", vMin, vMed, vMax);
+		// // printf("vMin = %c, vMed = %c, vMax = %c \n", vMin, vMed, vMax);
 		
 		// Move min to first index, max to middle index, med to end
 		array[low] = vMin;
@@ -139,13 +139,14 @@ __task void quick_sort_task(void* void_ptr){
 			while(array[low] < vMed) low++;
 			while(array[high] > vMed) high--;
 			if(high > low) {
-				printf("Swapped %d with %d\n", low, high);
-				swap(array, low++, high--);
+				// // printf("Swapped %d with %d\n", low, high);
+				// swap(array, low++, high--);
+				swap(array, low, high);
 			}
 		}
 
 		// Move pivot to proper location
-		swap(array, params->interval.c - 1, low);
+		swap(array, params->interval.c - 1, high);
 
 		// Create child lasts for partitions
 		left_interval.array =  params->interval.array;
@@ -155,15 +156,15 @@ __task void quick_sort_task(void* void_ptr){
 		task_param_left.priority = params->priority + 1;
 
 		right_interval.array =  params->interval.array;
-		right_interval.a     =  mid;
+		right_interval.a     =  mid+1;
 		right_interval.c     =  params->interval.c;
 		task_param_right.interval = right_interval;
 		task_param_right.priority = params->priority + 1;
 	
 		// start the quick_sort threading
-		printf("Calling subroutine left\n");
+		// printf("Calling subroutine left\n");
 		os_tsk_create_ex(quick_sort_task, task_param_left.priority, &task_param_left); 
-		printf("Calling subroutine right\n");
+		// printf("Calling subroutine right\n");
 		os_tsk_create_ex(quick_sort_task, task_param_right.priority, &task_param_right);	
 	}
 	
@@ -181,11 +182,12 @@ void quicksort( array_t array ) {
 	interval.a     =  0;
 	interval.c     =  array.length;
 	task_param.interval = interval;
-	printf("Initial a = %d, c = %d\n", task_param.interval.a, task_param.interval.c);
+	// printf("Initial a = %d, c = %d\n", task_param.interval.a, task_param.interval.c);
 
 	// If you are using priorities, you can change this
 	task_param.priority = 10;
 	
 	//start the quick_sort threading
 	os_tsk_create_ex(quick_sort_task, task_param.priority, &task_param); 
+	// insertion_sort(&interval);
 }

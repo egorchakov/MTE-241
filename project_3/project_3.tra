@@ -1,0 +1,28 @@
+*** Creating Trace Output File 'project_3.tra' Ok.
+### Preparing for ADS-LD.
+### Creating ADS-LD Command Line
+### List of Objects: adding '"startup_lpc17xx.o"'
+### List of Objects: adding '"array_tools.o"'
+### List of Objects: adding '"main.o"'
+### List of Objects: adding '"quicksort.o"'
+### List of Objects: adding '"retarget.o"'
+### List of Objects: adding '"rtx_conf_cm.o"'
+### List of Objects: adding '"system_lpc17xx.o"'
+### List of Objects: adding '"uart.o"'
+### List of Objects: adding '"serial.o"'
+### ADS-LD Command completed:
+--cpu Cortex-M3 "startup_lpc17xx.o" "array_tools.o" "main.o" "quicksort.o" "retarget.o" "rtx_conf_cm.o" "system_lpc17xx.o" "uart.o" "serial.o" 
+C:\Software\Keil\ARM\RV31\LIB\RTX_CM3.LIB --library_type=microlib --strict --scatter "project_3.sct" 
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\project_3.map" -o project_3.axf### Preparing Environment (PrepEnvAds)
+### ADS-LD Output File: 'project_3.axf'
+### ADS-LD Command File: 'project_3.lnp'
+### Checking for dirty Components...
+### Creating CmdFile 'project_3.lnp', Handle=0x00000618
+### Writing '.lnp' file
+### ADS-LD Command file 'project_3.lnp' is ready.
+### ADS-LD: About to start ADS-LD Thread.
+### ADS-LD: executed with 0 errors
+### Updating obj list
+### LDADS_file() completed.
