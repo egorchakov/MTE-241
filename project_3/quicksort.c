@@ -110,7 +110,10 @@ __task void quick_sort_task_priorities(void* void_ptr) {
 
     if (interval->array.length > 1){
         // First case: insertion sort
-        if (interval->array.length <= USE_INSERTION_SORT) insertion_sort(interval);
+        if (interval->array.length <= USE_INSERTION_SORT ||
+            cur_params->priority >= MAX_TASKS + BASE_QSORT_TASK_PRIORITY - 1
+        ) 
+                insertion_sort(interval);
 
         // Second case: quicksort
         else {
