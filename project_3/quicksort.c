@@ -10,7 +10,6 @@
 #define USE_INSERTION_SORT 128
 #define MAX_TASKS 35
 
-#define FLOOR(n)  (n) - ((n) % 1)
 #define MUTEXPRINT(...) {os_mut_wait(&printing, 0xffff); printf(__VA_ARGS__); os_mut_release(&printing);}
 
 typedef struct {
@@ -52,7 +51,7 @@ int get_median_of_three( array_interval_t* interval ){
     array_type* arr = interval->array.array;
     a = interval->a;
     c = interval->c;
-    b = FLOOR(a/2 + c/2);
+    b = (a+c)/2;
 
     if (arr[a] >= arr[b]){
         if (arr[b] >= arr[c]) return b;
