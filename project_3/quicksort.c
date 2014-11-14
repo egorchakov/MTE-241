@@ -245,7 +245,7 @@ void quicksort( array_t array ) {
   task_param.interval = interval;
 
   // If you are using priorities, you can change this
-  task_param.priority = 10;
+  task_param.priority = BASE_QSORT_TASK_PRIORITY;
   
   //start the quick_sort threading
   os_tsk_create_ex(quick_sort_task_priorities, task_param.priority, &task_param); 
