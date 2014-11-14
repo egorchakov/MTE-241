@@ -9,7 +9,6 @@
 
 #define USE_INSERTION_SORT 128
 #define MAX_TASKS 35
-
 #define BASE_QSORT_TASK_PRIORITY 2
 #define PRINTING_MUTEX print_mutex
 #define MUTEXPRINT(...) {                   \
@@ -19,14 +18,14 @@
 }                                           \
 
 typedef struct {
-	array_t array;
-	size_t a;
-	size_t c;
+    array_t array;
+    size_t a;
+    size_t c;
 } array_interval_t;
 
 typedef struct{
-	array_interval_t interval;
-	unsigned char priority;
+    array_interval_t interval;
+    unsigned char priority;
 } qsort_task_parameters_t;
 
 volatile int num_tasks;
@@ -41,13 +40,13 @@ void insertion_sort( array_interval_t* interval ) {
       array_type* array = interval->array.array;
 
       for (i = interval->a; i<=interval->c; i++){
-      	cur = array[i];
-      	j = i;
-      	while(j>0 && array[j-1] > cur){
-      		array[j] = array[j-1];
-      		j--;
-      	}
-      	array[j] = cur;
+        cur = array[i];
+        j = i;
+        while(j>0 && array[j-1] > cur){
+            array[j] = array[j-1];
+            j--;
+        }
+        array[j] = cur;
     }
 }
 
@@ -84,7 +83,9 @@ int partition(array_interval_t* interval){
     tmp_index = interval->a;
     pivot_index = get_median_of_three(interval);
     pivot_value = interval->array.array[pivot_index];
+    
     swap(interval->array.array, pivot_index, interval->c);
+
     for (i = interval->a; i<interval->c; i++){
         if (interval->array.array[i] < pivot_value){
             swap(interval->array.array, i, tmp_index);
@@ -198,13 +199,13 @@ __task void quick_sort_task(void* void_ptr) {
             right_task_params->interval = right_interval;
 
             os_mut_wait(&num_tasks_mut, 0xffff);{
-							
+                            
                 while(num_tasks + 1 > MAX_TASKS) {
                     os_mut_release(&num_tasks_mut);
                     os_sem_wait(&max_tasks_sem, 0xffff);
                     os_mut_wait(&num_tasks_mut, 0xffff);
                 }
-			
+            
                 os_tsk_create_ex(quick_sort_task, 1, left_task_params);
                 num_tasks++;
 
@@ -216,14 +217,14 @@ __task void quick_sort_task(void* void_ptr) {
                     os_sem_wait(&max_tasks_sem, 0xffff);
                     os_mut_wait(&num_tasks_mut, 0xffff);
                 }
-								
+                                
                 os_tsk_create_ex(quick_sort_task, 1, right_task_params);
                 num_tasks++;
             } os_mut_release(&num_tasks_mut);   
         }
     }
 
-		free(cur_params);
+        free(cur_params);
     os_mut_wait(&num_tasks_mut, 0xffff);{
         num_tasks--;
         if (num_tasks == 0) os_sem_send(&all_tasks_finished);
@@ -253,25 +254,25 @@ void quicksort( array_t array ) {
 
 void quicksort_sem( array_t array ) {
 
-	array_interval_t interval;
-	qsort_task_parameters_t* task_param = (qsort_task_parameters_t*)malloc(sizeof(qsort_task_parameters_t));
-  interval.array =  array;
-  interval.a     =  0;
-  interval.c     =  array.length - 1;
-  task_param->interval = interval;
+    array_interval_t interval;
+    qsort_task_parameters_t* task_param = (qsort_task_parameters_t*)malloc(sizeof(qsort_task_parameters_t));
+    interval.array =  array;
+    interval.a     =  0;
+    interval.c     =  array.length - 1;
+    task_param->interval = interval;
 
-  num_tasks = 0;
+    num_tasks = 0;
 
-  os_mut_init(&printing);
-  os_mut_init(&num_tasks_mut);
-  os_sem_init(&max_tasks_sem, MAX_TASKS);
-  os_sem_init(&all_tasks_finished, 0);
+    os_mut_init(&PRINTING_MUTEX);
+    os_mut_init(&num_tasks_mut);
+    os_sem_init(&max_tasks_sem, MAX_TASKS);
+    os_sem_init(&all_tasks_finished, 0);
 
-  os_mut_wait(&num_tasks_mut, 0xffff);{
+    os_mut_wait(&num_tasks_mut, 0xffff);{
       os_sem_wait(&max_tasks_sem, 0xffff);
       os_tsk_create_ex(quick_sort_task, 1, task_param);
       num_tasks++;
-  } os_mut_release(&num_tasks_mut);
+    } os_mut_release(&num_tasks_mut);
 
-  os_sem_wait(&all_tasks_finished, 0xffff);
+    os_sem_wait(&all_tasks_finished, 0xffff);
 }
