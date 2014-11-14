@@ -72,7 +72,8 @@ __inline void swap(array_type* arr, int a, int b){
 }
 
 int partition(array_interval_t* interval){
-    int pivot_index, pivot_value, tmp_index, i;
+    int pivot_index, tmp_index, i;
+    array_type pivot_value;
 
     tmp_index = interval->a;
     pivot_index = get_median_of_three(interval);
