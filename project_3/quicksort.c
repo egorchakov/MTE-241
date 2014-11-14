@@ -10,6 +10,8 @@
 #define USE_INSERTION_SORT 128
 #define MAX_TASKS 35
 
+#define BASE_QSORT_TASK_PRIORITY 2
+#define PRINTING_MUTEX print_mutex
 #define MUTEXPRINT(...) {                   \
     os_mut_wait(&PRINTING_MUTEX, 0xffff);   \
     printf(__VA_ARGS__);                    \
@@ -30,7 +32,7 @@ typedef struct{
 volatile int num_tasks;
 OS_MUT num_tasks_mut;
 OS_SEM all_tasks_finished;
-OS_MUT printing;
+OS_MUT PRINTING_MUTEX;
 OS_SEM max_tasks_sem;
 
 void insertion_sort( array_interval_t* interval ) {
