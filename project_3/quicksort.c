@@ -10,7 +10,11 @@
 #define USE_INSERTION_SORT 128
 #define MAX_TASKS 35
 
-#define MUTEXPRINT(...) {os_mut_wait(&printing, 0xffff); printf(__VA_ARGS__); os_mut_release(&printing);}
+#define MUTEXPRINT(...) {                   \
+    os_mut_wait(&PRINTING_MUTEX, 0xffff);   \
+    printf(__VA_ARGS__);                    \
+    os_mut_release(&PRINTING_MUTEX);        \
+}                                           \
 
 typedef struct {
 	array_t array;
