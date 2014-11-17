@@ -7,7 +7,7 @@
 #include "quicksort.h"
 #include "array_tools.h"
 
-#define USE_INSERTION_SORT 128
+#define USE_INSERTION_SORT 64
 #define MAX_TASKS 35
 #define BASE_QSORT_TASK_PRIORITY 2
 #define PRINTING_MUTEX print_mutex
@@ -34,7 +34,7 @@ OS_SEM all_tasks_finished;
 OS_MUT PRINTING_MUTEX;
 OS_SEM max_tasks_sem;
 
-void insertion_sort( array_interval_t* interval ) {
+__inline void insertion_sort( array_interval_t* interval ) {
       int i, j;
       array_type cur;
       array_type* array = interval->array.array;
@@ -50,7 +50,7 @@ void insertion_sort( array_interval_t* interval ) {
     }
 }
 
-int get_median_of_three( array_interval_t* interval ){
+__inline int get_median_of_three( array_interval_t* interval ){
     int a,b,c;
 
     array_type* arr = interval->array.array;
@@ -162,7 +162,8 @@ __task void quick_sort_task(void* void_ptr) {
 
     if (interval->array.length > 1){
         // First case: insertion sort
-        if (interval->array.length <= USE_INSERTION_SORT) insertion_sort(interval);
+        if (interval->array.length <= USE_INSERTION_SORT) 
+            insertion_sort(interval);
 
         // Second case: quicksort
         else {
@@ -224,7 +225,7 @@ __task void quick_sort_task(void* void_ptr) {
         }
     }
 
-        free(cur_params);
+    free(cur_params);
     os_mut_wait(&num_tasks_mut, 0xffff);{
         num_tasks--;
         if (num_tasks == 0) os_sem_send(&all_tasks_finished);

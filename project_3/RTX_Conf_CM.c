@@ -47,7 +47,7 @@
 // <i> Include the stack checking code for a stack overflow.
 // <i> Note that additional code reduces the Kernel performance.
 #ifndef OS_STKCHECK
- #define OS_STKCHECK    1
+ #define OS_STKCHECK    0
 #endif
 
 // <q>Run in privileged mode

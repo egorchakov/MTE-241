@@ -19,16 +19,20 @@ array_t generate_random_array( void ) {
   // printf("\nsize: %d\n", sizeof(result));
 
   if( ( LARGE_ARRAY * sizeof(array_type) )  > ( 1 << 14 ) ){
-    result.length = 0;
-    result.array = 0;
-    printf( "The array size is too large.\n" );
-    return result;
+      result.length = 0;result.length = 0;
+      result.array = 0;
+      printf( "The array size is too large.\n" );
+      return result;
+      result.array = 0;
+      printf( "The array size is too large.\n" );
+      return result;
   }
   
   result.length = LARGE_ARRAY;
   // Statically allocating memory like: array = (array_type *) malloc(sizeof(array_type) * LARGE_ARRAY);
-  // result.array = (array_type *) malloc(sizeof(array_type) * LARGE_ARRAY);
-  result.array = (array_type *) (0x2007C000);
+  result.array = (array_type *) malloc(sizeof(array_type) * LARGE_ARRAY);
+  if (result.array == NULL) printf("[[[[[[[[[[MALLOC FAILED]]]]]]]]]]\n");
+  // result.array = (array_type *) (0x2007C000);
   //How many blocks are going to randomly assigned.
   blks = LARGE_ARRAY / SEGMENTS;
   //The maximum unsigned value that a variable of `array_type' 
@@ -88,8 +92,10 @@ array_t generate_array( void ) {
 
 	printf("Enter each %d numbers, and hit Enter then: ", result.length);
 
-  //result.array = (array_type *) malloc(sizeof(array_type) * result.length);
-	result.array = (array_type *) (0x2007C000);
+  result.array = (array_type *) malloc(sizeof(array_type) * result.length);
+  if (result.array == NULL) printf("[[[[[[[[[[MALLOC FAILED (arraytools)]]]]]]]]]]\n");
+
+	// result.array = (array_type *) (0x2007C000);
 
 	for(i = 0; i < result.length; ++i)
 		scanf("%d", &( result.array[i]) );

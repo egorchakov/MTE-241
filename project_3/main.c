@@ -5,10 +5,12 @@
 #include "quicksort.h"
 #include "array_tools.h"
 
-#undef PRINT_ARRAY
+// #undef PRINT_ARRAY
+#define PRINT_ARRAY
 
 // Change 'undef' to 'define' when you have implemented quicksort_sem
 #define TEST_SEMAPHORE_IMPLEMENTATION
+// #undef TEST_SEMAPHORE_IMPLEMENTATION
 
 /**
 *    The 'time' variable stores the current time in micro second. Any time period
@@ -32,7 +34,9 @@ __task void base_task( void ) {
     os_tsk_prio_self( 1 );
 
     while ( 1 ) {
-        array = generate_array();
+        // array = generate_array();
+
+        array = generate_random_array();
 
         time = os_time_get();
 
@@ -47,12 +51,12 @@ __task void base_task( void ) {
 
         if( is_sorted_array( &array ) )
             printf("The array is sucessfully sorted in %.1f us.\n", time);
-        //else
-        //  printf("The array is not sorted!\n");
+        else{
+            printf("Not sorted\n");
+            // print_array( &array );
+        }
+        free(array.array);
 
-        #ifdef PRINT_ARRAY
-            print_array( &array );
-        #endif
     }
 }
 
@@ -64,7 +68,7 @@ int main( void ) {
     printf(" ");
 
     // We will change the value of the seed for the test
-    srand( 10 );
+    srand( 15 );
 
     os_sys_init( base_task );
 
