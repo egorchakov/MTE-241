@@ -19,3 +19,7 @@ void INT0_init( void ) {
     NVIC_EnableIRQ( EINT3_IRQn );
 
 }
+
+void EINT3_IRQHandler(void){
+    ;
+}

@@ -4,4 +4,5 @@
 #include <LPC17xx.h>
 
 void INT0_init(void);
+void EINT3_IRQHandler(void);
 #endif
