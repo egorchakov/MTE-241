@@ -22,6 +22,7 @@ void draw_circle(circle_t c) {
 	// STUB
 }
 
-void draw_rectangle(unsigned int x, unsigned int y, unsigned int w, unsigned int h, void* bitmap_ptr) {
-	GLCD_Bitmap(x, y, w, h, (unsigned char*)bitmap_ptr);
+void draw_rectangle(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned short val) {
+	unsigned short* pBitmap = gen_bitmap(w, h, fill_rectangle, &val);
+	GLCD_Bitmap(x, y, w, h, (unsigned char*)pBitmap);
 }
