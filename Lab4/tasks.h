@@ -6,6 +6,6 @@
 #include "GLCD.h"
 
 __task void init_task(void);
-__task void redraw_balls(void* args);
+__task void redraw_objects(void* args);
 
 #endif
