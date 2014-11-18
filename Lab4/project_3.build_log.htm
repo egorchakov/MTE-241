@@ -1,0 +1,71 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\users\evg\My Documents\school\241\projects\project_3\project_3.uvproj
+Project File Date:  11/10/2014
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+assembling startup_LPC17xx.s...
+compiling array_tools.c...
+array_tools.c(95): warning:  #181-D: argument is incompatible with corresponding format string conversion
+                scanf("%d", &( result.array[i]) );
+array_tools.c: 1 warning, 0 errors
+compiling main.c...
+quicksort.h(9): warning:  #1-D: last line of file ends without a newline
+  #endif
+main.c(74): warning:  #1-D: last line of file ends without a newline
+  }
+main.c: 2 warnings, 0 errors
+compiling quicksort.c...
+quicksort.h(9): warning:  #1-D: last line of file ends without a newline
+  #endif
+quicksort.c(126): warning:  #223-D: function "_sys_exit" declared implicitly
+                      _sys_exit(EXIT_FAILURE);
+quicksort.c: 2 warnings, 0 errors
+compiling Retarget.c...
+compiling RTX_Conf_CM.c...
+compiling system_LPC17xx.c...
+compiling uart.c...
+linking...
+Program Size: Code=12316 RO-data=344 RW-data=132 ZI-data=1276988  
+".\project_3.axf" - 0 Error(s), 5 Warning(s).
+</pre>
+</body>
+</html>
+ #268: declaration may not appear after executable statement in block
+      qsort_task_parameters_t* cur_params;
+quicksort.c(100): error:  #268: declaration may not appear after executable statement in block
+      qsort_task_parameters_t* left_task_params;
+quicksort.c(101): error:  #268: declaration may not appear after executable statement in block
+      qsort_task_parameters_t* right_task_params;
+quicksort.c(104): error:  #20: identifier "interval" is undefined
+      interval = &(cur_params->interval);
+quicksort.c(114): error:  #29: expected an expression
+              left_interval = (array_interval_t*) malloc(sizeof(array_interval_t));
+quicksort.c(114): error:  #65: expected a ";"
+              left_interval = (array_interval_t*) malloc(sizeof(array_interval_t));
+quicksort.c(115): error:  #29: expected an expression
+              right_interval = (array_interval_t*) malloc(sizeof(array_interval_t));
+quicksort.c(115): error:  #65: expected a ";"
+              right_interval = (array_interval_t*) malloc(sizeof(array_interval_t));
+quicksort.c(126): warning:  #223-D: function "_sys_exit" declared implicitly
+                      _sys_exit(EXIT_FAILURE);
+quicksort.c: 2 warnings, 12 errors
+compiling Retarget.c...
+compiling RTX_Conf_CM.c...
+compiling system_LPC17xx.c...
+compiling uart.c...
+".\project_3.axf" - 12 Error(s), 5 Warning(s).
+Target not created
+rs
+compiling Retarget.c...
+compiling RTX_Conf_CM.c...
+compiling system_LPC17xx.c...
+compiling uart.c...
+".\project_3.axf" - 13 Error(s), 6 Warning(s).
+Target not created
+oject_3.axf" - 14 Error(s), 6 Warning(s).
+Target not created
