@@ -2,7 +2,7 @@
 #include "tasks.h"
 #include "peripherals.h"
 
-void main(void){
+int main(void){
     SystemInit();
     SystemCoreClockUpdate();
     INT0_init();
