@@ -13,7 +13,7 @@ __task void move_ball_task(void* args) {
 
 	while( 1 ) {
 		GLCD_Clear( White );
-	  draw_rectangle(circle->x, circle->y, 30, 30, Green);
+	  //draw_rectangle(circle->x, circle->y, 30, 30, Green);
 		circle->x += 5;
 		circle->y += 5;
 		if(circle->x > 320)
@@ -34,7 +34,7 @@ void EINT3_IRQHandler ( void ) {
 		LPC_GPIOINT->IO2IntClr |=  (1 << 10);
 }
 
-int main( void ) {
+int main_old( void ) {
     SystemInit();
     SystemCoreClockUpdate();
 		GLCD_Init();

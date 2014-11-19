@@ -1,0 +1,55 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\users\evg\My Documents\school\241\projects\Lab4\project_3.uvproj
+Project File Date:  11/18/2014
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+assembling startup_LPC17xx.s...
+compiling Retarget.c...
+compiling RTX_Conf_CM.c...
+compiling system_LPC17xx.c...
+compiling uart.c...
+compiling Serial.c...
+compiling GLCD_Scroll.c...
+GLCD_Scroll.c(117): warning:  #223-D: function "strlen" declared implicitly
+        print_text(str_ptr, strlen(str_ptr));
+GLCD_Scroll.c: 1 warning, 0 errors
+compiling GLCD_SPI_LPC1700.c...
+compiling animation.c...
+compiling circle.c...
+circle.c(4): warning:  #177-D: variable "circle" was declared but never referenced
+        circle_t* circle = (circle_t*)args;
+circle.c: 1 warning, 0 errors
+compiling peripherals.c...
+compiling tasks.c...
+tasks.c(9): warning:  #177-D: variable "i" was declared but never referenced
+      int i,j;
+tasks.c(9): warning:  #177-D: variable "j" was declared but never referenced
+      int i,j;
+tasks.c: 2 warnings, 0 errors
+compiling util.c...
+util.c(16): warning:  #223-D: function "malloc" declared implicitly
+        unsigned short* pBitmap = (unsigned short*)malloc(sizeof(unsigned short) * w * h);
+util.c(28): warning:  #223-D: function "free" declared implicitly
+        free(pBitmap);
+util.c: 2 warnings, 0 errors
+compiling circle.c...
+circle.c(4): warning:  #177-D: variable "circle" was declared but never referenced
+        circle_t* circle = (circle_t*)args;
+circle.c: 1 warning, 0 errors
+compiling util.c...
+util.c(16): warning:  #223-D: function "malloc" declared implicitly
+        unsigned short* pBitmap = (unsigned short*)malloc(sizeof(unsigned short) * w * h);
+util.c(28): warning:  #223-D: function "free" declared implicitly
+        free(pBitmap);
+util.c: 2 warnings, 0 errors
+linking...
+.\project_4.axf: Warning: L6304W: Duplicate input file .\circle.o ignored.
+.\project_4.axf: Warning: L6304W: Duplicate input file .\util.o ignored.
+Program Size: Code=7936 RO-data=6552 RW-data=120 ZI-data=30240  
+Finished: 0 information, 2 warning and 0 error messages.
+".\project_4.axf" - 0 Error(s), 11 Warning(s).

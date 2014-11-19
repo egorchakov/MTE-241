@@ -438,6 +438,21 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Drawing</GroupName>
+          <Files>
+            <File>
+              <FileName>circle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\circle.c</FilePath>
+            </File>
+            <File>
+              <FileName>util.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\util.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>

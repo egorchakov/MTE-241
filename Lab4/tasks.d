@@ -1,0 +1,16 @@
+.\tasks.o: tasks.c
+.\tasks.o: C:\Keil\ARM\RV31\INC\rtl.h
+.\tasks.o: tasks.h
+.\tasks.o: C:\Keil\ARM\Inc\NXP\LPC17xx\LPC17xx.h
+.\tasks.o: C:\Keil\ARM\CMSIS\Include\core_cm3.h
+.\tasks.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\tasks.o: C:\Keil\ARM\CMSIS\Include\core_cmInstr.h
+.\tasks.o: C:\Keil\ARM\CMSIS\Include\core_cmFunc.h
+.\tasks.o: C:\Keil\ARM\Inc\NXP\LPC17xx\system_LPC17xx.h
+.\tasks.o: GLCD.h
+.\tasks.o: config.h
+.\tasks.o: circle.h
+.\tasks.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\tasks.o: animation.h
+.\tasks.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
+.\tasks.o: util.h
