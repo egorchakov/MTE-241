@@ -221,7 +221,7 @@
             <NoZi1>0</NoZi1>
             <NoZi2>0</NoZi2>
             <NoZi3>0</NoZi3>
-            <NoZi4>0</NoZi4>
+            <NoZi4>1</NoZi4>
             <NoZi5>0</NoZi5>
             <Ro1Chk>0</Ro1Chk>
             <Ro2Chk>0</Ro2Chk>
@@ -334,8 +334,8 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
-            <oTime>0</oTime>
+            <Optim>4</Optim>
+            <oTime>1</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>0</OneElfS>
             <Strict>0</Strict>
@@ -437,11 +437,6 @@
               <FilePath>.\animation.c</FilePath>
             </File>
             <File>
-              <FileName>circle.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\circle.c</FilePath>
-            </File>
-            <File>
               <FileName>peripherals.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\peripherals.c</FilePath>
@@ -450,21 +445,6 @@
               <FileName>tasks.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\tasks.c</FilePath>
-            </File>
-            <File>
-              <FileName>util.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\util.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Drawing</GroupName>
-          <Files>
-            <File>
-              <FileName>circle.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\circle.c</FilePath>
             </File>
             <File>
               <FileName>util.c</FileName>

@@ -1,11 +1,27 @@
 #ifndef _UTIL_H
 #define _UTIL_H
-#include <stdio.h>
+#include <stdlib.h>  
+#include <stdio.h>  
 #include "GLCD.h"
-#include "circle.h"
+#include "config.h"
 
-void draw_circle(circle_t c);
+typedef struct circle {
+	int radius;
+	int x;
+	int y;
+	int dx;
+	int dy;
+	int color;
+	unsigned short * pBitmap;
+} circle_t;
+
+
+void fill_circle(circle_t* circle, unsigned short* pBitmap, unsigned short color);
+
 void draw_rectangle(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned short val);
 unsigned short* gen_bitmap(size_t w, size_t h, void(*fill_fn)(unsigned short*, unsigned int, unsigned int, void*), void* args);
+void draw_circle(circle_t* c, unsigned short* pBitmap);
+
+unsigned int get_delay_interval(unsigned short ADC_value);
 
 #endif

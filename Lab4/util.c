@@ -18,12 +18,32 @@ unsigned short* gen_bitmap(size_t w, size_t h, void(*fill_fn)(unsigned short*, u
     return pBitmap;
 }
 
-void draw_circle(circle_t c) {
-    // STUB
+void draw_circle(circle_t* c, unsigned short * pBitmap) {
+    GLCD_Bitmap(c->x, c->y, c->radius*2, c->radius*2, (unsigned char*)pBitmap);
 }
+
+void fill_circle(circle_t* circle, unsigned short* pBitmap, unsigned short color) {
+	int i, j, x, y;
+	int w = circle->radius * 2;
+	float r2 = circle->radius * circle->radius ;
+	float w2 = w*w;
+	for(i = 0; i < w; i++) {
+		for(j = 0; j < w; j++) {
+			x = i - circle->radius;
+			y = j - circle->radius;
+			pBitmap[i * w + j] = (x*x + y*y <= r2 ? color : INIT_COLOR); 
+		}
+	}		
+}
+
 
 void draw_rectangle(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned short val) {
     unsigned short* pBitmap = gen_bitmap(w, h, fill_rectangle, &val);
     GLCD_Bitmap(x, y, w, h, (unsigned char*)pBitmap);
     free(pBitmap);
  }
+ 
+unsigned int get_delay_interval(unsigned short ADC_value){
+	return (int) MIN_DELAY + ADC_value * (MAX_DELAY - MIN_DELAY)/(MAX_ADC_VALUE - MIN_ADC_VALUE);
+}
+

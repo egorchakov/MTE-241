@@ -496,7 +496,8 @@ void GLCD_Clear (unsigned short color) {
   wr_cmd(0x22);
   wr_dat_start();
   for(i = 0; i < (WIDTH*HEIGHT); i++)
-    wr_dat_only(color);
+
+	wr_dat_only(color);
   wr_dat_stop();
 }
 
@@ -726,15 +727,7 @@ void GLCD_Bitmap (unsigned int x, unsigned int y, unsigned int w, unsigned int h
 }
 
 
-/*******************************************************************************
-* Display graphical bmp file image at position x horizontally and y vertically *
-* (This function is optimized for 16 bits per pixel format, it has to be       *
-*  adapted for any other bits per pixel format)                                *
-*   Parameter:      x:        horizontal position                              *
-*                   y:        vertical position                                *
-*                   w:        width of bitmap                                  *
-*                   h:        height of bitmap                                 *
-*                   bmp:      address at which the bmp data resides            *
+/*************************** bmp data resides            *
 *   Return:                                                                    *
 *******************************************************************************/
 

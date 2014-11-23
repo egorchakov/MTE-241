@@ -10,14 +10,11 @@
 ### List of Objects: adding '"glcd_scroll.o"'
 ### List of Objects: adding '"glcd_spi_lpc1700.o"'
 ### List of Objects: adding '"animation.o"'
-### List of Objects: adding '"circle.o"'
 ### List of Objects: adding '"peripherals.o"'
 ### List of Objects: adding '"tasks.o"'
 ### List of Objects: adding '"util.o"'
-### List of Objects: adding '"circle.o"'
-### List of Objects: adding '"util.o"'
 ### ADS-LD Command completed:
---cpu Cortex-M3 "startup_lpc17xx.o" "retarget.o" "rtx_conf_cm.o" "system_lpc17xx.o" "uart.o" "serial.o" "glcd_scroll.o" "glcd_spi_lpc1700.o" "animation.o" "circle.o" "peripherals.o" "tasks.o" "util.o" "circle.o" "util.o" 
+--cpu Cortex-M3 "startup_lpc17xx.o" "retarget.o" "rtx_conf_cm.o" "system_lpc17xx.o" "uart.o" "serial.o" "glcd_scroll.o" "glcd_spi_lpc1700.o" "animation.o" "peripherals.o" "tasks.o" "util.o" 
 C:\Software\Keil\ARM\RV31\LIB\RTX_CM3.LIB --library_type=microlib --strict --scatter "project_4.sct" 
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
 --info sizes --info totals --info unused --info veneers 
@@ -25,7 +22,7 @@ C:\Software\Keil\ARM\RV31\LIB\RTX_CM3.LIB --library_type=microlib --strict --sca
 ### ADS-LD Output File: 'project_4.axf'
 ### ADS-LD Command File: 'project_4.lnp'
 ### Checking for dirty Components...
-### Creating CmdFile 'project_4.lnp', Handle=0x00000BF4
+### Creating CmdFile 'project_4.lnp', Handle=0x0000097C
 ### Writing '.lnp' file
 ### ADS-LD Command file 'project_4.lnp' is ready.
 ### ADS-LD: About to start ADS-LD Thread.
