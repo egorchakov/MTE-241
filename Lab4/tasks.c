@@ -8,6 +8,7 @@ OS_MUT GLCD_access;
 unsigned char malloc_failed[13] = "MALLOC FAILED";
 volatile U32 last_added_time = 0;
 
+
 __task void add_random_object(void){
         while(1){
         
@@ -32,7 +33,9 @@ __task void add_random_object(void){
 				//fill_circle(&(objects[active_objects]), bitmaps[active_objects], colors[rand() % NUM_RANDOM_COLORS]);
 				
 				last_added_time = os_time_get();
+				update_LEDs(active_objects + 1);
 				os_tsk_create_ex(object_task, LOWEST_PRIO+1, &(objects[active_objects++]));
+				
 				
 			
 			}
@@ -67,6 +70,7 @@ __task void object_task(void* args){
 			
 			// TODO: replace with draw_rectangle
 			os_mut_wait(&GLCD_access, FOREVER);{
+				
 				draw_circle(object, object->pBitmap);
 			
 			
@@ -101,6 +105,8 @@ __task void readPoti_task(void){
 }
 
 __task void init_task(void){
+	int i, tmp;
+	unsigned int mask;
     os_tsk_prio_self(HIGHEST_PRIO);
 	
 	GLCD_Init();
@@ -111,7 +117,7 @@ __task void init_task(void){
         
     os_tsk_create(add_random_object, LOWEST_PRIO+1);
 	os_tsk_create (readPoti_task, LOWEST_PRIO+1);
-		
+	
 	os_tsk_prio_self(LOWEST_PRIO);
 	while(1);
 }
