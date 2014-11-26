@@ -34,6 +34,7 @@ __task void add_random_object(void){
 				//fill_circle(&(objects[active_objects]), bitmaps[active_objects], colors[rand() % NUM_RANDOM_COLORS]);
 				
 				last_added_time = os_time_get();
+                update_LEDs(active_objects + 1);
 				os_tsk_create_ex(object_task, LOWEST_PRIO+1, &(objects[active_objects++]));
 
 			}
