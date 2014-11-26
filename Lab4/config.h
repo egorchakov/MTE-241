@@ -1,7 +1,7 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define MAX_OBJECTS 25
+#define MAX_OBJECTS 10
 #define MAX_BITMAP_SIZE 600 // 20 x 20
 #define INIT_COLOR White
 
