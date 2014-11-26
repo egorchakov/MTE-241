@@ -3,6 +3,7 @@
 
 #include <LPC17xx.h>
 #include <RTL.h>
+#include <math.h>
 //#include "GLCD.h"
 //#include "config.h"
 #include "animation.h"
@@ -16,7 +17,6 @@ extern volatile BOOL add_object_flag;
 
 extern volatile unsigned short int ADC_Value;
 extern volatile unsigned char ADC_Done; 
-
 
 extern OS_TID object_tasks[MAX_OBJECTS];
 

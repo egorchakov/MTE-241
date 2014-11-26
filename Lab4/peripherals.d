@@ -8,6 +8,7 @@ peripherals.o: C:\Software\Keil\ARM\CMSIS\Include\core_cmFunc.h
 peripherals.o: C:\Software\Keil\ARM\Inc\NXP\LPC17xx\system_LPC17xx.h
 peripherals.o: tasks.h
 peripherals.o: C:\Software\Keil\ARM\RV31\INC\RTL.h
+peripherals.o: C:\Software\Keil\ARM\ARMCC\bin\..\include\math.h
 peripherals.o: animation.h
 peripherals.o: C:\Software\Keil\ARM\ARMCC\bin\..\include\stdio.h
 peripherals.o: C:\Software\Keil\ARM\ARMCC\bin\..\include\stdlib.h

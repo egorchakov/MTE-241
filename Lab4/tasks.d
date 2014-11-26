@@ -7,6 +7,7 @@ tasks.o: C:\Software\Keil\ARM\ARMCC\bin\..\include\stdint.h
 tasks.o: C:\Software\Keil\ARM\CMSIS\Include\core_cmInstr.h
 tasks.o: C:\Software\Keil\ARM\CMSIS\Include\core_cmFunc.h
 tasks.o: C:\Software\Keil\ARM\Inc\NXP\LPC17xx\system_LPC17xx.h
+tasks.o: C:\Software\Keil\ARM\ARMCC\bin\..\include\math.h
 tasks.o: animation.h
 tasks.o: C:\Software\Keil\ARM\ARMCC\bin\..\include\stdio.h
 tasks.o: C:\Software\Keil\ARM\ARMCC\bin\..\include\stdlib.h

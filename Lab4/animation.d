@@ -13,5 +13,6 @@ animation.o: GLCD.h
 animation.o: config.h
 animation.o: util.h
 animation.o: tasks.h
+animation.o: C:\Software\Keil\ARM\ARMCC\bin\..\include\math.h
 animation.o: sync.h
 animation.o: peripherals.h

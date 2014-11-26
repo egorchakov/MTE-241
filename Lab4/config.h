@@ -11,8 +11,8 @@
 #define ACTIVE 0x0001
 #define FOREVER 0xffff
 
-#define DX 1
-#define DY 1
+#define DX 5
+#define DY 5
 
 #define X_MIN 0
 #define X_MAX 320

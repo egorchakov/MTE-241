@@ -19,7 +19,7 @@ unsigned short* gen_bitmap(size_t w, size_t h, void(*fill_fn)(unsigned short*, u
 }
 
 void draw_circle(circle_t* c, unsigned short * pBitmap) {
-    GLCD_Bitmap(c->x, c->y, c->radius*2, c->radius*2, (unsigned char*)pBitmap);
+    GLCD_Bitmap((int)c->x, (int)c->y, c->radius*2, c->radius*2, (unsigned char*)pBitmap);
 }
 
 void fill_circle(circle_t* circle, unsigned short* pBitmap, unsigned short color) {

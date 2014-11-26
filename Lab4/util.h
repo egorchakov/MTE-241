@@ -7,10 +7,10 @@
 
 typedef struct circle {
 	int radius;
-	int x;
-	int y;
-	int dx;
-	int dy;
+	float x;
+	float y;
+	float dx;
+	float dy;
 	int color;
 	unsigned short * pBitmap;
 } circle_t;

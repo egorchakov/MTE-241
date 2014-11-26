@@ -63,9 +63,10 @@ I (C:\Software\Keil\ARM\RV31\INC\RTL.h)(0x504DDBAC)
 I (C:\Software\Keil\ARM\ARMCC\bin\..\include\stdio.h)(0x4EB16D36)
 I (C:\Software\Keil\ARM\ARMCC\bin\..\include\stdlib.h)(0x4EB16D34)
 I (GLCD.h)(0x546E8D98)
-I (config.h)(0x546FBEB5)
-I (util.h)(0x546FBA28)
-I (tasks.h)(0x546FA012)
+I (config.h)(0x5473C521)
+I (util.h)(0x5473C61E)
+I (tasks.h)(0x5473C084)
+I (C:\Software\Keil\ARM\ARMCC\bin\..\include\math.h)(0x4EB16D38)
 I (sync.h)(0x546F9D08)
 I (peripherals.h)(0x546EA5F2)
 F (.\peripherals.c)(0x546EAACF)(-c --cpu Cortex-M3 -D__RTX -D__MICROLIB -g -O3 -Otime --apcs=interwork -I C:\Software\Keil\ARM\RV31\INC -I C:\Software\Keil\ARM\CMSIS\Include -I C:\Software\Keil\ARM\Inc\NXP\LPC17xx -D__RTGT_UART -o "peripherals.o" --omf_browse "peripherals.crf" --depend "peripherals.d")
@@ -76,34 +77,36 @@ I (C:\Software\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB16D34)
 I (C:\Software\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x5059F73C)
 I (C:\Software\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x4FDB2F0C)
 I (C:\Software\Keil\ARM\Inc\NXP\LPC17xx\system_LPC17xx.h)(0x4F58E032)
-I (tasks.h)(0x546FA012)
+I (tasks.h)(0x5473C084)
 I (C:\Software\Keil\ARM\RV31\INC\RTL.h)(0x504DDBAC)
+I (C:\Software\Keil\ARM\ARMCC\bin\..\include\math.h)(0x4EB16D38)
 I (animation.h)(0x546FACF9)
 I (C:\Software\Keil\ARM\ARMCC\bin\..\include\stdio.h)(0x4EB16D36)
 I (C:\Software\Keil\ARM\ARMCC\bin\..\include\stdlib.h)(0x4EB16D34)
 I (GLCD.h)(0x546E8D98)
-I (config.h)(0x546FBEB5)
-I (util.h)(0x546FBA28)
+I (config.h)(0x5473C521)
+I (util.h)(0x5473C61E)
 I (sync.h)(0x546F9D08)
-F (.\tasks.c)(0x546FC0D0)(-c --cpu Cortex-M3 -D__RTX -D__MICROLIB -g -O3 -Otime --apcs=interwork -I C:\Software\Keil\ARM\RV31\INC -I C:\Software\Keil\ARM\CMSIS\Include -I C:\Software\Keil\ARM\Inc\NXP\LPC17xx -D__RTGT_UART -o "tasks.o" --omf_browse "tasks.crf" --depend "tasks.d")
+F (.\tasks.c)(0x5473C715)(-c --cpu Cortex-M3 -D__RTX -D__MICROLIB -g -O3 -Otime --apcs=interwork -I C:\Software\Keil\ARM\RV31\INC -I C:\Software\Keil\ARM\CMSIS\Include -I C:\Software\Keil\ARM\Inc\NXP\LPC17xx -D__RTGT_UART -o "tasks.o" --omf_browse "tasks.crf" --depend "tasks.d")
 I (C:\Software\Keil\ARM\RV31\INC\rtl.h)(0x504DDBAC)
-I (tasks.h)(0x546FA012)
+I (tasks.h)(0x5473C084)
 I (C:\Software\Keil\ARM\Inc\NXP\LPC17xx\LPC17xx.h)(0x4FF59B7C)
 I (C:\Software\Keil\ARM\CMSIS\Include\core_cm3.h)(0x5006C432)
 I (C:\Software\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB16D34)
 I (C:\Software\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x5059F73C)
 I (C:\Software\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x4FDB2F0C)
 I (C:\Software\Keil\ARM\Inc\NXP\LPC17xx\system_LPC17xx.h)(0x4F58E032)
+I (C:\Software\Keil\ARM\ARMCC\bin\..\include\math.h)(0x4EB16D38)
 I (animation.h)(0x546FACF9)
 I (C:\Software\Keil\ARM\ARMCC\bin\..\include\stdio.h)(0x4EB16D36)
 I (C:\Software\Keil\ARM\ARMCC\bin\..\include\stdlib.h)(0x4EB16D34)
 I (GLCD.h)(0x546E8D98)
-I (config.h)(0x546FBEB5)
-I (util.h)(0x546FBA28)
+I (config.h)(0x5473C521)
+I (util.h)(0x5473C61E)
 I (sync.h)(0x546F9D08)
-F (.\util.c)(0x546FBBFA)(-c --cpu Cortex-M3 -D__RTX -D__MICROLIB -g -O3 -Otime --apcs=interwork -I C:\Software\Keil\ARM\RV31\INC -I C:\Software\Keil\ARM\CMSIS\Include -I C:\Software\Keil\ARM\Inc\NXP\LPC17xx -D__RTGT_UART -o "util.o" --omf_browse "util.crf" --depend "util.d")
-I (util.h)(0x546FBA28)
+F (.\util.c)(0x5473C5EA)(-c --cpu Cortex-M3 -D__RTX -D__MICROLIB -g -O3 -Otime --apcs=interwork -I C:\Software\Keil\ARM\RV31\INC -I C:\Software\Keil\ARM\CMSIS\Include -I C:\Software\Keil\ARM\Inc\NXP\LPC17xx -D__RTGT_UART -o "util.o" --omf_browse "util.crf" --depend "util.d")
+I (util.h)(0x5473C61E)
 I (C:\Software\Keil\ARM\ARMCC\bin\..\include\stdlib.h)(0x4EB16D34)
 I (C:\Software\Keil\ARM\ARMCC\bin\..\include\stdio.h)(0x4EB16D36)
 I (GLCD.h)(0x546E8D98)
-I (config.h)(0x546FBEB5)
+I (config.h)(0x5473C521)
