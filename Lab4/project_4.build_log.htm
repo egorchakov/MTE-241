@@ -4,7 +4,7 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 C:\users\evg\My Documents\school\241\projects\Lab4\project_3.uvproj
-Project File Date:  11/18/2014
+Project File Date:  11/28/2014
 
 <h2>Output:</h2>
 Rebuild target 'Target 1'
@@ -20,36 +20,152 @@ GLCD_Scroll.c(117): warning:  #223-D: function "strlen" declared implicitly
 GLCD_Scroll.c: 1 warning, 0 errors
 compiling GLCD_SPI_LPC1700.c...
 compiling animation.c...
-compiling circle.c...
-circle.c(4): warning:  #177-D: variable "circle" was declared but never referenced
-        circle_t* circle = (circle_t*)args;
-circle.c: 1 warning, 0 errors
+physics.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+animation.c: 1 warning, 0 errors
 compiling peripherals.c...
+physics.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+peripherals.c(159): warning:  #1-D: last line of file ends without a newline
+  }
+peripherals.c: 2 warnings, 0 errors
 compiling tasks.c...
-tasks.c(9): warning:  #177-D: variable "i" was declared but never referenced
-      int i,j;
-tasks.c(9): warning:  #177-D: variable "j" was declared but never referenced
-      int i,j;
-tasks.c: 2 warnings, 0 errors
+physics.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+tasks.c(62): warning:  #223-D: function "update_LEDs" declared implicitly
+                update_LEDs(active_objects + 1);
+tasks.c(113): warning:  #223-D: function "ADC_value" declared implicitly
+                os_dly_wait(get_delay_interval(ADC_value()));
+tasks.c(123): warning:  #223-D: function "ADC_convert" declared implicitly
+                ADC_convert();
+tasks.c(132): warning:  #223-D: function "INT0_init" declared implicitly
+        INT0_init();
+tasks.c(133): warning:  #223-D: function "ADC_init" declared implicitly
+      ADC_init();
+tasks.c(134): warning:  #223-D: function "LED_init" declared implicitly
+      LED_init(); 
+tasks.c: 7 warnings, 0 errors
 compiling util.c...
-util.c(16): warning:  #223-D: function "malloc" declared implicitly
-        unsigned short* pBitmap = (unsigned short*)malloc(sizeof(unsigned short) * w * h);
-util.c(28): warning:  #223-D: function "free" declared implicitly
-        free(pBitmap);
-util.c: 2 warnings, 0 errors
-compiling circle.c...
-circle.c(4): warning:  #177-D: variable "circle" was declared but never referenced
-        circle_t* circle = (circle_t*)args;
-circle.c: 1 warning, 0 errors
-compiling util.c...
-util.c(16): warning:  #223-D: function "malloc" declared implicitly
-        unsigned short* pBitmap = (unsigned short*)malloc(sizeof(unsigned short) * w * h);
-util.c(28): warning:  #223-D: function "free" declared implicitly
-        free(pBitmap);
-util.c: 2 warnings, 0 errors
+compiling graphics.c...
+graphics.c(29): warning:  #177-D: variable "w2" was declared but never referenced
+      float w2 = w*w;
+graphics.c(43): warning:  #1-D: last line of file ends without a newline
+   }
+graphics.c: 2 warnings, 0 errors
+compiling physics.c...
+physics.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+physics.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+physics.c(20): warning:  #1-D: last line of file ends without a newline
+  }
+physics.c: 3 warnings, 0 errors
 linking...
-.\project_4.axf: Warning: L6304W: Duplicate input file .\circle.o ignored.
-.\project_4.axf: Warning: L6304W: Duplicate input file .\util.o ignored.
-Program Size: Code=7936 RO-data=6552 RW-data=120 ZI-data=30240  
-Finished: 0 information, 2 warning and 0 error messages.
-".\project_4.axf" - 0 Error(s), 11 Warning(s).
+Program Size: Code=15468 RO-data=7012 RW-data=128 ZI-data=32464  
+".\project_4.axf" - 0 Error(s), 16 Warning(s).
+wline
+  #endif
+physics.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+physics.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+physics.c(20): warning:  #1-D: last line of file ends without a newline
+  }
+physics.c: 4 warnings, 0 errors
+linking...
+Program Size: Code=15468 RO-data=7012 RW-data=128 ZI-data=32464  
+".\project_4.axf" - 0 Error(s), 21 Warning(s).
+
+  #endif
+physics.c(20): warning:  #1-D: last line of file ends without a newline
+  }
+physics.c: 4 warnings, 0 errors
+".\project_4.axf" - 2 Error(s), 21 Warning(s).
+Target not created
+e ends without a newline
+  #endif
+physics.c(3): error:  #20: identifier "BOOL" is undefined
+  BOOL check_intersect(int x1, int y1, int r1, int x2, int y2, int r2) {
+physics.c(8): error:  #20: identifier "object_t" is undefined
+  void calculate_velocities(object_t* obj1, object_t* obj2) {
+physics.c(8): error:  #20: identifier "object_t" is undefined
+  void calculate_velocities(object_t* obj1, object_t* obj2) {
+physics.c(9): error:  #132: expression must have pointer-to-struct-or-union type
+      double phi = atan2(obj1->y - obj2->y, obj1->x - obj2->x);
+physics.c(9): error:  #132: expression must have pointer-to-struct-or-union type
+      double phi = atan2(obj1->y - obj2->y, obj1->x - obj2->x);
+physics.c(9): error:  #132: expression must have pointer-to-struct-or-union type
+      double phi = atan2(obj1->y - obj2->y, obj1->x - obj2->x);
+physics.c(9): error:  #132: expression must have pointer-to-struct-or-union type
+      double phi = atan2(obj1->y - obj2->y, obj1->x - obj2->x);
+physics.c(10): error:  #132: expression must have pointer-to-struct-or-union type
+      double theta1 = atan2(obj1->dy, obj1->dx);
+physics.c(10): error:  #132: expression must have pointer-to-struct-or-union type
+      double theta1 = atan2(obj1->dy, obj1->dx);
+physics.c(11): error:  #132: expression must have pointer-to-struct-or-union type
+      double theta2 = atan2(obj2->dy, obj2->dx);  
+physics.c(11): error:  #132: expression must have pointer-to-struct-or-union type
+      double theta2 = atan2(obj2->dy, obj2->dx);  
+physics.c(12): error:  #132: expression must have pointer-to-struct-or-union type
+      double v1 = sqrt(obj1->dy * obj1->dy + obj1->dx * obj1->dx);
+physics.c(12): error:  #132: expression must have pointer-to-struct-or-union type
+      double v1 = sqrt(obj1->dy * obj1->dy + obj1->dx * obj1->dx);
+physics.c(12): error:  #132: expression must have pointer-to-struct-or-union type
+      double v1 = sqrt(obj1->dy * obj1->dy + obj1->dx * obj1->dx);
+physics.c(12): error:  #132: expression must have pointer-to-struct-or-union type
+      double v1 = sqrt(obj1->dy * obj1->dy + obj1->dx * obj1->dx);
+physics.c(13): error:  #132: expression must have pointer-to-struct-or-union type
+      double v2 = sqrt(obj2->dy * obj2->dy + obj2->dx * obj2->dx);
+physics.c(13): error:  #132: expression must have pointer-to-struct-or-union type
+      double v2 = sqrt(obj2->dy * obj2->dy + obj2->dx * obj2->dx);
+physics.c(13): error:  #132: expression must have pointer-to-struct-or-union type
+      double v2 = sqrt(obj2->dy * obj2->dy + obj2->dx * obj2->dx);
+physics.c(13): error:  #132: expression must have pointer-to-struct-or-union type
+      double v2 = sqrt(obj2->dy * obj2->dy + obj2->dx * obj2->dx);
+physics.c(14): error:  #132: expression must have pointer-to-struct-or-union type
+      obj1->dx = v2 * cos(theta2 - phi) * cos(phi) + v1 * sin(theta1 - phi) * cos(phi + M_PI/2);
+physics.c(15): error:  #132: expression must have pointer-to-struct-or-union type
+      obj1->dy = v2 * cos(theta2 - phi) * sin(phi) + v1 * sin(theta1 - phi) * sin(phi + M_PI/2);
+physics.c(17): error:  #132: expression must have pointer-to-struct-or-union type
+      obj2->dx = v1 * cos(theta1 - phi) * cos(phi) + v2 * sin(theta2 - phi) * cos(phi + M_PI/2);
+physics.c(18): error:  #132: expression must have pointer-to-struct-or-union type
+      obj2->dy = v1 * cos(theta1 - phi) * sin(phi) + v2 * sin(theta2 - phi) * sin(phi + M_PI/2);
+physics.c(19): warning:  #1-D: last line of file ends without a newline
+  }
+physics.c: 2 warnings, 26 errors
+".\project_4.axf" - 28 Error(s), 19 Warning(s).
+Target not created
+or:  #20: identifier "object_task" is undefined
+                        os_tsk_create_ex(object_task, LOWEST_PRIO+1, &(objects[active_objects++]));
+tasks.c(89): error:  #20: identifier "GLCD_access" is undefined
+                os_mut_wait(&GLCD_access, FOREVER);{
+tasks.c(108): error:  #20: identifier "needs_update" is undefined
+                        needs_update = __TRUE;
+tasks.c(113): warning:  #223-D: function "get_delay_interval" declared implicitly
+                os_dly_wait(get_delay_interval(ADC_value()));
+tasks.c(113): warning:  #223-D: function "ADC_value" declared implicitly
+                os_dly_wait(get_delay_interval(ADC_value()));
+tasks.c(123): warning:  #223-D: function "ADC_convert" declared implicitly
+                ADC_convert();
+tasks.c(132): warning:  #223-D: function "INT0_init" declared implicitly
+        INT0_init();
+tasks.c(133): warning:  #223-D: function "ADC_init" declared implicitly
+      ADC_init();
+tasks.c(134): warning:  #223-D: function "LED_init" declared implicitly
+      LED_init(); 
+tasks.c(139): error:  #20: identifier "add_random_object_sem" is undefined
+        os_sem_init(&add_random_object_sem, 0);
+tasks.c(140): error:  #20: identifier "GLCD_access" is undefined
+        os_mut_init(&GLCD_access);
+tasks.c(142): error:  #20: identifier "add_random_object" is undefined
+        os_tsk_create(add_random_object, LOWEST_PRIO+1);
+tasks.c(147): error:  #20: identifier "needs_update" is undefined
+                if(!needs_update) {
+tasks.c(151): error:  #20: identifier "active_objects" is undefined
+                                        for(i = 0; i < active_objects; ++i) { 
+tasks.c(153): error:  #20: identifier "objects" is undefined
+                                                        if(check_intersect(objects[i].x, objects[i].y, objects[i].radius, objects[j].x, objects[j].y, objects[j].radius)) {
+tasks.c: 10 warnings, 15 errors
+compiling util.c...
+".\project_4.axf" - 30 Error(s), 35 Warning(s).
+Target not created

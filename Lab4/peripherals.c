@@ -1,10 +1,14 @@
 #include "peripherals.h"
-#include "tasks.h"
 
 const unsigned char ledPosArray[8] = { 28, 29, 31, 2, 3, 4, 5, 6 };
 
+/*
+    void INT0_init( void ) 
+
+    Source: Keil IO example code by Vajih Montaghami
+
+*/
 void INT0_init( void ) {
-    // [SRC]: io_example project by the TA
     LPC_SC->PCONP |= (1 << 12);
     // P2.10 is related to the INT0 or the push button.
     // P2.10 is selected for the GPIO 
@@ -23,6 +27,12 @@ void INT0_init( void ) {
 
 }
 
+/*
+    void EINT3_IRQHandler(void)
+
+    Source: Keil IO example code by Vajih Montaghami
+
+*/
 void EINT3_IRQHandler(void){
     // [SRC]: io_example project by the TA
     // Check whether the interrupt is called on the falling edge. GPIO Interrupt Status for Falling edge.
@@ -34,6 +44,12 @@ void EINT3_IRQHandler(void){
     }
 }
 
+/*
+    void ADC_init( void ) 
+
+    Source: Keil IO example code by Vajih Montaghami
+
+*/
 void ADC_init( void ) {
 
 
@@ -63,6 +79,12 @@ void ADC_init( void ) {
 	NVIC_EnableIRQ( ADC_IRQn );                  
 }
 
+/*
+    void ADC_convert (void) 
+
+    Source: Keil IO example code by Vajih Montaghami
+
+*/
 void ADC_convert (void) {
 	// Stop reading and converting the port channel AD0.2.
   LPC_ADC->ADCR &= ~( 7 << 24); 
@@ -72,6 +94,12 @@ void ADC_convert (void) {
   LPC_ADC->ADCR |=  ( 1 << 24) | (1 << 2);              /* start conversion              */
 }
 
+/*
+    void ADC_IRQHandler( void ) 
+
+    Source: Keil IO example code by Vajih Montaghami
+
+*/
 void ADC_IRQHandler( void ) {
 	volatile unsigned int aDCStat;
 
@@ -84,6 +112,12 @@ void ADC_IRQHandler( void ) {
 	ADC_Done = 1;
 }
 
+/*
+    void INT0_init( void ) 
+
+    Source: Keil IO example code by Vajih Montaghami
+
+*/
 unsigned short ADC_value( void ) {
 
 	// Busy wainting until the conversion is done
@@ -93,6 +127,13 @@ unsigned short ADC_value( void ) {
 
 	return ADC_Value;
 }
+
+/*
+    void INT0_init( void ) 
+
+    Source: Keil IO example code by Vajih Montaghami
+
+*/
 void LED_init( void ) {
 
 	// LPC_SC is a general system-control register block, and PCONP referes
@@ -120,7 +161,12 @@ void LED_init( void ) {
 	LPC_GPIO2->FIODIR |= 0x0000007C;           
 }
 
-// Turn on the LED inn a position within 0..7
+/*
+    void INT0_init( void ) 
+
+    Source: Keil IO example code by Vajih Montaghami
+
+*/
 void LED_turn_on( unsigned char led ) {
 	unsigned int mask = (1 << ledPosArray[led]);
 
@@ -135,7 +181,12 @@ void LED_turn_on( unsigned char led ) {
 
 }
 
-// Turn off the LED in the position within 0..7
+/*
+    void INT0_init( void ) 
+
+    Source: Keil IO example code by Vajih Montaghami
+
+*/
 void LED_turn_off( unsigned char led ) {
 	unsigned int mask = (1 << ledPosArray[led]);
 
