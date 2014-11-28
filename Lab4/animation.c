@@ -17,13 +17,12 @@ volatile unsigned int delay_interval;
 int main(void){
     SystemInit();
     SystemCoreClockUpdate();
-	printf("Foo\n");
-	srand(234);
+		srand(234);
     INT0_init();
     ADC_init();
     LED_init();	
-	os_sys_init(init_task);
-	while(1){
-		// Endless loop
-	}			
+		os_sys_init(init_task);
+		while(1){
+			// Endless loop
+		}			
 }

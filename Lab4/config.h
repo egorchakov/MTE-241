@@ -11,13 +11,16 @@
 #define ACTIVE 0x0001
 #define FOREVER 0xffff
 
-#define DX 5
-#define DY 5
+#define MIN_DX 1
+#define MAX_DX 5
+
+#define MIN_DY 1
+#define MAX_DY 5
 
 #define X_MIN 0
-#define X_MAX 320
+#define X_MAX 305
 #define Y_MIN 0 
-#define Y_MAX 240
+#define Y_MAX 225
 
 #define NUM_RANDOM_COLORS 9
 #define MIN_RADIUS 5

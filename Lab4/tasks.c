@@ -21,9 +21,9 @@ __task void add_random_object(void){
 			if (active_objects < MAX_OBJECTS && os_time_get() - last_added_time > MIN_ADD_DELAY){
 				objects[active_objects].x = rand() % X_MAX;
 				objects[active_objects].y = rand() % Y_MAX;
-				objects[active_objects].radius = 10 ;//MIN_RADIUS + rand() % (MAX_RADIUS - MIN_RADIUS);
-				objects[active_objects].dx = DX;
-				objects[active_objects].dy = DY;
+				objects[active_objects].radius = MIN_RADIUS + rand() % (MAX_RADIUS - MIN_RADIUS);
+				objects[active_objects].dx = MIN_DX + rand() % (MAX_DX - MIN_DX);
+				objects[active_objects].dy = MIN_DY + rand() % (MAX_DY - MIN_DY);
 				objects[active_objects].color = colors[rand() % NUM_RANDOM_COLORS];
 				objects[active_objects].pBitmap = (unsigned short* ) malloc(sizeof(unsigned short) * objects[active_objects].radius * objects[active_objects].radius * 4);
 				
@@ -64,8 +64,7 @@ __task void redraw_objects(void){
 __task void object_task(void* args){
 		
 		object_t* object = (object_t*) args; 
-		while(1){
-			
+		while(1){			
 			fill_circle(object, object->pBitmap, INIT_COLOR);
 			
 			// TODO: replace with draw_rectangle
